@@ -1,0 +1,29 @@
+# External data files (NOT in repo — obtain separately per DATA.md)
+settlements_cleaning/south_africa_dre_atlas_settlements.csv
+Map Data/Generators Data/Africa-Energy-Tracker-*.xlsx
+Map Data/Grid Data/electricitygrid_Africa_JRC/elect_grid_africa_epsg3426_withgau_JRC.*
+Map Data/Local Area/LOCAL_AREA_GCCA2025.*
+Map Data/Supply Area/SUPPLY_AREA_GCCA2025.*
+
+# Large data outputs (regenerate by running pipeline)
+blackmarbler/out_vnp46a2_sa_daily/
+Map Data/settlement_day_outputs_rasters_blackmarbler/
+Map Data/reliability_outputs_blackmarbler/
+Map Data/Settlements/GPKG/
+Map Data/Boundaries/boundaries_outputs/
+Map Data/Grid Data/electricitygrid_Africa_JRC/output_folder/
+Map Data/Generators Data/generators_outputs/
+*.h5
+.DS_Store
+
+# Large generated outputs (regenerate by running pipeline)
+leaflet_reliability_yearly.html
+
+# Oversized settlement geometry files (>100 MB — obtain from Google Drive per DATA.md)
+Map Data/Settlements/GEOJSON/
+Map Data/Settlements/SHP/settlements_full_shp/
+
+# Generated/compiled outputs
+Rplots.pdf
+project_pipeline_submission.Rmd
+project_pipeline_submission.pdf
