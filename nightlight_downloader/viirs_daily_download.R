@@ -1,6 +1,6 @@
 # ============================================================
 # Download Daily VIIRS Night-Light Rasters (NASA LAADS / blackmarbler)
-# Stage 0 — Data Acquisition
+# Stage 1 — Data Acquisition
 # ============================================================
 #
 # Purpose:  Downloads VNP46A2 BRDF-corrected, no-gap-fill daily radiance
@@ -89,7 +89,7 @@ stopifnot(nzchar(bearer))
 # ----------------------------
 # User inputs
 # ----------------------------
-start_date <- as.Date("2023-07-26")
+start_date <- as.Date("2023-01-01")
 end_date   <- as.Date("2024-01-01") # exclusive
 
 LIT_THRESHOLD <- 1.0

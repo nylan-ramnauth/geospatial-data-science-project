@@ -1,6 +1,6 @@
 # ============================================================
 # Settlement Yearly Composite Calibration
-# Stage 2c — Annual Cross-Check / Calibration
+# Stage 4 — Annual Cross-Check / Calibration
 # ============================================================
 #
 # Purpose:  Downloads the VNP46A4 annual composite from blackmarbler,
@@ -41,7 +41,7 @@ OUT_DIR <- file.path(BASE_PATH, "Map Data", "reliability_outputs_blackmarbler")
 YEAR_LABEL <- "2023"
 
 TARGET_POP_SHARE <- 0.877
-PIXEL_LIT_THRESHOLD <- 2
+PIXEL_LIT_THRESHOLD <- 1
 SETTLEMENT_LIT_THRESHOLDS <- seq(0.05, 0.95, by = 0.01)
 MIN_COVERAGE_SHARE <- 0.50
 POP_FIELD <- "population"

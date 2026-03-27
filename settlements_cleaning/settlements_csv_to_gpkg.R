@@ -2,7 +2,7 @@ rm(list = ls())
 
 # ============================================================
 # Convert Settlements CSV (WKT) to GeoPackage
-# Stage 1a — Spatial Layer Preparation
+# Stage 0 — Spatial Layer Preparation
 # ============================================================
 #
 # Purpose:  Reads the DRE Atlas settlements CSV (WKT geometry column),

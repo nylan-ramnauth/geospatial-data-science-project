@@ -1,6 +1,6 @@
 # ============================================================
 # Reliability Choropleth Maps (Static)
-# Stage 5 — Output Visualisation
+# Stage 6 — Output Visualisation
 # ============================================================
 #
 # Purpose:  Reads local-area and supply-area reliability Parquets from
@@ -51,7 +51,7 @@ if (MODE == "yearlykeep") {
   OUTPUT_SUFFIX <- ""
 } else {
   STATE <- "strict"        # strict | hysteresis
-  OUTPUT_SUFFIX <- ""      # "" | "_moonfilter_obvious" | "_moonfilter_maybe"
+  OUTPUT_SUFFIX <- ""
 }
 if (nzchar(Sys.getenv("RUN_OUTPUT_SUFFIX"))) OUTPUT_SUFFIX <- Sys.getenv("RUN_OUTPUT_SUFFIX")
 FIG_TAG <- Sys.getenv("RUN_FIG_TAG", unset = "")  # e.g. "_cov25" appended to figure names
@@ -69,8 +69,8 @@ FIG_WIDTH_IN <- 8
 FIG_HEIGHT_IN <- 7.2
 FIG_DPI <- 320
 
-LOCAL_OVERLAY_LABEL <- "Local Area boundaries (LOCAL_AREA_GCCA2025)"
-SUPPLY_OVERLAY_LABEL <- "Supply Area boundaries (SUPPLY_AREA_GCCA2025)"
+LOCAL_OVERLAY_LABEL <- "Local Area Boundaries"
+SUPPLY_OVERLAY_LABEL <- "Supply Area Boundaries"
 
 # RStudio preview controls
 FAST_PREVIEW <- interactive() && identical(Sys.getenv("RSTUDIO"), "1")
@@ -155,8 +155,7 @@ build_subtitle <- function(metric_col, overlay_label, period_label, state_label)
   paste0(
     metric_definition(metric_col),
     "\nOverlay: ", overlay_label,
-    " | Period: ", period_label,
-    " | State: ", state_label
+    " | Period: ", period_label
   )
 }
 
@@ -169,8 +168,7 @@ plot_metric_map <- function(sf_obj, metric_col, palette_option, legend_name, map
     coord_sf(datum = NA, expand = FALSE) +
     labs(
       title = map_title,
-      subtitle = map_subtitle,
-      caption = "Gray indicates missing values in the selected metric."
+      subtitle = map_subtitle
     ) +
     map_theme
 

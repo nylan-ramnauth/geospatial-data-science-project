@@ -1,6 +1,6 @@
 # ============================================================
 # Apply Coverage Filter to Settlement-Day Panel
-# Stage 2b — Coverage Filtering
+# Stage 3 — Coverage Filtering
 # ============================================================
 #
 # Purpose:  Reads the no-coverage-filter Parquet panels from Stage 2,

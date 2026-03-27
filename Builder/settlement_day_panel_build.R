@@ -9,7 +9,7 @@ rm(list = ls())
 #           month-by-month and computes area-weighted lit/valid pixel
 #           extractions per settlement-day (no coverage filter applied).
 # Inputs:   - Map Data/Settlements/GPKG/south_africa_dre_atlas_settlements_full_col.gpkg
-#           - blackmarbler/out_vnp46a2_sa_daily/*.tif  (from Stage 0)
+#           - blackmarbler/out_vnp46a2_sa_daily/*.tif  (from Stage 1)
 # Outputs:  - Map Data/settlement_day_outputs_rasters_blackmarbler/settlement_day_blackmarbler_nocov_YYYY-MM.parquet
 #           - Map Data/settlement_day_outputs_rasters_blackmarbler/settlement_month_blackmarbler_nocov_YYYY-MM.gpkg
 # Run:      Rscript Builder/settlement_day_panel_build.R

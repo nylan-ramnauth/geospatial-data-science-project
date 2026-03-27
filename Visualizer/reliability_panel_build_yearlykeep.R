@@ -1,13 +1,13 @@
 # ============================================================
 # Build Reliability Panel (Yearly-Keep Variant)
-# Stage 3b — Reliability Panel with Annual Pre-filter
+# Stage 5 — Reliability Panel with Annual Pre-filter
 # ============================================================
 #
-# Purpose:  Variant of Stage 3 that pre-filters settlements to those
-#           flagged as electrified in the yearly composite calibration
-#           (Stage 2c) before running the rolling-window reliability logic.
+# Purpose:  Pre-filters settlements to those electrified in the annual
+#           composite calibration (Stage 4) before running the
+#           rolling-window reliability logic.
 # Inputs:   - Map Data/settlement_day_outputs_rasters_blackmarbler/settlement_day_blackmarbler_cov_YYYY-MM.parquet
-#           - Map Data/reliability_outputs_blackmarbler/yearly_settlement_stats_2023.parquet  (from Stage 2c / settlement_yearly_composite.R)
+#           - Map Data/reliability_outputs_blackmarbler/yearly_settlement_stats_2023.parquet  (from Stage 4 / settlement_yearly_composite.R)
 # Outputs:  - Map Data/reliability_outputs_blackmarbler/settlement_reliability_*.parquet  (yearlykeep variant)
 # Run:      Rscript Visualizer/reliability_panel_build_yearlykeep.R
 # ============================================================
@@ -77,26 +77,7 @@ if (nzchar(Sys.getenv("RUN_AREA_COV_MIN"))) AREA_COVERAGE_MIN <- as.numeric(Sys.
 NEAR_SUPPORT_DAYS_BUFFER <- 10L
 NEAR_AREA_COVERAGE_BUFFER <- 0.05
 
-# Moonlight / stray-light mitigation (date exclusion)
-MOONLIGHT_FILTER_MODE <- "none" # none | obvious | maybe
-MOONLIGHT_DAYS_OBVIOUS <- file.path(
-  BASE_PATH,
-  "blackmarbler",
-  "out_vnp46a2_sa_daily",
-  "animations",
-  "sa_blackmarble_2023_visually_obvious_contamination_days.txt"
-)
-MOONLIGHT_DAYS_MAYBE <- file.path(
-  BASE_PATH,
-  "blackmarbler",
-  "out_vnp46a2_sa_daily",
-  "animations",
-  "sa_blackmarble_2023_maybe_contaminated_days.txt"
-)
-
-# state_name already contains "_yearlykeep"; no suffix needed for the default run.
-OUTPUT_SUFFIX <- if (MOONLIGHT_FILTER_MODE == "none") "" else
-  paste0("_moonfilter_", MOONLIGHT_FILTER_MODE)
+OUTPUT_SUFFIX <- ""
 if (nzchar(Sys.getenv("RUN_OUTPUT_SUFFIX"))) OUTPUT_SUFFIX <- Sys.getenv("RUN_OUTPUT_SUFFIX")
 
 WRITE_DIAGNOSTICS <- TRUE
@@ -139,25 +120,6 @@ quantile_safe <- function(x, p) {
   as.numeric(stats::quantile(x, probs = p, na.rm = TRUE))
 }
 
-read_exclude_dates <- function(mode) {
-  mode <- tolower(mode)
-  if (mode == "none") return(as.Date(character(0)))
-  if (!mode %in% c("obvious", "maybe")) stop("MOONLIGHT_FILTER_MODE must be one of: none, obvious, maybe")
-
-  path <- if (mode == "obvious") MOONLIGHT_DAYS_OBVIOUS else MOONLIGHT_DAYS_MAYBE
-  if (!file.exists(path)) {
-    stop(
-      "Moonlight filter enabled but list file is missing: ", path, "\n",
-      "Generate it from the GIF screening step, or set MOONLIGHT_FILTER_MODE <- 'none'."
-    )
-  }
-
-  lines <- trimws(readLines(path, warn = FALSE))
-  lines <- lines[nzchar(lines)]
-  d <- as.Date(lines)
-  d <- d[!is.na(d)]
-  sort(unique(d))
-}
 
 ensure_static_cols <- function(df, gpkg_path, gpkg_layer) {
   static_cols <- c("population", "lon", "lat")
@@ -477,13 +439,6 @@ if (length(missing_cols) > 0) {
 
 sett_day <- ensure_static_cols(sett_day, SETT_SIMPL_GPKG, SETT_SIMPL_LAYER)
 
-exclude_dates <- read_exclude_dates(MOONLIGHT_FILTER_MODE)
-if (length(exclude_dates) > 0) {
-  n_before <- nrow(sett_day)
-  sett_day <- sett_day %>% filter(!(date %in% exclude_dates))
-  log_step("Excluded dates:", length(exclude_dates), "| rows:", n_before, "->", nrow(sett_day))
-}
-
 if (!file.exists(YEARLY_KEEP_FILE)) {
   stop("Yearly keep file not found: ", YEARLY_KEEP_FILE, "\nRun settlement_yearly_composite.R first.")
 }
@@ -652,8 +607,8 @@ if (WRITE_DIAGNOSTICS) {
   keep_diag <- data.frame(
     run_tag = run_tag,
     section = "yearly_keep_filter",
-    metric = c("n_settlements_before", "n_settlements_after", "n_rows_after", "n_excluded_days"),
-    value = c(n_sett_before, n_sett_after, nrow(sett_day), length(exclude_dates))
+    metric = c("n_settlements_before", "n_settlements_after", "n_rows_after"),
+    value = c(n_sett_before, n_sett_after, nrow(sett_day))
   )
   write_parquet(keep_diag, file.path(DIAG_DIR, paste0("diagnostic_yearly_keep_filter_", run_tag, ".parquet")))
   utils::write.csv(keep_diag, file.path(DIAG_DIR, paste0("diagnostic_yearly_keep_filter_", run_tag, ".csv")), row.names = FALSE)

@@ -1,4 +1,5 @@
 # population_coverage_map.R
+# Stage 7 — Population Coverage Mapping
 # Maps showing share of total settled population covered by the reliability
 # analysis, for local and supply areas.
 #
@@ -120,8 +121,7 @@ supply_sf %>% st_drop_geometry() %>%
 FOOTNOTE <- paste0(
   "* Fewer than 50% of the total settled population in this area is included ",
   "in the reliability analysis.\n",
-  "Population totals derived from the DRE Atlas settlement layer (NA treated ",
-  "as 0). Grey: no settlements in the reliability panel."
+  "Population totals derived from the DRE Atlas settlement layer (NA treated as 0)."
 )
 
 make_coverage_map <- function(map_sf, title, label_flagged_only = TRUE) {
