@@ -6,31 +6,31 @@ These files are **NOT in the repo** and must be obtained separately before runni
 
 | File | Size | Source | Repo Location |
 |---|---|---|---|
-| **DRE Atlas Settlements CSV** | ~292 MB | [DRE Atlas](https://www.dre-atlas.org) | `settlements_cleaning/south_africa_dre_atlas_settlements.csv` |
-| **Africa Energy Tracker Excel** | ~5 MB | [Africa Energy Tracker](https://africaenergytracker.org) | `Map Data/Generators Data/Africa-Energy-Tracker-2025-10-21.xlsx` |
+| **DRE Atlas Settlements CSV** | ~292 MB | [DRE Atlas](https://energydata.info/dataset/south-africa-distributed-renewable-energy-dre) | `settlements_cleaning/south_africa_dre_atlas_settlements.csv` |
+| **Africa Energy Tracker Excel** | ~5 MB | [Africa Energy Tracker](https://globalenergymonitor.org/projects/africa-energy-tracker/) | `Map Data/Generators Data/Africa-Energy-Tracker-2025-10-21.xlsx` |
 | **JRC Continental Grid Shapefile** | ~100 MB | [JRC GLAES Grid Data](https://data.jrc.ec.europa.eu/) or equivalent | `Map Data/Grid Data/electricitygrid_Africa_JRC/elect_grid_africa_epsg3426_withgau_JRC.shp` (+ `.dbf`, `.shx`) |
-| **Eskom Local Areas Shapefile** | Unknown | Eskom / GCCA 2025 | `Map Data/Local Area/LOCAL_AREA_GCCA2025.shp` (+ `.dbf`, `.shx`) |
-| **Eskom Supply Areas Shapefile** | Unknown | Eskom / GCCA 2025 | `Map Data/Supply Area/SUPPLY_AREA_GCCA2025.shp` (+ `.dbf`, `.shx`) |
+| **Eskom Local Areas Shapefile** | Unknown | Eskom / GCCA 2025 | (https://www.ntcsa.co.za/gcca/) | `Map Data/Local Area/LOCAL_AREA_GCCA2025.shp` (+ `.dbf`, `.shx`) |
+| **Eskom Supply Areas Shapefile** | Unknown | Eskom / GCCA 2025 | (https://www.ntcsa.co.za/gcca/) | `Map Data/Supply Area/SUPPLY_AREA_GCCA2025.shp` (+ `.dbf`, `.shx`) |
 
 ### Setup instructions
 
 1. **DRE Atlas Settlements:**
-   - Download from [DRE Atlas](https://www.dre-atlas.org)
+   - Download from [DRE Atlas](https://energydata.info/dataset/south-africa-distributed-renewable-energy-dre)
    - Save as: `settlements_cleaning/south_africa_dre_atlas_settlements.csv`
    - Then run Stage 1a: `Rscript settlements_cleaning/settlements_csv_to_gpkg.R`
 
 2. **Africa Energy Tracker:**
-   - Download latest release from [africaenergytracker.org](https://africaenergytracker.org)
+   - Download latest release from [africaenergytracker.org](https://globalenergymonitor.org/projects/africa-energy-tracker/)
    - Save as: `Map Data/Generators Data/Africa-Energy-Tracker-2025-10-21.xlsx` (update year if needed)
    - Then run Stage 1 prep: `Rscript "Map Data/Generators Data/gen_clean.r"`
 
 3. **JRC Grid:**
-   - Download from [JRC GLAES](https://data.jrc.ec.europa.eu/) or equivalent Africa continental grid data
+   - Download from [JRC](https://figshare.com/articles/dataset/Electricity_grid_Africa/14828862?file=28546659) or equivalent Africa continental grid data
    - Extract shapefile to: `Map Data/Grid Data/electricitygrid_Africa_JRC/elect_grid_africa_epsg3426_withgau_JRC.shp`
    - Then run Stage 1 prep: `Rscript "Map Data/Grid Data/grid_clean.r"`
 
 4. **Eskom Boundaries (Local Areas & Supply Areas):**
-   - Obtain from Eskom or GCCA 2025 distribution
+   - Obtain from Eskom or GCCA 2025 distribution (https://www.ntcsa.co.za/gcca/)
    - Place shapefiles in:
      - `Map Data/Local Area/LOCAL_AREA_GCCA2025.shp` (+ .dbf, .shx, .prj, etc.)
      - `Map Data/Supply Area/SUPPLY_AREA_GCCA2025.shp` (+ .dbf, .shx, .prj, etc.)
