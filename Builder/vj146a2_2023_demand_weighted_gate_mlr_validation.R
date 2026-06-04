@@ -22,6 +22,8 @@ rm(list = ls())
 #   VJ146A2_DEMAND_GATE_COVERAGE_MIN=0.80
 #   VJ146A2_DEMAND_GATE_POP_MIN=100
 #   VJ146A2_DEMAND_GATE_SHARE_COL=observed_demand_share
+#   ESKOM_HOURLY_CSV=/abs/path/to/eskom_2023_hourly_clean.csv
+#   PYPSA_EARTH_DIR=/abs/path/to/pypsa-earth
 # ============================================================
 
 suppressPackageStartupMessages({
@@ -35,7 +37,10 @@ suppressPackageStartupMessages({
 })
 
 BASE_PATH <- here::here()
-VAULT_PATH <- normalizePath(file.path(BASE_PATH, "..", "..", ".."), mustWork = TRUE)
+PYPSA_EARTH_DIR <- normalizePath(
+  Sys.getenv("PYPSA_EARTH_DIR", file.path(dirname(BASE_PATH), "pypsa-earth")),
+  mustWork = FALSE
+)
 
 START_MONTH <- Sys.getenv("VJ146A2_START_MONTH", "2023-01")
 END_MONTH <- Sys.getenv("VJ146A2_END_MONTH", "2023-12")
@@ -81,14 +86,12 @@ SETT_GPKG <- file.path(
   "south_africa_dre_atlas_settlements_full_col.gpkg"
 )
 
-ESKOM_HOURLY <- file.path(
-  VAULT_PATH,
-  "6-codebases",
-  "repos",
-  "pypsa-earth",
-  "data",
-  "za_validation",
-  "eskom_2023_hourly_clean.csv"
+ESKOM_HOURLY <- normalizePath(
+  Sys.getenv(
+    "ESKOM_HOURLY_CSV",
+    file.path(PYPSA_EARTH_DIR, "data", "za_validation", "eskom_2023_hourly_clean.csv")
+  ),
+  mustWork = FALSE
 )
 
 OUT_DIR <- file.path(
