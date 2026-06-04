@@ -1,0 +1,1453 @@
+scenario,rule_label,threshold,date,excess_lit_share,remove
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-01,0.00411766009590765,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-02,0.0215591788571154,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-03,0.0397815238910023,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-04,0.0146752236088973,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-05,0.00230027766210658,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-06,0.00802422022083142,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-07,0.00788093592505681,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-08,0.00432878796153971,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-09,0.00509260809355432,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-10,0.0036328827406494,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-11,0.00218248593531242,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-12,0.00356503162593202,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-13,0.00961923809954274,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-14,0.015563988128294,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-15,0.0100786980806316,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-16,0.00543443607916227,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-17,0.00788401729053391,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-18,0.0359372913814509,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-19,0.0452513876370967,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-20,0.0251102837417802,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-21,0.0110789089137847,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-22,0.00777923731575247,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-23,0.0223926646686975,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-24,0.0460802884175114,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-25,0.0287766564019509,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-26,0.010010845739937,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-27,0.00644115314106779,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-28,0.0117656226209351,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-29,0.0227133205658053,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-30,0.0142404088203572,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-01-31,0.00380439936590352,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-01,0.00400739171654927,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-02,0.00575055760056341,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-03,0.00509542716562144,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-04,0.00843470474419574,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-05,0.0110508752244709,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-06,0.0120344719640521,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-07,0.0148979918911823,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-08,0.00908599042562165,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-09,0.00752867596808175,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-10,0.00861250462947375,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-11,0.0352298337470059,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-12,0.0115733299041985,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-13,0.00484810581362856,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-14,0.0173328444699357,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-15,0.0732433968722881,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-16,0.00443575150753414,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-17,0.00321826352189754,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-18,0.00389765551708616,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-19,0.00889087580149738,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-20,0.0127457714452865,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-21,0.0128338317188433,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-22,0.00617634507613475,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-23,0.00424858259321285,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-24,0.0101027276710714,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-25,0.01868305928496,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-26,0.0342194139710599,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-27,0.00695947675268675,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-02-28,0.0058102228867806,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-01,0.00916085792390803,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-02,0.014015950565947,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-03,0.0233757003456288,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-04,0.0217713613540784,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-05,0.00820163169943529,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-06,0.00893157515769748,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-07,0.00653298942022801,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-08,0.00606175507290395,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-09,0.00589036984674615,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-10,0.00175488413227948,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-11,0.00637097454672514,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-12,0.00707531165223882,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-13,0.0204673902631327,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-14,0.0598889864286454,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-15,0.020073575321562,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-16,0.00572533120101346,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-17,0.0289436717239048,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-18,0.0265803859667358,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-19,0.0630702768556902,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-20,0.0195546235275069,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-21,0.012036956682517,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-22,0.0141082994785772,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-23,0.0379683022742631,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-24,0.0219752866197974,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-25,0.0244300702058847,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-26,0.00628416197564287,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-27,0.00486393233917986,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-28,0.0152180165538273,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-29,0.0435582552581669,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-30,0.0621115547849972,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-03-31,0.0057826131628692,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-01,0.0044968063018019,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-02,0.0118655195550582,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-03,0.0215503761205431,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-04,0.0059424885337454,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-05,0.00260246873986759,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-06,0.00275676293896287,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-07,0.00614271907752426,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-08,0.0147559933946018,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-09,0.0114145173810872,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-10,0.00693278247978574,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-11,0.00517506382157859,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-12,0.00421519038451073,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-13,0.0085385994347508,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-14,0.0819546050024622,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-15,0.0294140676283764,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-16,0.0130369242917966,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-17,0.00629476827539,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-18,0.00889414468514936,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-19,0.0204988471319781,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-20,0.0451559441283091,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-21,0.0129633880188841,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-22,0.0070865284988492,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-23,0.00967032016308256,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-24,0.0162471709051339,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-25,0.0347825047619358,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-26,0.029253427308044,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-27,0.0111282456808066,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-28,0.00926867537647109,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-29,0.0384291070108148,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-04-30,0.0904490184948228,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-01,0.0174299040415899,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-02,0.0123410514329095,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-03,0.00330152801278766,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-04,0.00256102452454678,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-05,0.0148332654806811,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-06,0.0420630555663463,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-07,0.00763238881966411,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-08,0.00249852557938193,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-09,0.00234056114144,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-10,0.0298977614295851,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-11,0.049358649071082,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-12,0.0807291994427015,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-13,0.00902843763275922,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-14,0.00528994890324181,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-15,0.0103424908540631,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-16,0.0230385253002592,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-17,0.0295815690837582,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-18,0.00730676074253158,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-19,0.00381378377196301,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-20,0.00866870986997344,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-21,0.0276326381889134,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-22,0.0333108691142396,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-23,0.013166456728229,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-24,0.00864884737919877,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-25,0.0130853148684515,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-26,0.0300550920142323,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-27,0.041151509161253,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-28,0.0409224017684533,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-29,0.0116651044466966,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-30,0.0421114525846215,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-05-31,0.00711086145752791,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-01,0.0178515970860812,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-02,0.00967296811271299,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-03,0.029756253611822,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-04,0.0140586125151038,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-05,0.0052812286484094,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-06,0.00401388982182918,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-07,0.00440735071643369,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-08,0.0333190855551732,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-09,0.00460124138041931,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-10,0.00918108273747354,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-11,0.039589705833547,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-12,0.0982153937174276,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-13,0.0245234584271371,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-14,0.0125301242791841,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-15,0.00733179374456837,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-16,0.0121292294358471,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-17,0.0221993958901666,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-18,0.0250372351812381,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-19,0.0122080778982373,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-20,0.00560303385746001,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-21,0.0104294114663873,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-22,0.0181640320919623,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-23,0.0310162569071835,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-24,0.0213994074759624,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-25,0.00991122150547981,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-26,0.0263903429985244,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-27,0.0550170071430309,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-28,0.0196743500340393,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-29,0.0153961821696004,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-06-30,0.00321829440806301,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-01,0.00158627271878399,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-02,0.00209404266821858,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-03,0.00484827511386887,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-04,0.00693327527871708,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-05,0.00266402710961483,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-06,0.00346993962055524,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-07,0.0119137753269473,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-08,0.0263017237417191,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-09,0.0536307055253375,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-10,0.00763947963196953,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-11,0.00536736162563263,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-12,0.00455742423424395,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-13,0.0112343836570559,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-14,0.0198671150879658,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-15,0.025146427176884,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-16,0.00934462132217456,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-17,0.00758662163296508,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-18,0.0190456216784463,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-19,0.0308771785518946,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-20,0.0355504312935299,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-21,0.00914265297892361,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-22,0.00697936274058178,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-23,0.0117997583818999,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-24,0.0321978134203328,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-25,0.0519609249211869,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-26,0.0223146630859291,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-27,0.00376253364045141,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-28,0.02249838037513,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-29,0.0251929514692644,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-30,0.0230070908896253,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-07-31,0.0119958459819406,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-01,0.0118895836715818,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-02,0.00337553924823205,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-03,0.00386795591928571,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-04,0.00543701160107999,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-05,0.00814543581495903,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-06,0.00625475246288361,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-07,0.00455584538401366,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-08,0.0183992043740948,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-09,0.039566848016222,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-10,0.0489136279885977,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-11,0.0217487346976235,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-12,0.0119533344612078,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-13,0.0133377213024411,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-14,0.0309618190854964,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-15,0.04437883635268,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-16,0.0374031153049471,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-17,0.0133546342092631,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-18,0.0202150849309944,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-19,0.0231032899988052,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-20,0.0385075296238486,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-21,0.0407113931659891,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-22,0.027478714017516,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-23,0.0129839129830135,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-24,0.035273495718626,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-25,0.152540431438027,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-26,0.0645867498563826,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-27,0.00571109960705396,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-28,0.00290848068189955,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-29,0.00318342885487211,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-30,0.00356191836611035,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-08-31,0.00998703611283088,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-01,0.0101545221304009,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-02,0.0086798876294886,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-03,0.00610723483800691,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-04,0.0286560811862073,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-05,0.0335076848911745,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-06,0.0209211941340377,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-07,0.019378512328803,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-08,0.0140414025375076,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-09,0.0281952111248149,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-10,0.044655351986757,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-11,0.0481994656403785,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-12,0.0103742642536449,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-13,0.00884802210635266,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-14,0.00770287606893381,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-15,0.0384374102659877,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-16,0.152062369191828,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-17,0.0442411700411107,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-18,0.0177157544485483,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-19,0.0113912957079785,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-20,0.0251931669263458,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-21,0.0381199157873756,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-22,0.0502110629354821,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-23,0.0494991108752525,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-24,0.0429049447503753,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-25,0.0417327797425362,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-26,0.0332985311946667,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-27,0.0135218467972959,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-28,0.00580328965588667,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-09-29,,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-02,0.00737177278314317,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-03,0.00827374872318693,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-04,0.0210902830177945,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-05,0.0137349684405102,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-06,0.0439553358732273,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-07,0.149512814116871,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-08,0.117205242233124,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-09,0.0233614059119093,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-10,0.00737895026900833,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-11,0.0285541965923147,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-12,0.0300601019065927,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-13,0.0405988404464684,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-14,0.0225800543746219,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-15,0.00697507961085629,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-16,0.00757870289492086,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-17,0.0282551695094999,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-18,0.16700238155203,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-19,0.0596913130171449,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-20,0.0303557670719529,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-21,0.0111382015637882,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-22,0.0539040994547617,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-23,0.098677369122557,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-24,0.016421051289421,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-25,0.00611300088288942,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-26,0.00644985975717728,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-27,0.0125988234747077,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-28,0.0138922457241656,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-29,0.0174381195948969,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-30,0.00936874383289867,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-10-31,0.00864944079377732,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-01,0.00624399324032563,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-02,0.0128456994104512,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-03,0.00916969168307877,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-04,0.0269123789095538,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-05,0.00729676653373429,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-06,0.00972639794206597,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-07,0.0213653291406568,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-08,0.0387880312452496,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-09,0.0385285741616039,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-10,0.016117473809627,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-11,0.0093232880307986,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-12,0.0103856585584465,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-13,0.0361611936848545,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-14,0.0319659423483728,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-15,0.020054076078734,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-16,0.00781444076437385,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-17,0.00690811970426682,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-18,0.0161487626075144,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-19,0.0482787906647881,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-20,0.0684225338004622,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-21,0.00786914786853451,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-22,0.00472674837927915,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-23,0.0228029820482192,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-24,0.0250685300190251,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-25,0.0137601530083973,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-26,0.00402730522815536,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-27,0.00253098800319498,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-28,0.0067330226860449,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-29,0.0048675782255204,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-11-30,0.00546682436157517,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-01,0.00688812743035746,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-02,0.00485289042906557,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-03,0.00755735121719932,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-04,0.0177637338185787,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-05,0.054007722084318,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-06,0.0328389234651135,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-07,0.00532780983380185,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-08,0.00504028442363316,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-09,0.00971993749061856,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-10,0.00728105838543239,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-11,0.00920598546480986,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-12,0.00605942112375395,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-13,0.00406246383228586,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-14,0.00648242496145021,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-15,0.0090174428655451,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-16,0.0260548950862006,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-17,0.0218199222260198,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-18,0.0109415654267969,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-19,0.00717616653246921,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-20,0.0171235944752472,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-21,0.0194850439238478,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-22,0.0112617271002337,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-23,0.00907102728956797,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-24,0.0167778004299493,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-25,0.0208308714834301,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-26,0.00916472801402249,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-27,0.0125590838169827,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-28,0.0199850887300303,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-29,0.0186385027251555,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-30,0.0132113440882752,FALSE
+baseline_rmd_gate_pass,No excess-lit removal,Inf,2023-12-31,0.0226833506065964,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-01,0.00411766009590765,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-02,0.0215591788571154,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-03,0.0397815238910023,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-04,0.0146752236088973,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-05,0.00230027766210658,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-06,0.00802422022083142,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-07,0.00788093592505681,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-08,0.00432878796153971,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-09,0.00509260809355432,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-10,0.0036328827406494,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-11,0.00218248593531242,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-12,0.00356503162593202,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-13,0.00961923809954274,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-14,0.015563988128294,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-15,0.0100786980806316,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-16,0.00543443607916227,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-17,0.00788401729053391,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-18,0.0359372913814509,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-19,0.0452513876370967,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-20,0.0251102837417802,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-21,0.0110789089137847,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-22,0.00777923731575247,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-23,0.0223926646686975,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-24,0.0460802884175114,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-25,0.0287766564019509,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-26,0.010010845739937,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-27,0.00644115314106779,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-28,0.0117656226209351,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-29,0.0227133205658053,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-30,0.0142404088203572,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-01-31,0.00380439936590352,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-01,0.00400739171654927,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-02,0.00575055760056341,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-03,0.00509542716562144,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-04,0.00843470474419574,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-05,0.0110508752244709,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-06,0.0120344719640521,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-07,0.0148979918911823,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-08,0.00908599042562165,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-09,0.00752867596808175,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-10,0.00861250462947375,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-11,0.0352298337470059,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-12,0.0115733299041985,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-13,0.00484810581362856,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-14,0.0173328444699357,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-15,0.0732433968722881,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-16,0.00443575150753414,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-17,0.00321826352189754,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-18,0.00389765551708616,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-19,0.00889087580149738,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-20,0.0127457714452865,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-21,0.0128338317188433,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-22,0.00617634507613475,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-23,0.00424858259321285,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-24,0.0101027276710714,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-25,0.01868305928496,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-26,0.0342194139710599,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-27,0.00695947675268675,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-02-28,0.0058102228867806,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-01,0.00916085792390803,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-02,0.014015950565947,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-03,0.0233757003456288,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-04,0.0217713613540784,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-05,0.00820163169943529,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-06,0.00893157515769748,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-07,0.00653298942022801,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-08,0.00606175507290395,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-09,0.00589036984674615,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-10,0.00175488413227948,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-11,0.00637097454672514,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-12,0.00707531165223882,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-13,0.0204673902631327,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-14,0.0598889864286454,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-15,0.020073575321562,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-16,0.00572533120101346,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-17,0.0289436717239048,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-18,0.0265803859667358,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-19,0.0630702768556902,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-20,0.0195546235275069,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-21,0.012036956682517,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-22,0.0141082994785772,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-23,0.0379683022742631,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-24,0.0219752866197974,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-25,0.0244300702058847,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-26,0.00628416197564287,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-27,0.00486393233917986,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-28,0.0152180165538273,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-29,0.0435582552581669,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-30,0.0621115547849972,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-03-31,0.0057826131628692,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-01,0.0044968063018019,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-02,0.0118655195550582,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-03,0.0215503761205431,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-04,0.0059424885337454,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-05,0.00260246873986759,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-06,0.00275676293896287,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-07,0.00614271907752426,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-08,0.0147559933946018,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-09,0.0114145173810872,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-10,0.00693278247978574,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-11,0.00517506382157859,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-12,0.00421519038451073,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-13,0.0085385994347508,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-14,0.0819546050024622,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-15,0.0294140676283764,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-16,0.0130369242917966,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-17,0.00629476827539,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-18,0.00889414468514936,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-19,0.0204988471319781,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-20,0.0451559441283091,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-21,0.0129633880188841,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-22,0.0070865284988492,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-23,0.00967032016308256,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-24,0.0162471709051339,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-25,0.0347825047619358,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-26,0.029253427308044,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-27,0.0111282456808066,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-28,0.00926867537647109,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-29,0.0384291070108148,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-04-30,0.0904490184948228,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-01,0.0174299040415899,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-02,0.0123410514329095,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-03,0.00330152801278766,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-04,0.00256102452454678,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-05,0.0148332654806811,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-06,0.0420630555663463,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-07,0.00763238881966411,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-08,0.00249852557938193,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-09,0.00234056114144,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-10,0.0298977614295851,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-11,0.049358649071082,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-12,0.0807291994427015,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-13,0.00902843763275922,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-14,0.00528994890324181,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-15,0.0103424908540631,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-16,0.0230385253002592,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-17,0.0295815690837582,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-18,0.00730676074253158,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-19,0.00381378377196301,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-20,0.00866870986997344,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-21,0.0276326381889134,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-22,0.0333108691142396,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-23,0.013166456728229,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-24,0.00864884737919877,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-25,0.0130853148684515,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-26,0.0300550920142323,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-27,0.041151509161253,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-28,0.0409224017684533,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-29,0.0116651044466966,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-30,0.0421114525846215,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-05-31,0.00711086145752791,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-01,0.0178515970860812,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-02,0.00967296811271299,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-03,0.029756253611822,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-04,0.0140586125151038,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-05,0.0052812286484094,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-06,0.00401388982182918,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-07,0.00440735071643369,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-08,0.0333190855551732,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-09,0.00460124138041931,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-10,0.00918108273747354,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-11,0.039589705833547,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-12,0.0982153937174276,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-13,0.0245234584271371,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-14,0.0125301242791841,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-15,0.00733179374456837,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-16,0.0121292294358471,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-17,0.0221993958901666,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-18,0.0250372351812381,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-19,0.0122080778982373,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-20,0.00560303385746001,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-21,0.0104294114663873,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-22,0.0181640320919623,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-23,0.0310162569071835,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-24,0.0213994074759624,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-25,0.00991122150547981,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-26,0.0263903429985244,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-27,0.0550170071430309,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-28,0.0196743500340393,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-29,0.0153961821696004,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-06-30,0.00321829440806301,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-01,0.00158627271878399,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-02,0.00209404266821858,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-03,0.00484827511386887,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-04,0.00693327527871708,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-05,0.00266402710961483,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-06,0.00346993962055524,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-07,0.0119137753269473,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-08,0.0263017237417191,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-09,0.0536307055253375,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-10,0.00763947963196953,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-11,0.00536736162563263,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-12,0.00455742423424395,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-13,0.0112343836570559,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-14,0.0198671150879658,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-15,0.025146427176884,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-16,0.00934462132217456,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-17,0.00758662163296508,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-18,0.0190456216784463,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-19,0.0308771785518946,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-20,0.0355504312935299,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-21,0.00914265297892361,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-22,0.00697936274058178,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-23,0.0117997583818999,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-24,0.0321978134203328,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-25,0.0519609249211869,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-26,0.0223146630859291,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-27,0.00376253364045141,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-28,0.02249838037513,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-29,0.0251929514692644,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-30,0.0230070908896253,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-07-31,0.0119958459819406,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-01,0.0118895836715818,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-02,0.00337553924823205,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-03,0.00386795591928571,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-04,0.00543701160107999,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-05,0.00814543581495903,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-06,0.00625475246288361,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-07,0.00455584538401366,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-08,0.0183992043740948,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-09,0.039566848016222,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-10,0.0489136279885977,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-11,0.0217487346976235,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-12,0.0119533344612078,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-13,0.0133377213024411,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-14,0.0309618190854964,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-15,0.04437883635268,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-16,0.0374031153049471,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-17,0.0133546342092631,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-18,0.0202150849309944,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-19,0.0231032899988052,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-20,0.0385075296238486,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-21,0.0407113931659891,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-22,0.027478714017516,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-23,0.0129839129830135,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-24,0.035273495718626,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-25,0.152540431438027,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-26,0.0645867498563826,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-27,0.00571109960705396,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-28,0.00290848068189955,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-29,0.00318342885487211,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-30,0.00356191836611035,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-08-31,0.00998703611283088,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-01,0.0101545221304009,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-02,0.0086798876294886,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-03,0.00610723483800691,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-04,0.0286560811862073,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-05,0.0335076848911745,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-06,0.0209211941340377,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-07,0.019378512328803,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-08,0.0140414025375076,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-09,0.0281952111248149,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-10,0.044655351986757,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-11,0.0481994656403785,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-12,0.0103742642536449,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-13,0.00884802210635266,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-14,0.00770287606893381,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-15,0.0384374102659877,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-16,0.152062369191828,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-17,0.0442411700411107,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-18,0.0177157544485483,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-19,0.0113912957079785,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-20,0.0251931669263458,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-21,0.0381199157873756,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-22,0.0502110629354821,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-23,0.0494991108752525,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-24,0.0429049447503753,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-25,0.0417327797425362,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-26,0.0332985311946667,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-27,0.0135218467972959,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-28,0.00580328965588667,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-09-29,,
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-02,0.00737177278314317,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-03,0.00827374872318693,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-04,0.0210902830177945,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-05,0.0137349684405102,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-06,0.0439553358732273,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-07,0.149512814116871,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-08,0.117205242233124,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-09,0.0233614059119093,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-10,0.00737895026900833,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-11,0.0285541965923147,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-12,0.0300601019065927,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-13,0.0405988404464684,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-14,0.0225800543746219,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-15,0.00697507961085629,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-16,0.00757870289492086,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-17,0.0282551695094999,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-18,0.16700238155203,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-19,0.0596913130171449,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-20,0.0303557670719529,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-21,0.0111382015637882,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-22,0.0539040994547617,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-23,0.098677369122557,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-24,0.016421051289421,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-25,0.00611300088288942,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-26,0.00644985975717728,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-27,0.0125988234747077,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-28,0.0138922457241656,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-29,0.0174381195948969,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-30,0.00936874383289867,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-10-31,0.00864944079377732,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-01,0.00624399324032563,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-02,0.0128456994104512,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-03,0.00916969168307877,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-04,0.0269123789095538,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-05,0.00729676653373429,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-06,0.00972639794206597,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-07,0.0213653291406568,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-08,0.0387880312452496,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-09,0.0385285741616039,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-10,0.016117473809627,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-11,0.0093232880307986,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-12,0.0103856585584465,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-13,0.0361611936848545,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-14,0.0319659423483728,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-15,0.020054076078734,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-16,0.00781444076437385,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-17,0.00690811970426682,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-18,0.0161487626075144,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-19,0.0482787906647881,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-20,0.0684225338004622,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-21,0.00786914786853451,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-22,0.00472674837927915,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-23,0.0228029820482192,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-24,0.0250685300190251,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-25,0.0137601530083973,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-26,0.00402730522815536,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-27,0.00253098800319498,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-28,0.0067330226860449,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-29,0.0048675782255204,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-11-30,0.00546682436157517,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-01,0.00688812743035746,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-02,0.00485289042906557,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-03,0.00755735121719932,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-04,0.0177637338185787,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-05,0.054007722084318,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-06,0.0328389234651135,TRUE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-07,0.00532780983380185,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-08,0.00504028442363316,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-09,0.00971993749061856,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-10,0.00728105838543239,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-11,0.00920598546480986,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-12,0.00605942112375395,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-13,0.00406246383228586,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-14,0.00648242496145021,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-15,0.0090174428655451,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-16,0.0260548950862006,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-17,0.0218199222260198,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-18,0.0109415654267969,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-19,0.00717616653246921,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-20,0.0171235944752472,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-21,0.0194850439238478,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-22,0.0112617271002337,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-23,0.00907102728956797,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-24,0.0167778004299493,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-25,0.0208308714834301,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-26,0.00916472801402249,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-27,0.0125590838169827,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-28,0.0199850887300303,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-29,0.0186385027251555,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-30,0.0132113440882752,FALSE
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,2023-12-31,0.0226833506065964,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-01,0.00411766009590765,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-02,0.0215591788571154,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-03,0.0397815238910023,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-04,0.0146752236088973,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-05,0.00230027766210658,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-06,0.00802422022083142,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-07,0.00788093592505681,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-08,0.00432878796153971,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-09,0.00509260809355432,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-10,0.0036328827406494,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-11,0.00218248593531242,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-12,0.00356503162593202,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-13,0.00961923809954274,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-14,0.015563988128294,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-15,0.0100786980806316,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-16,0.00543443607916227,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-17,0.00788401729053391,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-18,0.0359372913814509,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-19,0.0452513876370967,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-20,0.0251102837417802,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-21,0.0110789089137847,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-22,0.00777923731575247,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-23,0.0223926646686975,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-24,0.0460802884175114,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-25,0.0287766564019509,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-26,0.010010845739937,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-27,0.00644115314106779,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-28,0.0117656226209351,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-29,0.0227133205658053,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-30,0.0142404088203572,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-01-31,0.00380439936590352,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-01,0.00400739171654927,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-02,0.00575055760056341,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-03,0.00509542716562144,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-04,0.00843470474419574,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-05,0.0110508752244709,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-06,0.0120344719640521,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-07,0.0148979918911823,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-08,0.00908599042562165,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-09,0.00752867596808175,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-10,0.00861250462947375,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-11,0.0352298337470059,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-12,0.0115733299041985,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-13,0.00484810581362856,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-14,0.0173328444699357,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-15,0.0732433968722881,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-16,0.00443575150753414,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-17,0.00321826352189754,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-18,0.00389765551708616,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-19,0.00889087580149738,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-20,0.0127457714452865,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-21,0.0128338317188433,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-22,0.00617634507613475,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-23,0.00424858259321285,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-24,0.0101027276710714,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-25,0.01868305928496,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-26,0.0342194139710599,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-27,0.00695947675268675,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-02-28,0.0058102228867806,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-01,0.00916085792390803,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-02,0.014015950565947,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-03,0.0233757003456288,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-04,0.0217713613540784,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-05,0.00820163169943529,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-06,0.00893157515769748,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-07,0.00653298942022801,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-08,0.00606175507290395,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-09,0.00589036984674615,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-10,0.00175488413227948,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-11,0.00637097454672514,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-12,0.00707531165223882,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-13,0.0204673902631327,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-14,0.0598889864286454,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-15,0.020073575321562,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-16,0.00572533120101346,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-17,0.0289436717239048,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-18,0.0265803859667358,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-19,0.0630702768556902,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-20,0.0195546235275069,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-21,0.012036956682517,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-22,0.0141082994785772,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-23,0.0379683022742631,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-24,0.0219752866197974,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-25,0.0244300702058847,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-26,0.00628416197564287,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-27,0.00486393233917986,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-28,0.0152180165538273,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-29,0.0435582552581669,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-30,0.0621115547849972,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-03-31,0.0057826131628692,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-01,0.0044968063018019,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-02,0.0118655195550582,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-03,0.0215503761205431,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-04,0.0059424885337454,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-05,0.00260246873986759,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-06,0.00275676293896287,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-07,0.00614271907752426,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-08,0.0147559933946018,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-09,0.0114145173810872,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-10,0.00693278247978574,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-11,0.00517506382157859,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-12,0.00421519038451073,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-13,0.0085385994347508,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-14,0.0819546050024622,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-15,0.0294140676283764,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-16,0.0130369242917966,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-17,0.00629476827539,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-18,0.00889414468514936,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-19,0.0204988471319781,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-20,0.0451559441283091,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-21,0.0129633880188841,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-22,0.0070865284988492,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-23,0.00967032016308256,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-24,0.0162471709051339,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-25,0.0347825047619358,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-26,0.029253427308044,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-27,0.0111282456808066,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-28,0.00926867537647109,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-29,0.0384291070108148,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-04-30,0.0904490184948228,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-01,0.0174299040415899,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-02,0.0123410514329095,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-03,0.00330152801278766,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-04,0.00256102452454678,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-05,0.0148332654806811,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-06,0.0420630555663463,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-07,0.00763238881966411,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-08,0.00249852557938193,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-09,0.00234056114144,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-10,0.0298977614295851,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-11,0.049358649071082,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-12,0.0807291994427015,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-13,0.00902843763275922,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-14,0.00528994890324181,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-15,0.0103424908540631,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-16,0.0230385253002592,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-17,0.0295815690837582,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-18,0.00730676074253158,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-19,0.00381378377196301,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-20,0.00866870986997344,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-21,0.0276326381889134,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-22,0.0333108691142396,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-23,0.013166456728229,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-24,0.00864884737919877,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-25,0.0130853148684515,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-26,0.0300550920142323,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-27,0.041151509161253,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-28,0.0409224017684533,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-29,0.0116651044466966,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-30,0.0421114525846215,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-05-31,0.00711086145752791,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-01,0.0178515970860812,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-02,0.00967296811271299,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-03,0.029756253611822,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-04,0.0140586125151038,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-05,0.0052812286484094,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-06,0.00401388982182918,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-07,0.00440735071643369,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-08,0.0333190855551732,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-09,0.00460124138041931,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-10,0.00918108273747354,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-11,0.039589705833547,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-12,0.0982153937174276,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-13,0.0245234584271371,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-14,0.0125301242791841,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-15,0.00733179374456837,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-16,0.0121292294358471,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-17,0.0221993958901666,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-18,0.0250372351812381,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-19,0.0122080778982373,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-20,0.00560303385746001,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-21,0.0104294114663873,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-22,0.0181640320919623,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-23,0.0310162569071835,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-24,0.0213994074759624,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-25,0.00991122150547981,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-26,0.0263903429985244,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-27,0.0550170071430309,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-28,0.0196743500340393,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-29,0.0153961821696004,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-06-30,0.00321829440806301,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-01,0.00158627271878399,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-02,0.00209404266821858,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-03,0.00484827511386887,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-04,0.00693327527871708,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-05,0.00266402710961483,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-06,0.00346993962055524,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-07,0.0119137753269473,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-08,0.0263017237417191,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-09,0.0536307055253375,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-10,0.00763947963196953,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-11,0.00536736162563263,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-12,0.00455742423424395,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-13,0.0112343836570559,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-14,0.0198671150879658,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-15,0.025146427176884,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-16,0.00934462132217456,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-17,0.00758662163296508,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-18,0.0190456216784463,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-19,0.0308771785518946,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-20,0.0355504312935299,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-21,0.00914265297892361,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-22,0.00697936274058178,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-23,0.0117997583818999,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-24,0.0321978134203328,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-25,0.0519609249211869,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-26,0.0223146630859291,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-27,0.00376253364045141,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-28,0.02249838037513,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-29,0.0251929514692644,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-30,0.0230070908896253,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-07-31,0.0119958459819406,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-01,0.0118895836715818,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-02,0.00337553924823205,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-03,0.00386795591928571,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-04,0.00543701160107999,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-05,0.00814543581495903,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-06,0.00625475246288361,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-07,0.00455584538401366,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-08,0.0183992043740948,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-09,0.039566848016222,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-10,0.0489136279885977,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-11,0.0217487346976235,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-12,0.0119533344612078,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-13,0.0133377213024411,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-14,0.0309618190854964,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-15,0.04437883635268,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-16,0.0374031153049471,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-17,0.0133546342092631,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-18,0.0202150849309944,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-19,0.0231032899988052,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-20,0.0385075296238486,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-21,0.0407113931659891,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-22,0.027478714017516,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-23,0.0129839129830135,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-24,0.035273495718626,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-25,0.152540431438027,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-26,0.0645867498563826,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-27,0.00571109960705396,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-28,0.00290848068189955,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-29,0.00318342885487211,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-30,0.00356191836611035,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-08-31,0.00998703611283088,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-01,0.0101545221304009,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-02,0.0086798876294886,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-03,0.00610723483800691,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-04,0.0286560811862073,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-05,0.0335076848911745,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-06,0.0209211941340377,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-07,0.019378512328803,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-08,0.0140414025375076,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-09,0.0281952111248149,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-10,0.044655351986757,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-11,0.0481994656403785,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-12,0.0103742642536449,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-13,0.00884802210635266,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-14,0.00770287606893381,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-15,0.0384374102659877,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-16,0.152062369191828,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-17,0.0442411700411107,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-18,0.0177157544485483,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-19,0.0113912957079785,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-20,0.0251931669263458,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-21,0.0381199157873756,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-22,0.0502110629354821,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-23,0.0494991108752525,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-24,0.0429049447503753,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-25,0.0417327797425362,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-26,0.0332985311946667,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-27,0.0135218467972959,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-28,0.00580328965588667,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-09-29,,
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-02,0.00737177278314317,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-03,0.00827374872318693,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-04,0.0210902830177945,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-05,0.0137349684405102,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-06,0.0439553358732273,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-07,0.149512814116871,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-08,0.117205242233124,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-09,0.0233614059119093,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-10,0.00737895026900833,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-11,0.0285541965923147,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-12,0.0300601019065927,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-13,0.0405988404464684,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-14,0.0225800543746219,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-15,0.00697507961085629,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-16,0.00757870289492086,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-17,0.0282551695094999,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-18,0.16700238155203,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-19,0.0596913130171449,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-20,0.0303557670719529,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-21,0.0111382015637882,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-22,0.0539040994547617,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-23,0.098677369122557,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-24,0.016421051289421,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-25,0.00611300088288942,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-26,0.00644985975717728,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-27,0.0125988234747077,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-28,0.0138922457241656,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-29,0.0174381195948969,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-30,0.00936874383289867,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-10-31,0.00864944079377732,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-01,0.00624399324032563,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-02,0.0128456994104512,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-03,0.00916969168307877,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-04,0.0269123789095538,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-05,0.00729676653373429,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-06,0.00972639794206597,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-07,0.0213653291406568,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-08,0.0387880312452496,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-09,0.0385285741616039,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-10,0.016117473809627,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-11,0.0093232880307986,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-12,0.0103856585584465,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-13,0.0361611936848545,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-14,0.0319659423483728,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-15,0.020054076078734,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-16,0.00781444076437385,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-17,0.00690811970426682,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-18,0.0161487626075144,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-19,0.0482787906647881,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-20,0.0684225338004622,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-21,0.00786914786853451,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-22,0.00472674837927915,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-23,0.0228029820482192,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-24,0.0250685300190251,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-25,0.0137601530083973,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-26,0.00402730522815536,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-27,0.00253098800319498,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-28,0.0067330226860449,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-29,0.0048675782255204,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-11-30,0.00546682436157517,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-01,0.00688812743035746,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-02,0.00485289042906557,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-03,0.00755735121719932,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-04,0.0177637338185787,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-05,0.054007722084318,TRUE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-06,0.0328389234651135,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-07,0.00532780983380185,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-08,0.00504028442363316,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-09,0.00971993749061856,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-10,0.00728105838543239,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-11,0.00920598546480986,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-12,0.00605942112375395,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-13,0.00406246383228586,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-14,0.00648242496145021,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-15,0.0090174428655451,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-16,0.0260548950862006,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-17,0.0218199222260198,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-18,0.0109415654267969,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-19,0.00717616653246921,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-20,0.0171235944752472,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-21,0.0194850439238478,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-22,0.0112617271002337,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-23,0.00907102728956797,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-24,0.0167778004299493,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-25,0.0208308714834301,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-26,0.00916472801402249,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-27,0.0125590838169827,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-28,0.0199850887300303,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-29,0.0186385027251555,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-30,0.0132113440882752,FALSE
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,2023-12-31,0.0226833506065964,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-01,0.00411766009590765,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-02,0.0215591788571154,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-03,0.0397815238910023,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-04,0.0146752236088973,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-05,0.00230027766210658,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-06,0.00802422022083142,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-07,0.00788093592505681,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-08,0.00432878796153971,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-09,0.00509260809355432,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-10,0.0036328827406494,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-11,0.00218248593531242,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-12,0.00356503162593202,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-13,0.00961923809954274,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-14,0.015563988128294,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-15,0.0100786980806316,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-16,0.00543443607916227,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-17,0.00788401729053391,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-18,0.0359372913814509,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-19,0.0452513876370967,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-20,0.0251102837417802,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-21,0.0110789089137847,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-22,0.00777923731575247,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-23,0.0223926646686975,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-24,0.0460802884175114,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-25,0.0287766564019509,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-26,0.010010845739937,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-27,0.00644115314106779,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-28,0.0117656226209351,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-29,0.0227133205658053,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-30,0.0142404088203572,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-01-31,0.00380439936590352,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-01,0.00400739171654927,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-02,0.00575055760056341,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-03,0.00509542716562144,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-04,0.00843470474419574,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-05,0.0110508752244709,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-06,0.0120344719640521,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-07,0.0148979918911823,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-08,0.00908599042562165,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-09,0.00752867596808175,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-10,0.00861250462947375,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-11,0.0352298337470059,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-12,0.0115733299041985,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-13,0.00484810581362856,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-14,0.0173328444699357,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-15,0.0732433968722881,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-16,0.00443575150753414,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-17,0.00321826352189754,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-18,0.00389765551708616,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-19,0.00889087580149738,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-20,0.0127457714452865,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-21,0.0128338317188433,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-22,0.00617634507613475,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-23,0.00424858259321285,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-24,0.0101027276710714,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-25,0.01868305928496,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-26,0.0342194139710599,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-27,0.00695947675268675,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-02-28,0.0058102228867806,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-01,0.00916085792390803,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-02,0.014015950565947,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-03,0.0233757003456288,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-04,0.0217713613540784,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-05,0.00820163169943529,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-06,0.00893157515769748,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-07,0.00653298942022801,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-08,0.00606175507290395,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-09,0.00589036984674615,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-10,0.00175488413227948,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-11,0.00637097454672514,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-12,0.00707531165223882,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-13,0.0204673902631327,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-14,0.0598889864286454,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-15,0.020073575321562,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-16,0.00572533120101346,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-17,0.0289436717239048,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-18,0.0265803859667358,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-19,0.0630702768556902,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-20,0.0195546235275069,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-21,0.012036956682517,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-22,0.0141082994785772,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-23,0.0379683022742631,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-24,0.0219752866197974,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-25,0.0244300702058847,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-26,0.00628416197564287,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-27,0.00486393233917986,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-28,0.0152180165538273,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-29,0.0435582552581669,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-30,0.0621115547849972,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-03-31,0.0057826131628692,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-01,0.0044968063018019,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-02,0.0118655195550582,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-03,0.0215503761205431,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-04,0.0059424885337454,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-05,0.00260246873986759,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-06,0.00275676293896287,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-07,0.00614271907752426,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-08,0.0147559933946018,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-09,0.0114145173810872,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-10,0.00693278247978574,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-11,0.00517506382157859,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-12,0.00421519038451073,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-13,0.0085385994347508,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-14,0.0819546050024622,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-15,0.0294140676283764,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-16,0.0130369242917966,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-17,0.00629476827539,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-18,0.00889414468514936,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-19,0.0204988471319781,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-20,0.0451559441283091,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-21,0.0129633880188841,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-22,0.0070865284988492,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-23,0.00967032016308256,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-24,0.0162471709051339,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-25,0.0347825047619358,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-26,0.029253427308044,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-27,0.0111282456808066,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-28,0.00926867537647109,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-29,0.0384291070108148,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-04-30,0.0904490184948228,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-01,0.0174299040415899,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-02,0.0123410514329095,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-03,0.00330152801278766,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-04,0.00256102452454678,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-05,0.0148332654806811,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-06,0.0420630555663463,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-07,0.00763238881966411,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-08,0.00249852557938193,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-09,0.00234056114144,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-10,0.0298977614295851,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-11,0.049358649071082,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-12,0.0807291994427015,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-13,0.00902843763275922,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-14,0.00528994890324181,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-15,0.0103424908540631,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-16,0.0230385253002592,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-17,0.0295815690837582,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-18,0.00730676074253158,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-19,0.00381378377196301,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-20,0.00866870986997344,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-21,0.0276326381889134,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-22,0.0333108691142396,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-23,0.013166456728229,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-24,0.00864884737919877,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-25,0.0130853148684515,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-26,0.0300550920142323,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-27,0.041151509161253,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-28,0.0409224017684533,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-29,0.0116651044466966,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-30,0.0421114525846215,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-05-31,0.00711086145752791,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-01,0.0178515970860812,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-02,0.00967296811271299,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-03,0.029756253611822,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-04,0.0140586125151038,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-05,0.0052812286484094,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-06,0.00401388982182918,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-07,0.00440735071643369,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-08,0.0333190855551732,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-09,0.00460124138041931,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-10,0.00918108273747354,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-11,0.039589705833547,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-12,0.0982153937174276,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-13,0.0245234584271371,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-14,0.0125301242791841,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-15,0.00733179374456837,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-16,0.0121292294358471,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-17,0.0221993958901666,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-18,0.0250372351812381,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-19,0.0122080778982373,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-20,0.00560303385746001,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-21,0.0104294114663873,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-22,0.0181640320919623,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-23,0.0310162569071835,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-24,0.0213994074759624,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-25,0.00991122150547981,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-26,0.0263903429985244,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-27,0.0550170071430309,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-28,0.0196743500340393,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-29,0.0153961821696004,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-06-30,0.00321829440806301,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-01,0.00158627271878399,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-02,0.00209404266821858,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-03,0.00484827511386887,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-04,0.00693327527871708,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-05,0.00266402710961483,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-06,0.00346993962055524,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-07,0.0119137753269473,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-08,0.0263017237417191,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-09,0.0536307055253375,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-10,0.00763947963196953,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-11,0.00536736162563263,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-12,0.00455742423424395,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-13,0.0112343836570559,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-14,0.0198671150879658,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-15,0.025146427176884,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-16,0.00934462132217456,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-17,0.00758662163296508,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-18,0.0190456216784463,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-19,0.0308771785518946,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-20,0.0355504312935299,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-21,0.00914265297892361,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-22,0.00697936274058178,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-23,0.0117997583818999,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-24,0.0321978134203328,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-25,0.0519609249211869,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-26,0.0223146630859291,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-27,0.00376253364045141,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-28,0.02249838037513,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-29,0.0251929514692644,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-30,0.0230070908896253,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-07-31,0.0119958459819406,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-01,0.0118895836715818,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-02,0.00337553924823205,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-03,0.00386795591928571,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-04,0.00543701160107999,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-05,0.00814543581495903,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-06,0.00625475246288361,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-07,0.00455584538401366,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-08,0.0183992043740948,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-09,0.039566848016222,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-10,0.0489136279885977,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-11,0.0217487346976235,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-12,0.0119533344612078,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-13,0.0133377213024411,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-14,0.0309618190854964,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-15,0.04437883635268,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-16,0.0374031153049471,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-17,0.0133546342092631,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-18,0.0202150849309944,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-19,0.0231032899988052,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-20,0.0385075296238486,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-21,0.0407113931659891,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-22,0.027478714017516,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-23,0.0129839129830135,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-24,0.035273495718626,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-25,0.152540431438027,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-26,0.0645867498563826,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-27,0.00571109960705396,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-28,0.00290848068189955,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-29,0.00318342885487211,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-30,0.00356191836611035,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-08-31,0.00998703611283088,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-01,0.0101545221304009,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-02,0.0086798876294886,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-03,0.00610723483800691,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-04,0.0286560811862073,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-05,0.0335076848911745,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-06,0.0209211941340377,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-07,0.019378512328803,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-08,0.0140414025375076,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-09,0.0281952111248149,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-10,0.044655351986757,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-11,0.0481994656403785,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-12,0.0103742642536449,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-13,0.00884802210635266,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-14,0.00770287606893381,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-15,0.0384374102659877,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-16,0.152062369191828,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-17,0.0442411700411107,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-18,0.0177157544485483,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-19,0.0113912957079785,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-20,0.0251931669263458,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-21,0.0381199157873756,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-22,0.0502110629354821,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-23,0.0494991108752525,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-24,0.0429049447503753,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-25,0.0417327797425362,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-26,0.0332985311946667,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-27,0.0135218467972959,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-28,0.00580328965588667,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-09-29,,
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-02,0.00737177278314317,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-03,0.00827374872318693,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-04,0.0210902830177945,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-05,0.0137349684405102,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-06,0.0439553358732273,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-07,0.149512814116871,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-08,0.117205242233124,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-09,0.0233614059119093,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-10,0.00737895026900833,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-11,0.0285541965923147,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-12,0.0300601019065927,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-13,0.0405988404464684,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-14,0.0225800543746219,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-15,0.00697507961085629,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-16,0.00757870289492086,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-17,0.0282551695094999,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-18,0.16700238155203,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-19,0.0596913130171449,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-20,0.0303557670719529,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-21,0.0111382015637882,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-22,0.0539040994547617,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-23,0.098677369122557,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-24,0.016421051289421,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-25,0.00611300088288942,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-26,0.00644985975717728,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-27,0.0125988234747077,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-28,0.0138922457241656,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-29,0.0174381195948969,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-30,0.00936874383289867,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-10-31,0.00864944079377732,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-01,0.00624399324032563,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-02,0.0128456994104512,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-03,0.00916969168307877,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-04,0.0269123789095538,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-05,0.00729676653373429,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-06,0.00972639794206597,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-07,0.0213653291406568,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-08,0.0387880312452496,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-09,0.0385285741616039,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-10,0.016117473809627,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-11,0.0093232880307986,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-12,0.0103856585584465,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-13,0.0361611936848545,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-14,0.0319659423483728,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-15,0.020054076078734,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-16,0.00781444076437385,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-17,0.00690811970426682,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-18,0.0161487626075144,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-19,0.0482787906647881,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-20,0.0684225338004622,TRUE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-21,0.00786914786853451,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-22,0.00472674837927915,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-23,0.0228029820482192,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-24,0.0250685300190251,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-25,0.0137601530083973,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-26,0.00402730522815536,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-27,0.00253098800319498,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-28,0.0067330226860449,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-29,0.0048675782255204,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-11-30,0.00546682436157517,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-01,0.00688812743035746,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-02,0.00485289042906557,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-03,0.00755735121719932,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-04,0.0177637338185787,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-05,0.054007722084318,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-06,0.0328389234651135,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-07,0.00532780983380185,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-08,0.00504028442363316,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-09,0.00971993749061856,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-10,0.00728105838543239,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-11,0.00920598546480986,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-12,0.00605942112375395,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-13,0.00406246383228586,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-14,0.00648242496145021,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-15,0.0090174428655451,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-16,0.0260548950862006,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-17,0.0218199222260198,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-18,0.0109415654267969,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-19,0.00717616653246921,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-20,0.0171235944752472,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-21,0.0194850439238478,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-22,0.0112617271002337,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-23,0.00907102728956797,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-24,0.0167778004299493,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-25,0.0208308714834301,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-26,0.00916472801402249,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-27,0.0125590838169827,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-28,0.0199850887300303,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-29,0.0186385027251555,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-30,0.0132113440882752,FALSE
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,2023-12-31,0.0226833506065964,FALSE

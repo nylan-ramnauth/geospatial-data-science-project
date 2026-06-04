@@ -1,0 +1,4 @@
+coverage_min,n_rows,n_settlements,n_dates,population_sum_unique,mean_rows_per_settlement,median_rows_per_settlement
+0.5,1003021,5572,267,55088952,180.010947595118,185
+0.75,885509,5572,267,55088952,158.921213208902,160
+0.9,764010,5571,267,55083282,137.140549273021,136

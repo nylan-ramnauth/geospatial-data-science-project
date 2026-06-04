@@ -1,0 +1,7 @@
+method,flag_scope,n_days,share_days,n_rmd_pass_flagged,rmd_pass_n,share_rmd_pass
+monthly_median_mad,reason_style,158,0.435261707988981,124,280,0.442857142857143
+monthly_mean_sd,reason_style,74,0.203856749311295,59,280,0.210714285714286
+yearly_mean_sd,reason_style,57,0.15702479338843,44,280,0.157142857142857
+monthly_median_mad,full_metric_set,158,0.435261707988981,124,280,0.442857142857143
+monthly_mean_sd,full_metric_set,75,0.206611570247934,59,280,0.210714285714286
+yearly_mean_sd,full_metric_set,59,0.162534435261708,45,280,0.160714285714286

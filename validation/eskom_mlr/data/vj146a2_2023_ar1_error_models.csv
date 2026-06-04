@@ -1,0 +1,3 @@
+"outcome","outcome_label","method","n","effect_pp_per_10pp","se_pp_per_10pp","ci_low_pp_per_10pp","ci_high_pp_per_10pp","p_value","ar1_phi_per_day","notes"
+"popw_strict_dark_share","Strict dark: p_lit < 0.05","AR(1) error model",267,2.30875506355666,0.150667712321251,2.01345177377396,2.60405835333935,2.19097177257524e-38,0.30647497693412,"Feasible GLS with continuous-time AR(1) residual correlation over calendar-day distance."
+"popw_mostly_dark_share","Mostly dark: p_lit < 0.20","AR(1) error model",267,3.84272111364748,0.274305786580915,3.30509165119796,4.38035057609701,9.59213551423164e-34,0.378718544336024,"Feasible GLS with continuous-time AR(1) residual correlation over calendar-day distance."

@@ -1,0 +1,5 @@
+scenario,rule_label,threshold,observed_dates_removed,observed_dates_retained,rmd_pass_n,rmd_pass_removed,rmd_pass_retained,min_monthly_observed_retained,min_monthly_rmd_pass_retained
+baseline_rmd_gate_pass,No excess-lit removal,Inf,0,363,280,0,280,28,10
+annual_q3,excess_lit_share > Q3_year,0.0263681881843231,91,272,280,74,206,15,9
+annual_q3_plus_0p5_iqr,excess_lit_share > Q3_year + 0.5*IQR_year,0.0360132243445389,56,307,280,43,237,19,10
+annual_q3_plus_1p5_iqr,excess_lit_share > Q3_year + 1.5*IQR_year,0.0553032966649706,17,346,280,13,267,25,10

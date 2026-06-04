@@ -1,0 +1,4 @@
+scenario,n_localareas_with_uptime,n_localareas_share_kept_ge50,min_share_population_kept,median_share_population_kept,popw_uptime,median_localarea_uptime,mean_settlement_n_days_obs_popw_national,popw_uptime_delta_pp_vs_current
+excess_lit_only_current_stage5,33,33,0.990563441848243,0.999920371451746,0.960471054111478,0.941998700310023,204.869444611197,0
+excess_lit_plus_localarea_pop_day_ge50,33,33,0.921879543868166,0.999855641225424,0.961845440401411,0.943699928030059,192.94861801946,0.137438628993258
+excess_lit_plus_national_demand_day_ge40,33,33,0.98643058265544,0.999820372809752,0.961158598681032,0.942729565892899,187.744769083923,0.0687544569553666

@@ -1,0 +1,3 @@
+scenario,n_dates,n_dates_any_observed,n_dates_observed_pop_ge50,n_dates_coverage_ge50_pop_ge50,min_observed_pop_share,p10_observed_pop_share,median_observed_pop_share,mean_observed_pop_share,min_coverage_ge50_pop_share,p10_coverage_ge50_pop_share,median_coverage_ge50_pop_share,mean_coverage_ge50_pop_share
+annual_iqr_excess_lit_excluded,348,345,243,243,0,0.205876322252956,0.650771528235676,0.60721343664619,0,0.205876322252956,0.650771528235676,0.60721343664619
+baseline_no_exclusion,365,362,256,256,0,0.205013146432398,0.651737734423216,0.607431035842264,0,0.205013146432398,0.651737734423216,0.607431035842264

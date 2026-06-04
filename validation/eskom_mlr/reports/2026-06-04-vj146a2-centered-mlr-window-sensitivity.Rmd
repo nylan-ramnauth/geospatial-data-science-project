@@ -1,0 +1,275 @@
+---
+title: "Centered MLR Window Sensitivity for VJ146A2 Eskom Validation"
+subtitle: "Whole-hour windows around the selected 01:00-02:00 overpass specification"
+author: "Reliable Electrification Planning SA"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+    number_sections: false
+    fig_caption: true
+geometry: margin=0.72in
+fontsize: 10pt
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{float}
+  - \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.pos = "H",
+  out.width = "100%"
+)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(scales)
+})
+
+find_repo_root <- function(start = getwd()) {
+  current <- normalizePath(start, mustWork = TRUE)
+  repeat {
+    if (
+      file.exists(file.path(current, ".here")) &&
+        dir.exists(file.path(current, "validation"))
+    ) {
+      return(current)
+    }
+    parent <- dirname(current)
+    if (identical(parent, current)) stop("Could not locate Reliability-Assessment repo root.")
+    current <- parent
+  }
+}
+
+repo_dir <- find_repo_root()
+data_dir <- file.path(repo_dir, "validation", "eskom_mlr", "data")
+fig_dir <- file.path(repo_dir, "validation", "eskom_mlr", "figures", "vj146a2-centered-mlr-window-sensitivity")
+script_file <- file.path(repo_dir, "validation", "eskom_mlr", "scripts", "vj146a2_centered_mlr_window_sensitivity.R")
+
+required_files <- c(
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_analysis_daily.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_model_summary.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_mean_mw_summary.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_full_day_mwh_summary.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_baseline_bins.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_definitions.csv"),
+  file.path(data_dir, "vj146a2_2023_centered_mlr_window_sample_summary.csv"),
+  file.path(fig_dir, "vj146a2_centered_window_effects.png"),
+  file.path(fig_dir, "vj146a2_centered_window_baseline_relative.png"),
+  file.path(fig_dir, "vj146a2_centered_window_timing_preferred_01_02.png"),
+  file.path(fig_dir, "vj146a2_centered_window_timing_centered_4h.png"),
+  file.path(fig_dir, "vj146a2_centered_window_timing_centered_24h.png")
+)
+
+missing_files <- required_files[!file.exists(required_files)]
+if (length(missing_files) > 0) {
+  stop(
+    "Missing sensitivity outputs. Run first from the repo root:\n  Rscript ",
+    script_file,
+    "\nMissing:\n  - ",
+    paste(missing_files, collapse = "\n  - ")
+  )
+}
+
+models <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_model_summary.csv"), stringsAsFactors = FALSE)
+mean_mw <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_mean_mw_summary.csv"), stringsAsFactors = FALSE)
+mwh <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_full_day_mwh_summary.csv"), stringsAsFactors = FALSE)
+defs <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_definitions.csv"), stringsAsFactors = FALSE)
+sample_summary <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_sample_summary.csv"), stringsAsFactors = FALSE)
+bins <- read.csv(file.path(data_dir, "vj146a2_2023_centered_mlr_window_baseline_bins.csv"), stringsAsFactors = FALSE)
+
+fmt_num <- function(x, digits = 2) formatC(as.numeric(x), digits = digits, format = "f")
+fmt_p <- function(x) {
+  ifelse(
+    is.na(x), NA_character_,
+    ifelse(as.numeric(x) < 0.001, formatC(as.numeric(x), digits = 2, format = "e"), fmt_num(x, 3))
+  )
+}
+
+main_outcomes <- c(
+  "popw_strict_dark_share",
+  "popw_mostly_dark_share",
+  "demandw_strict_dark_share",
+  "demandw_mostly_dark_share"
+)
+
+sample_n <- sample_summary$n_dates[[1]]
+removed_n <- sample_summary$annual_iqr_removed_dates[[1]]
+legacy_preferred_check <- sample_summary$max_legacy_preferred_recompute_diff[[1]]
+corrected_preferred_diff <- sample_summary$max_corrected_preferred_vs_stored_diff[[1]]
+
+strict_window <- models %>%
+  filter(outcome == "popw_strict_dark_share") %>%
+  arrange(match(exposure, c("01:00-02:00 preferred", "23:00-03:00 centered 4h", "13:00-13:00 centered 24h")))
+mostly_window <- models %>%
+  filter(outcome == "popw_mostly_dark_share") %>%
+  arrange(match(exposure, c("01:00-02:00 preferred", "23:00-03:00 centered 4h", "13:00-13:00 centered 24h")))
+```
+
+# Purpose
+
+This note checks whether the selected VJ146A2/Eskom validation is sensitive to the Eskom MLR exposure window. It is intentionally separate from the main validation report.
+
+The preferred specification uses Eskom MLR in the `01:00-02:00` SAST overpass window. This sensitivity keeps the same standard validation sample and compares it with two whole-hour windows around that nighttime period.
+
+This version uses the corrected MLR share denominator:
+
+\[
+\frac{\sum \text{Manual Load Reduction}}{\sum \text{RSA Contracted Demand}}
+\]
+
+The Eskom glossary defines MLR as reduced demand due to load shedding and/or curtailment, while RSA Contracted Demand is contracted demand rather than served demand excluding MLR. The earlier selected-specification column used the legacy denominator \(legacy sum-denominator MLR share\), so this report keeps a provenance check for the legacy value but reports corrected regressions.
+
+```{r window-definitions}
+kable(
+  defs,
+  booktabs = TRUE,
+  caption = "Whole-hour MLR window definitions used in this sensitivity."
+)
+```
+
+The sample is unchanged: `r sample_n` standard validation dates after the demand-gate screen and annual-IQR excess-lit removal. The legacy recomputation for `01:00-02:00` matches the stored selected-specification column with maximum absolute difference `r format(legacy_preferred_check, scientific = TRUE, digits = 3)`. The corrected denominator differs from the stored legacy selected column by as much as `r fmt_num(corrected_preferred_diff * 100, 2)` percentage points.
+
+# Window Results
+
+```{r model-table}
+model_table <- models %>%
+  filter(outcome %in% main_outcomes) %>%
+  transmute(
+    Window = exposure,
+    Outcome = outcome_label,
+    `Mean MLR/contracted` = percent(mean_shed_share, accuracy = 0.1),
+    `Effect per +10pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp_share, 2), " pp"),
+    `HAC SE` = paste0(fmt_num(se_pp_per_10pp_share, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3)
+  )
+
+kable(
+  model_table,
+  booktabs = TRUE,
+  caption = "OLS validation results by centered whole-hour MLR window. The MLR regressor is sum(MLR) / sum(RSA Contracted Demand). Standard errors use Newey-West HAC with 7-day lag."
+)
+```
+
+```{r effect-figure, fig.cap="Window-sensitivity coefficients for the main darkness outcomes."}
+knitr::include_graphics(file.path(fig_dir, "vj146a2_centered_window_effects.png"))
+```
+
+The centered 4-hour window is not weaker than the preferred hour. For population-weighted strict darkness, the preferred `01:00-02:00` model has \(R^2 =\) `r fmt_num(strict_window$r_squared[strict_window$exposure == "01:00-02:00 preferred"], 3)`, while the centered 4-hour model has \(R^2 =\) `r fmt_num(strict_window$r_squared[strict_window$exposure == "23:00-03:00 centered 4h"], 3)`. The centered 24-hour model remains strong, with \(R^2 =\) `r fmt_num(strict_window$r_squared[strict_window$exposure == "13:00-13:00 centered 24h"], 3)`, but it is weaker than the nighttime windows.
+
+# Mean MLR MW Specification
+
+This table uses the simple average MLR MW inside each fixed window:
+
+\[
+\frac{1}{H}\sum_h \text{Manual Load Reduction}_{h}
+\]
+
+For a fixed window, the mean-MW and sum-MWh regressors contain the same information up to a constant scale. Reporting the mean is useful because it is directly comparable to hourly PyPSA power quantities.
+
+```{r mean-mw-table}
+mean_mw_table <- mean_mw %>%
+  filter(outcome %in% main_outcomes) %>%
+  transmute(
+    Window = exposure,
+    Outcome = outcome_label,
+    `Mean MLR MW` = fmt_num(mean_mlr_mw, 0),
+    `Effect per +1,000 MW mean MLR` = paste0(fmt_num(effect_pp_per_1000mw, 2), " pp"),
+    `HAC SE` = paste0(fmt_num(se_pp_per_1000mw, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3)
+  )
+
+kable(
+  mean_mw_table,
+  booktabs = TRUE,
+  caption = "OLS validation results using mean MLR MW inside each centered whole-hour window. Standard errors use Newey-West HAC with 7-day lag."
+)
+```
+
+# Timing Figures
+
+```{r timing-preferred, fig.cap="Daily standardized timing comparison for the preferred 01:00-02:00 window."}
+knitr::include_graphics(file.path(fig_dir, "vj146a2_centered_window_timing_preferred_01_02.png"))
+```
+
+```{r timing-4h, fig.cap="Daily standardized timing comparison for the centered 23:00-03:00 four-hour window."}
+knitr::include_graphics(file.path(fig_dir, "vj146a2_centered_window_timing_centered_4h.png"))
+```
+
+```{r timing-24h, fig.cap="Daily standardized timing comparison for the centered 13:00-13:00 twenty-four-hour window."}
+knitr::include_graphics(file.path(fig_dir, "vj146a2_centered_window_timing_centered_24h.png"))
+```
+
+# Baseline-Relative Dose Response
+
+```{r baseline-figure, fig.cap="Baseline-relative darkness by centered MLR window. Zero is the mean of no-MLR standard validation nights inside each window."}
+knitr::include_graphics(file.path(fig_dir, "vj146a2_centered_window_baseline_relative.png"))
+```
+
+The baseline-relative plots report magnitudes rather than standardized co-movement. Each panel computes its own no-MLR baseline for the corresponding exposure window, then splits positive-MLR nights into ten equal-count bins.
+
+```{r baseline-endpoints}
+endpoint_table <- bins %>%
+  filter(
+    outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share"),
+    mean_shed == ave(mean_shed, exposure, outcome, FUN = max)
+  ) %>%
+  transmute(
+    Window = exposure,
+    Outcome = outcome_label,
+    `Highest-bin mean MLR/contracted` = percent(mean_shed, accuracy = 0.1),
+    `Increase vs no-MLR` = paste0(fmt_num(excess_pp, 1), " pp"),
+    `Baseline nights` = baseline_n,
+    `Positive-bin nights` = n
+  )
+
+kable(
+  endpoint_table,
+  booktabs = TRUE,
+  caption = "Highest-MLR-bin baseline-relative endpoint by window."
+)
+```
+
+# Full-Day ENS-Like Metric
+
+For the centered 24-hour window, the MLR sum can be read as an hourly energy-not-served proxy in MWh. The average centered 24-hour MLR burden in this selected sample is `r fmt_num(mwh$mean_daily_mlr_gwh[[1]], 2)` GWh and the maximum is `r fmt_num(mwh$max_daily_mlr_gwh[[1]], 2)` GWh.
+
+```{r mwh-table}
+mwh_table <- mwh %>%
+  filter(outcome %in% main_outcomes) %>%
+  transmute(
+    Outcome = outcome_label,
+    `Effect per +10 GWh MLR` = paste0(fmt_num(effect_pp_per_10_gwh, 2), " pp"),
+    `HAC SE` = paste0(fmt_num(se_pp_per_10_gwh, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3)
+  )
+
+kable(
+  mwh_table,
+  booktabs = TRUE,
+  caption = "Centered 24-hour MLR energy proxy models."
+)
+```
+
+# Interpretation
+
+The sensitivity supports the selected validation rather than undermining it. The strongest results remain near the nighttime overpass period, but the centered 24-hour window also explains a large share of variation in the VJ darkness outcomes.
+
+For the PyPSA-facing use case, the cautious interpretation is:
+
+> VJ-derived uptime is validated most directly against nighttime load reduction, but it also tracks same-day load-shedding burden over a centered 24-hour window. It can therefore be used as a spatial proxy for daily ENS intensity, while PyPSA or Eskom hourly profiles should provide the hourly allocation shape.
+
+This note should be treated as a sensitivity candidate for the main validation report, not as a replacement for the preferred `01:00-02:00` specification.

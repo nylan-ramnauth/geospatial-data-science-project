@@ -1,0 +1,671 @@
+---
+title: "VJ146A2 High p-lit Gate Sensitivity"
+subtitle: "Does the VJ/Eskom MLR signal survive looser not-up thresholds?"
+author: "Reliable Electrification Planning SA"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+    number_sections: false
+    fig_caption: true
+geometry: margin=0.72in
+fontsize: 10pt
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \captionsetup{font=small,labelfont=bf}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 7.4,
+  fig.height = 4.4,
+  dpi = 300,
+  dev = "png",
+  fig.pos = "H",
+  out.width = "100%",
+  fig.path = "../figures/vj146a2-high-p-lit-gate-sensitivity/"
+)
+
+suppressPackageStartupMessages({
+  library(arrow)
+  library(data.table)
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(lmtest)
+  library(patchwork)
+  library(scales)
+  library(sandwich)
+  library(sf)
+  library(tidyr)
+})
+
+sf::sf_use_s2(FALSE)
+data.table::setDTthreads(0L)
+
+find_repo_root <- function(start = getwd()) {
+  current <- normalizePath(start, mustWork = TRUE)
+  repeat {
+    if (
+      file.exists(file.path(current, ".here")) &&
+        dir.exists(file.path(current, "validation"))
+    ) {
+      return(current)
+    }
+    parent <- dirname(current)
+    if (identical(parent, current)) stop("Could not locate Reliability-Assessment repo root.")
+    current <- parent
+  }
+}
+
+codebase_path <- find_repo_root()
+data_path <- file.path(codebase_path, "validation", "eskom_mlr", "data")
+
+panel_dir <- file.path(codebase_path, "Map Data", "settlement_day_outputs_vj146a2")
+panel_files <- file.path(
+  panel_dir,
+  paste0("settlement_day_vj146a2_cov_yearlykeep_2023-", sprintf("%02d", 1:12), ".parquet")
+)
+yearly_stats_file <- file.path(
+  codebase_path,
+  "Map Data", "reliability_outputs_vj146a2",
+  "yearly_settlement_stats_2023.parquet"
+)
+sett_gpkg <- file.path(
+  codebase_path,
+  "Map Data", "Settlements", "GPKG",
+  "south_africa_dre_atlas_settlements_full_col.gpkg"
+)
+coverage_file <- file.path(
+  data_path,
+  "vj146a2_2023_demand_gate_coverage.csv"
+)
+flags_file <- file.path(
+  data_path,
+  "vj146a2_2023_annual_iqr_excess_lit_day_flags.csv"
+)
+
+stopifnot(
+  all(file.exists(panel_files)),
+  file.exists(yearly_stats_file),
+  file.exists(sett_gpkg),
+  file.exists(coverage_file),
+  file.exists(flags_file)
+)
+
+thresholds <- c(0.05, 0.20, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95)
+
+color_pop <- "#9B2D30"
+color_dem <- "#2D5F8A"
+color_fe <- "#6B6B6B"
+color_ref <- "#DDAA33"
+
+fmt_num <- function(x, digits = 2) {
+  ifelse(is.na(x), "", formatC(x, format = "f", digits = digits))
+}
+
+fmt_p <- function(p) {
+  ifelse(p < 0.001, formatC(p, format = "e", digits = 2), formatC(p, format = "f", digits = 4))
+}
+
+safe_weighted_mean <- function(x, w) {
+  idx <- is.finite(x) & is.finite(w) & w > 0
+  if (!any(idx)) return(NA_real_)
+  sum(x[idx] * w[idx]) / sum(w[idx])
+}
+
+fit_nw <- function(d, y, controls = character()) {
+  rhs <- c("shed_share_1_2am_primary", controls)
+  f <- as.formula(paste(y, "~", paste(rhs, collapse = " + ")))
+  sub <- d[is.finite(d[[y]]) & is.finite(d$shed_share_1_2am_primary), ]
+  fit <- lm(f, sub)
+  vc <- NeweyWest(fit, lag = 7, prewhite = FALSE, adjust = TRUE)
+  ct <- coeftest(fit, vcov. = vc)
+  term <- "shed_share_1_2am_primary"
+  est <- unname(ct[term, "Estimate"])
+  se <- unname(ct[term, "Std. Error"])
+  p <- unname(ct[term, "Pr(>|t|)"])
+  data.frame(
+    n = nobs(fit),
+    effect_pp_per_10pp = est * 10,
+    se_pp_per_10pp = se * 10,
+    ci_low_pp = (est - 1.96 * se) * 10,
+    ci_high_pp = (est + 1.96 * se) * 10,
+    p_value = p,
+    pearson_r = if (length(controls) == 0) {
+      cor(sub[[y]], sub$shed_share_1_2am_primary, use = "complete.obs")
+    } else {
+      NA_real_
+    },
+    r_squared = summary(fit)$r.squared,
+    adj_r_squared = summary(fit)$adj.r.squared,
+    mean_outcome = mean(sub[[y]], na.rm = TRUE),
+    sd_outcome = sd(sub[[y]], na.rm = TRUE),
+    stringsAsFactors = FALSE
+  )
+}
+```
+
+```{r reconstruct-outcomes}
+sett_static <- sf::st_read(sett_gpkg, quiet = TRUE) |>
+  sf::st_drop_geometry() |>
+  transmute(
+    settlement_id = as.character(settlement_id),
+    demand_weight = as.numeric(demand)
+  )
+
+yearly_keep <- arrow::read_parquet(yearly_stats_file) |>
+  transmute(
+    settlement_id = as.character(settlement_id),
+    population_yearly = as.numeric(population),
+    electrified_best_yearly = as.integer(electrified_best)
+  ) |>
+  filter(electrified_best_yearly == 1L)
+
+universe <- yearly_keep |>
+  left_join(sett_static, by = "settlement_id") |>
+  mutate(
+    in_all_demand_universe = is.finite(demand_weight) & demand_weight > 0,
+    in_validation_universe = in_all_demand_universe &
+      is.finite(population_yearly) &
+      population_yearly > 100
+  ) |>
+  select(settlement_id, population_yearly, demand_weight, in_validation_universe)
+
+panel <- data.table::rbindlist(lapply(panel_files, function(f) {
+  as.data.table(arrow::read_parquet(
+    f,
+    col_select = c("settlement_id", "date", "population", "p_lit_sett")
+  ))
+}), use.names = TRUE)
+
+panel[, settlement_id := as.character(settlement_id)]
+panel[, date := as.Date(date)]
+panel[, population := as.numeric(population)]
+panel[, p_lit_sett := as.numeric(p_lit_sett)]
+panel <- merge(panel, as.data.table(universe), by = "settlement_id", all.x = FALSE)
+panel <- panel[in_validation_universe == TRUE]
+panel[, population := data.table::fcoalesce(population, population_yearly)]
+panel <- panel[is.finite(p_lit_sett)]
+
+daily_list <- lapply(thresholds, function(th) {
+  suffix <- sprintf("%03d", as.integer(round(th * 100)))
+  panel[
+    ,
+    .(
+      popw = safe_weighted_mean(as.numeric(p_lit_sett < th), population),
+      demandw = safe_weighted_mean(as.numeric(p_lit_sett < th), demand_weight)
+    ),
+    by = date
+  ][, `:=`(threshold = th, threshold_suffix = suffix)]
+})
+
+daily_long <- data.table::rbindlist(daily_list, use.names = TRUE)
+daily_wide <- data.table::dcast(daily_long, date ~ threshold_suffix, value.var = c("popw", "demandw"))
+
+coverage <- read.csv(coverage_file, stringsAsFactors = FALSE) |>
+  mutate(
+    date = as.Date(date),
+    shed_share_1_2am_primary = mlr_sum_mwh_1_2am_primary / contracted_demand_sum_mwh_1_2am_primary,
+    month_fe = factor(format(date, "%Y-%m")),
+    dow_fe = factor(
+      weekdays(date),
+      levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    )
+  )
+
+flags <- read.csv(flags_file, stringsAsFactors = FALSE) |>
+  mutate(date = as.Date(date))
+
+removed_dates <- flags |>
+  filter(scenario == "annual_q3_plus_1p5_iqr", remove) |>
+  pull(date)
+
+analysis <- coverage |>
+  filter(gate_tier == "pass", !(date %in% removed_dates)) |>
+  left_join(as.data.frame(daily_wide), by = "date") |>
+  filter(is.finite(shed_share_1_2am_primary))
+
+sanity_checks <- data.frame(
+  metric = c("popw_005", "popw_020", "popw_040", "demandw_005", "demandw_020", "demandw_040"),
+  max_abs_diff = c(
+    max(abs(analysis$popw_005 - analysis$popw_strict_dark_share), na.rm = TRUE),
+    max(abs(analysis$popw_020 - analysis$popw_mostly_dark_share), na.rm = TRUE),
+    max(abs(analysis$popw_040 - analysis$popw_relaxed_dark_share), na.rm = TRUE),
+    max(abs(analysis$demandw_005 - analysis$demandw_strict_dark_share), na.rm = TRUE),
+    max(abs(analysis$demandw_020 - analysis$demandw_mostly_dark_share), na.rm = TRUE),
+    max(abs(analysis$demandw_040 - analysis$demandw_relaxed_dark_share), na.rm = TRUE)
+  )
+)
+
+results <- bind_rows(lapply(thresholds, function(th) {
+  suffix <- sprintf("%03d", as.integer(round(th * 100)))
+  bind_rows(
+    fit_nw(analysis, paste0("popw_", suffix)) |>
+      mutate(weighting = "Population", threshold = th, model = "Simple OLS + NW"),
+    fit_nw(analysis, paste0("demandw_", suffix)) |>
+      mutate(weighting = "Demand", threshold = th, model = "Simple OLS + NW"),
+    fit_nw(analysis, paste0("popw_", suffix), controls = c("month_fe", "dow_fe")) |>
+      mutate(weighting = "Population", threshold = th, model = "Month + DOW FE + NW"),
+    fit_nw(analysis, paste0("demandw_", suffix), controls = c("month_fe", "dow_fe")) |>
+      mutate(weighting = "Demand", threshold = th, model = "Month + DOW FE + NW")
+  )
+})) |>
+  mutate(
+    gate_label = sprintf("%.2f", threshold),
+    gate_factor = factor(gate_label, levels = sprintf("%.2f", thresholds))
+  )
+
+simple_results <- results |>
+  filter(model == "Simple OLS + NW")
+
+fe_results <- results |>
+  filter(model == "Month + DOW FE + NW")
+
+preferred_demand_040 <- simple_results |>
+  filter(weighting == "Demand", abs(threshold - 0.40) < 1e-9)
+
+settlement_panel <- merge(
+  panel,
+  as.data.table(analysis |> select(date, shed_share_1_2am_primary)),
+  by = "date",
+  all.x = FALSE
+)
+
+weighted_quantile <- function(x, w, probs) {
+  idx <- is.finite(x) & is.finite(w) & w > 0
+  x <- x[idx]
+  w <- w[idx]
+  if (length(x) == 0) return(rep(NA_real_, length(probs)))
+  ord <- order(x)
+  x <- x[ord]
+  w <- w[ord]
+  cw <- cumsum(w) / sum(w)
+  sapply(probs, function(p) x[which(cw >= p)[1]])
+}
+
+settlement_slope_one_threshold <- function(dt, threshold) {
+  dt[, y_tmp := as.numeric(p_lit_sett < threshold)]
+  out <- dt[
+    ,
+    {
+      ok <- is.finite(y_tmp) & is.finite(shed_share_1_2am_primary)
+      y <- y_tmp[ok]
+      x <- shed_share_1_2am_primary[ok]
+      n <- length(y)
+      pop <- population[which(!is.na(population))[1]]
+      dem <- demand_weight[which(!is.na(demand_weight))[1]]
+      if (n < 50 || !is.finite(stats::var(x)) || stats::var(x) <= 0) {
+        .(
+          n_obs = n,
+          population = pop,
+          demand_weight = dem,
+          slope_pp = NA_real_,
+          p_value = NA_real_,
+          constant_outcome = NA
+        )
+      } else if (length(unique(y)) <= 1) {
+        .(
+          n_obs = n,
+          population = pop,
+          demand_weight = dem,
+          slope_pp = 0,
+          p_value = NA_real_,
+          constant_outcome = TRUE
+        )
+      } else {
+        fit <- stats::lm(y ~ x)
+        co <- summary(fit)$coefficients
+        .(
+          n_obs = n,
+          population = pop,
+          demand_weight = dem,
+          slope_pp = unname(co["x", "Estimate"] * 10),
+          p_value = unname(co["x", "Pr(>|t|)"]),
+          constant_outcome = FALSE
+        )
+      }
+    },
+    by = settlement_id
+  ]
+  out[, threshold := threshold]
+  dt[, y_tmp := NULL]
+  out
+}
+
+settlement_slopes <- rbindlist(
+  lapply(thresholds, function(th) settlement_slope_one_threshold(settlement_panel, th)),
+  use.names = TRUE
+)
+
+settlement_slope_summary <- settlement_slopes[
+  is.finite(slope_pp),
+  {
+    wq <- weighted_quantile(slope_pp, population, c(0.10, 0.25, 0.50, 0.75, 0.90))
+    .(
+      settlements_estimable = .N,
+      population_estimable = sum(population, na.rm = TRUE),
+      unweighted_mean_slope_pp = mean(slope_pp, na.rm = TRUE),
+      population_weighted_mean_slope_pp = safe_weighted_mean(slope_pp, population),
+      median_slope_pp = median(slope_pp, na.rm = TRUE),
+      weighted_p10_slope_pp = wq[[1]],
+      weighted_p25_slope_pp = wq[[2]],
+      weighted_median_slope_pp = wq[[3]],
+      weighted_p75_slope_pp = wq[[4]],
+      weighted_p90_slope_pp = wq[[5]],
+      share_settlements_positive = mean(slope_pp > 0, na.rm = TRUE),
+      share_population_positive = safe_weighted_mean(as.numeric(slope_pp > 0), population),
+      share_settlements_sig_positive = mean(slope_pp > 0 & p_value < 0.05, na.rm = TRUE),
+      share_population_sig_positive = safe_weighted_mean(as.numeric(slope_pp > 0 & p_value < 0.05), population),
+      share_settlements_constant = mean(constant_outcome == TRUE, na.rm = TRUE),
+      share_population_constant = safe_weighted_mean(as.numeric(constant_outcome == TRUE), population)
+    )
+  },
+  by = threshold
+][
+  ,
+  gate_label := sprintf("%.2f", threshold)
+]
+
+selected_slope_gates <- c(0.05, 0.20, 0.40, 0.60, 0.80, 0.95)
+slope_plot_data <- settlement_slopes[
+  threshold %in% selected_slope_gates & is.finite(slope_pp)
+]
+slope_trim <- slope_plot_data[
+  ,
+  .(
+    lo = weighted_quantile(slope_pp, population, 0.01),
+    hi = weighted_quantile(slope_pp, population, 0.99)
+  ),
+  by = threshold
+]
+slope_plot_data <- merge(slope_plot_data, slope_trim, by = "threshold")
+slope_plot_data <- slope_plot_data[slope_pp >= lo & slope_pp <= hi]
+slope_plot_data[, gate_label := factor(sprintf("%.2f", threshold), levels = sprintf("%.2f", selected_slope_gates))]
+slope_mean_lines <- settlement_slope_summary[
+  threshold %in% selected_slope_gates,
+  .(threshold, gate_label = factor(sprintf("%.2f", threshold), levels = sprintf("%.2f", selected_slope_gates)), population_weighted_mean_slope_pp)
+]
+```
+
+# Purpose
+
+This report tests whether the VJ/Eskom validation signal weakens when the daily darkness/not-up gate is pushed above the current `p_lit < 0.40` threshold. The main report validates `0.05`, `0.20`, and `0.40`; this sensitivity adds `0.50`, `0.60`, `0.70`, `0.80`, `0.90`, and `0.95`.
+
+The setup follows the favored specification in [[validation/eskom_mlr/reports/2026-06-03-recommended-vj-eskom-validation-specification.Rmd]]:
+
+- standard sample: `gate_tier == "pass"`
+- annual-IQR excess-lit removal: `annual_q3_plus_1p5_iqr`
+- retained standard sample: `r nrow(analysis)` nights
+- regressor: `shed_share_1_2am_primary`
+- denominator: `sum(Eskom MLR from 01:00-02:00 SAST) / sum(RSA Contracted Demand from 01:00-02:00 SAST)`
+- inference: Newey-West HAC standard errors with 7-day lag
+
+The temporary reconstruction matches the main-report `0.05`, `0.20`, and `0.40` columns to numerical precision; the largest absolute difference is `r format(max(sanity_checks$max_abs_diff), scientific = TRUE, digits = 3)`.
+
+# Main Pattern
+
+```{r fit-degradation-plot, fig.cap="Validation fit degrades as the p-lit gate becomes too loose. R2 is strongest at low-to-moderate thresholds and falls sharply above 0.60, even though coefficient estimates remain positive."}
+plot_r2 <- ggplot(simple_results, aes(x = threshold, y = r_squared, color = weighting, group = weighting)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_y_continuous(labels = number_format(accuracy = 0.01), limits = c(0, NA)) +
+  scale_color_manual(values = c(Population = color_pop, Demand = color_dem)) +
+  labs(
+    title = "R2 falls after the validated not-up range",
+    subtitle = "Simple OLS + Newey-West; dashed line marks the current p_lit < 0.40 not-up proxy",
+    x = "Daily threshold: p_lit below gate",
+    y = "R2",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+
+plot_r <- ggplot(simple_results, aes(x = threshold, y = pearson_r, color = weighting, group = weighting)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_y_continuous(labels = number_format(accuracy = 0.01), limits = c(0, NA)) +
+  scale_color_manual(values = c(Population = color_pop, Demand = color_dem)) +
+  labs(
+    title = "Correlation also weakens at high gates",
+    subtitle = "The signal remains positive but becomes less specific to Eskom MLR",
+    x = "Daily threshold: p_lit below gate",
+    y = "Pearson r",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+
+plot_r2 / plot_r
+```
+
+The raw coefficient keeps rising because the outcome becomes broader. A `p_lit < 0.95` event mechanically includes all lower-threshold dark or not-up events plus many additional partial-lit states. Fit quality is the more informative diagnostic here: in the demand-weighted bridge, R2 is `r fmt_num(preferred_demand_040$r_squared, 3)` at `0.40`, but only `r fmt_num(simple_results$r_squared[simple_results$weighting == "Demand" & simple_results$threshold == 0.90], 3)` at `0.90` and `r fmt_num(simple_results$r_squared[simple_results$weighting == "Demand" & simple_results$threshold == 0.95], 3)` at `0.95`.
+
+```{r slope-prevalence-plot, fig.cap="Higher gates have larger raw percentage-point slopes because the outcome is more prevalent, but the increasing slope should not be read as a better validation metric."}
+plot_effect <- ggplot(simple_results, aes(x = threshold, y = effect_pp_per_10pp, color = weighting, group = weighting)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2.2) +
+  geom_errorbar(aes(ymin = ci_low_pp, ymax = ci_high_pp), width = 0.015, linewidth = 0.45, alpha = 0.75) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_color_manual(values = c(Population = color_pop, Demand = color_dem)) +
+  labs(
+    title = "Raw slopes rise with broader outcomes",
+    subtitle = "Effect is percentage-point change in threshold share for +10 pp Eskom MLR/contracted",
+    x = "Daily threshold: p_lit below gate",
+    y = "Effect per +10 pp MLR/contracted",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+
+plot_mean <- ggplot(simple_results, aes(x = threshold, y = mean_outcome, color = weighting, group = weighting)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_manual(values = c(Population = color_pop, Demand = color_dem)) +
+  labs(
+    title = "High gates are much more prevalent",
+    subtitle = "By 0.95, the metric is broad dimness rather than a clean not-up proxy",
+    x = "Daily threshold: p_lit below gate",
+    y = "Mean daily share",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+
+plot_effect / plot_mean
+```
+
+```{r fe-comparison-plot, fig.cap="The fixed-effects robustness keeps the same degradation pattern. R2 remains high near 0.40 and falls as the gate approaches 0.95."}
+fe_plot_data <- fe_results |>
+  mutate(weighting = factor(weighting, levels = c("Population", "Demand")))
+
+ggplot(fe_plot_data, aes(x = threshold, y = r_squared, color = weighting, group = weighting)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_y_continuous(labels = number_format(accuracy = 0.01), limits = c(0, NA)) +
+  scale_color_manual(values = c(Population = color_pop, Demand = color_dem)) +
+  labs(
+    title = "Month + DOW FE robustness: high gates still degrade",
+    subtitle = "The relationship is robust, but very high gates are less selective",
+    x = "Daily threshold: p_lit below gate",
+    y = "R2",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+```
+
+# Results
+
+```{r results-tables}
+table_simple <- simple_results |>
+  mutate(
+    Gate = sprintf("%.2f", threshold),
+    `Mean outcome` = percent(mean_outcome, accuracy = 0.01),
+    `Effect per +10pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW SE` = paste0(fmt_num(se_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3)
+  ) |>
+  select(Weighting = weighting, Gate, `Mean outcome`, `Effect per +10pp MLR`, `NW SE`, `NW 95% CI`, `p-value`, `Pearson r`, `R2`)
+
+kable(
+  table_simple,
+  booktabs = TRUE,
+  caption = "Simple OLS + Newey-West sensitivity by p-lit gate. The sample and regressor match the favored main-report specification."
+)
+```
+
+```{r fe-table}
+table_fe <- fe_results |>
+  mutate(
+    Gate = sprintf("%.2f", threshold),
+    `Mean outcome` = percent(mean_outcome, accuracy = 0.01),
+    `Effect per +10pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW SE` = paste0(fmt_num(se_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `R2` = fmt_num(r_squared, 3)
+  ) |>
+  select(Weighting = weighting, Gate, `Mean outcome`, `Effect per +10pp MLR`, `NW SE`, `NW 95% CI`, `p-value`, `R2`)
+
+kable(
+  table_fe,
+  booktabs = TRUE,
+  caption = "Month + day-of-week fixed-effects sensitivity by p-lit gate."
+)
+```
+
+# Settlement-Level Heterogeneity
+
+The aggregate threshold sensitivity can remain strong even when many individual settlements have no detectable response. To check whether the settlement-level picture changes as the gate increases, each settlement was separately regressed on the same 01:00-02:00 Eskom MLR share using the standard validation nights. Settlements with at least 50 observations are retained; constant-outcome settlements are assigned zero slopes, matching the convention used in the main report's heterogeneity table.
+
+```{r settlement-slope-summary-table}
+settlement_slope_table <- settlement_slope_summary |>
+  mutate(
+    Gate = sprintf("%.2f", threshold),
+    `Estimable settlements` = format(settlements_estimable, big.mark = ","),
+    `Weighted mean slope` = paste0(fmt_num(population_weighted_mean_slope_pp, 2), " pp"),
+    `Median slope` = paste0(fmt_num(median_slope_pp, 2), " pp"),
+    `Weighted median` = paste0(fmt_num(weighted_median_slope_pp, 2), " pp"),
+    `Population positive` = percent(share_population_positive, accuracy = 0.1),
+    `Population sig. positive` = percent(share_population_sig_positive, accuracy = 0.1),
+    `Population constant` = percent(share_population_constant, accuracy = 0.1)
+  ) |>
+  select(
+    Gate,
+    `Estimable settlements`,
+    `Weighted mean slope`,
+    `Median slope`,
+    `Weighted median`,
+    `Population positive`,
+    `Population sig. positive`,
+    `Population constant`
+  )
+
+kable(
+  settlement_slope_table,
+  booktabs = TRUE,
+  caption = "Per-settlement slope distribution across p-lit gates. Each settlement is separately regressed on Eskom MLR using standard validation nights with at least 50 observations. Constant-outcome settlements are retained with zero slopes."
+)
+```
+
+```{r settlement-slope-summary-plot, fig.cap="Settlement-level response broadens as the p-lit gate rises. The population-weighted mean slope increases through moderate gates, while the population share with positive slopes rises and the constant-outcome mass falls."}
+summary_long <- settlement_slope_summary |>
+  transmute(
+    threshold,
+    `Weighted mean slope` = population_weighted_mean_slope_pp,
+    `Population positive` = 100 * share_population_positive,
+    `Population significant positive` = 100 * share_population_sig_positive,
+    `Population constant outcome` = 100 * share_population_constant
+  ) |>
+  pivot_longer(-threshold, names_to = "metric", values_to = "value") |>
+  mutate(
+    panel = ifelse(metric == "Weighted mean slope", "Slope", "Population share"),
+    metric = factor(
+      metric,
+      levels = c("Weighted mean slope", "Population positive", "Population significant positive", "Population constant outcome")
+    )
+  )
+
+ggplot(summary_long, aes(x = threshold, y = value, color = metric, group = metric)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = color_ref, linewidth = 0.55) +
+  geom_line(linewidth = 0.85) +
+  geom_point(size = 2) +
+  facet_wrap(~ panel, scales = "free_y", ncol = 1) +
+  scale_x_continuous(breaks = thresholds, labels = sprintf("%.2f", thresholds)) +
+  scale_color_manual(values = c(
+    "Weighted mean slope" = "#9B2D30",
+    "Population positive" = "#2D5F8A",
+    "Population significant positive" = "#508C5A",
+    "Population constant outcome" = "#7A7A7A"
+  )) +
+  labs(
+    title = "Per-settlement response changes smoothly with the threshold",
+    subtitle = "Dashed line marks the preferred p-lit < 0.40 not-up proxy",
+    x = "Daily threshold: p-lit below gate",
+    y = NULL,
+    color = NULL
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(legend.position = "bottom")
+```
+
+```{r settlement-slope-distribution-plot, fig.cap="Population-weighted settlement-level slope distributions for selected gates. Histograms are trimmed to each gate's weighted 1st-99th percentile range; dashed lines show the population-weighted mean slope."}
+ggplot(slope_plot_data, aes(x = slope_pp, weight = population)) +
+  geom_histogram(bins = 42, fill = "#DDAA33", color = "white", linewidth = 0.15, alpha = 0.86) +
+  geom_vline(xintercept = 0, color = "#4B5563", linewidth = 0.4) +
+  geom_vline(
+    data = slope_mean_lines,
+    aes(xintercept = population_weighted_mean_slope_pp),
+    linetype = "dashed",
+    color = "#8C5A12",
+    linewidth = 0.65
+  ) +
+  facet_wrap(~ gate_label, scales = "free_x", ncol = 2) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(
+    title = "The zero-response mass shrinks as the gate becomes looser",
+    subtitle = "Higher gates pick up broader dimming responses, but they also become less specific in the aggregate validation",
+    x = "Settlement-level effect per +10 pp Eskom MLR",
+    y = "Population mass"
+  ) +
+  theme_minimal(base_size = 10)
+```
+
+The settlement-level graph does change with the gate. At low gates, a large population mass has zero slopes because many settlements are almost never classified strict or mostly dark. As the threshold rises, more settlements enter the response margin and the population-weighted mean slope increases. This helps explain why the aggregate validation remains stable through `0.50` and `0.60`: load reduction is moving many otherwise bright settlements into partial-not-up states, not only into full darkness.
+
+That does not mean the highest gates are better. The settlement-level response broadens, but the aggregate validation fit still deteriorates at very high gates. The high-gate distributions show more settlements responding, while the R2 plots above show that those responses are less specifically tied to Eskom MLR once the threshold approaches `0.90` or `0.95`.
+
+# Does This Undermine the Metric?
+
+No. It supports the interpretation of `p_lit < 0.40` as a practical broad not-up threshold.
+
+The high gates remain statistically significant, but the validation fit deteriorates strongly as the gate rises. That is exactly what we should expect if high gates increasingly include ordinary dim-but-serviceable or partially lit states. In the demand-weighted simple bridge, R2 falls from `r fmt_num(preferred_demand_040$r_squared, 3)` at `0.40` to `r fmt_num(simple_results$r_squared[simple_results$weighting == "Demand" & simple_results$threshold == 0.80], 3)` at `0.80`, `r fmt_num(simple_results$r_squared[simple_results$weighting == "Demand" & simple_results$threshold == 0.90], 3)` at `0.90`, and `r fmt_num(simple_results$r_squared[simple_results$weighting == "Demand" & simple_results$threshold == 0.95], 3)` at `0.95`.
+
+Therefore:
+
+- `p_lit < 0.05` remains the cleanest blackout-like signal.
+- `p_lit < 0.20` remains the mostly-dark sensitivity.
+- `p_lit < 0.40` remains defensible as the broad not-up / degraded-service proxy for PyPSA.
+- thresholds above `0.50` should not be used as the preferred ENS proxy, because they remain significant but become progressively less specific to load reduction.
+
+The validation signal is not fragile. The sensitivity shows a sensible degradation curve: strong at low-to-moderate gates, still present but increasingly diluted at very high gates.

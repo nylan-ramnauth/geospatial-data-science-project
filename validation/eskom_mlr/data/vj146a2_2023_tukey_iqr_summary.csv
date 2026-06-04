@@ -1,0 +1,7 @@
+method,scope,n_days,n_rmd_pass,rmd_pass_n,share_observed,share_rmd_pass,retained_rmd_pass
+monthly_tukey,excess_lit_only,22,17,280,0.0606060606060606,0.0607142857142857,263
+yearly_tukey,excess_lit_only,17,13,280,0.046831955922865,0.0464285714285714,267
+monthly_tukey,reason_style,78,62,280,0.214876033057851,0.221428571428571,218
+yearly_tukey,reason_style,67,55,280,0.184573002754821,0.196428571428571,225
+monthly_tukey,full_metric_set,78,62,280,0.214876033057851,0.221428571428571,218
+yearly_tukey,full_metric_set,67,55,280,0.184573002754821,0.196428571428571,225

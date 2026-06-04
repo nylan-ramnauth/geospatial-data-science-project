@@ -1,0 +1,612 @@
+---
+title: "VJ146A2 Night-Lights vs Eskom MLR Validation: Method Comparison"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: flatly
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8.8,
+  fig.height = 5.4,
+  dpi = 220,
+  fig.path = "../figures/vj-eskom-validation-method-comparison/"
+)
+
+suppressPackageStartupMessages({
+  library(arrow)
+  library(broom)
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(scales)
+  library(tidyr)
+})
+
+find_repo_root <- function(start = getwd()) {
+  current <- normalizePath(start, mustWork = TRUE)
+  repeat {
+    helper <- file.path(current, "validation", "scripts", "validation_paths.R")
+    if (file.exists(helper)) {
+      return(current)
+    }
+    parent <- dirname(current)
+    if (identical(parent, current)) {
+      stop("Could not locate Reliability-Assessment repository root from ", start)
+    }
+    current <- parent
+  }
+}
+
+codebase_path <- find_repo_root()
+source(file.path(codebase_path, "validation", "scripts", "validation_paths.R"))
+paths <- validation_paths("eskom_mlr", repo_root = codebase_path)
+
+vj_panel_dir <- file.path(codebase_path, "Map Data", "settlement_day_outputs_vj146a2")
+vnp_panel_dir <- file.path(codebase_path, "Map Data", "settlement_day_outputs_rasters_blackmarbler")
+
+out_vj <- file.path(vj_panel_dir, "mlr_validation_2023")
+out_demand50 <- paths$data_dir
+out_demand80 <- file.path(vj_panel_dir, "mlr_validation_demand_gate_2023")
+out_excess <- file.path(vj_panel_dir, "mlr_validation_excess_dark_2023")
+out_vnp <- file.path(vnp_panel_dir, "mlr_validation_2023")
+
+theme_pub <- function(base_size = 11) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      panel.grid.minor = element_blank(),
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold"),
+      legend.position = "bottom",
+      axis.title = element_text(color = "#222222")
+    )
+}
+
+fmt_num <- function(x, digits = 2) {
+  ifelse(is.na(x), NA_character_, formatC(as.numeric(x), digits = digits, format = "f"))
+}
+
+fmt_p <- function(x) {
+  ifelse(
+    is.na(x), NA_character_,
+    ifelse(as.numeric(x) < 0.001, formatC(as.numeric(x), digits = 2, format = "e"), fmt_num(x, 3))
+  )
+}
+
+safe_weighted_mean <- function(x, w) {
+  ok <- is.finite(x) & is.finite(w) & w > 0
+  if (!any(ok)) return(NA_real_)
+  weighted.mean(x[ok], w[ok])
+}
+
+auc_rank <- function(label, score) {
+  ok <- !is.na(label) & is.finite(score)
+  label <- as.integer(label[ok])
+  score <- score[ok]
+  n_pos <- sum(label == 1L)
+  n_neg <- sum(label == 0L)
+  if (n_pos == 0 || n_neg == 0) return(NA_real_)
+  ranks <- rank(score, ties.method = "average")
+  (sum(ranks[label == 1L]) - n_pos * (n_pos + 1) / 2) / (n_pos * n_neg)
+}
+
+model_metrics <- function(data, outcome, method, outcome_label,
+                          predictor = "shed_share_1_2am_primary",
+                          unit_label = "pp") {
+  sub <- data %>%
+    filter(is.finite(.data[[outcome]]), is.finite(.data[[predictor]]))
+
+  fit <- lm(as.formula(paste(outcome, "~", predictor)), data = sub)
+  sm <- summary(fit)
+  td <- broom::tidy(fit)
+  hit <- td[td$term == predictor, , drop = FALSE]
+  ci <- confint(fit)[predictor, ]
+  resid <- residuals(fit)
+
+  data.frame(
+    method = method,
+    outcome = outcome,
+    outcome_label = outcome_label,
+    n = nobs(fit),
+    effect_per_10pp = hit$estimate[[1]] * 10,
+    effect_se_per_10pp = hit$std.error[[1]] * 10,
+    conf_low_per_10pp = ci[[1]] * 10,
+    conf_high_per_10pp = ci[[2]] * 10,
+    p_value = hit$p.value[[1]],
+    pearson_r = cor(sub[[outcome]], sub[[predictor]]),
+    r_squared = sm$r.squared,
+    adj_r_squared = sm$adj.r.squared,
+    spearman_rho = suppressWarnings(cor(sub[[outcome]], sub[[predictor]], method = "spearman")),
+    auc_any_shed = auc_rank(sub$any_shed_1_2am, sub[[outcome]]),
+    rmse = sqrt(mean(resid^2)),
+    mae = mean(abs(resid)),
+    mean_outcome = mean(sub[[outcome]]),
+    mean_shed_share = mean(sub[[predictor]]),
+    min_shed_share = min(sub[[predictor]]),
+    max_shed_share = max(sub[[predictor]]),
+    unit_label = unit_label,
+    stringsAsFactors = FALSE
+  )
+}
+```
+
+## Executive Summary
+
+This report compares validation designs for the 2023 VJ146A2 night-time lights settlement panel against Eskom manual load reduction (MLR). The recommended validation headline is:
+
+```{r headline-equation, results='asis'}
+cat("`population-weighted binary darkness ~ Eskom shed share`, gated by demand-weighted observation support.")
+```
+
+The cleanest default uses VJ146A2, population-weighted strict and mostly-dark settlement shares, and a demand-weighted coverage gate. A settlement-night is counted as observed when at least 50 percent of its NTL footprint is valid, matching the existing pipeline-style coverage threshold. A national night passes the gate when observed settlement demand is at least 40 percent of the validation-universe demand.
+
+## Input Data
+
+```{r inputs}
+input_table <- data.frame(
+  Input = c(
+    "VJ146A2 settlement-day panel",
+    "VJ146A2 yearly keep list",
+    "Settlement demand weights",
+    "Eskom hourly validation signal",
+    "VNP46A2 baseline validation"
+  ),
+  Path = c(
+    "Map Data/settlement_day_outputs_vj146a2/settlement_day_vj146a2_cov_yearlykeep_2023-*.parquet",
+    "Map Data/reliability_outputs_vj146a2/yearly_settlement_stats_2023.parquet",
+    "Map Data/Settlements/GPKG/south_africa_dre_atlas_settlements_full_col.gpkg; field `demand`",
+    paths$eskom_hourly_csv,
+    "Map Data/settlement_day_outputs_rasters_blackmarbler/mlr_validation_2023/"
+  ),
+  Role = c(
+    "Daily settlement NTL observations and lit/dark shares",
+    "Defines VJ yearly-electrified settlement universe",
+    "Fixed demand weights for the observation-support gate",
+    "Ground-truth hourly MLR and contracted demand",
+    "Product sensitivity against VNP/blackmarbler"
+  )
+)
+
+kable(input_table, caption = "Primary input data used by this report.")
+```
+
+## Method
+
+### Eskom Exposure
+
+The primary Eskom exposure is the supply-normalized MLR share during the local VIIRS overpass window:
+
+\[
+\text{shed share}_{d} =
+\frac{\text{MLR MWh}_{d,01:00-02:00}}{\text{RSA contracted demand MWh}_{d,01:00-02:00}}
+\]
+
+VJ product date `D` is joined to Eskom local overpass date `D + 1`, matching the existing validation convention.
+
+### Regression
+
+For each daily national outcome \(y_d\), the validation regression is ordinary least squares:
+
+\[
+y_d = \alpha + \beta \cdot \text{shed share}_d + \epsilon_d
+\]
+
+Effects are reported as \(10\beta\): the outcome change associated with a 10 percentage-point increase in Eskom shed share. For binary darkness shares, the effect is in percentage points of population in dark settlements.
+
+### Recommended Gate
+
+The demand-weighted observation gate is:
+
+\[
+\text{observed demand share}_d =
+\frac{\sum_i \text{demand}_i \cdot 1(\text{settlement } i \text{ observed on } d)}
+{\sum_i \text{demand}_i}
+\]
+
+In the recommended default, a settlement is observed if its settlement-night coverage is at least 50 percent. A night passes the headline gate if observed demand share is at least 40 percent.
+
+```{r load-data}
+demand50 <- read.csv(file.path(out_demand50, "vj146a2_2023_demand_gate_coverage.csv"))
+demand80 <- read.csv(file.path(out_demand80, "vj146a2_2023_demand_gate_coverage.csv"))
+demand50_metrics_raw <- read.csv(file.path(out_demand50, "vj146a2_2023_demand_gate_validation_metrics.csv"))
+demand50_sweep <- read.csv(file.path(out_demand50, "vj146a2_2023_demand_gate_threshold_sweep.csv"))
+demand50_monthly <- read.csv(file.path(out_demand50, "vj146a2_2023_demand_gate_monthly_bias.csv"))
+demand50_universe <- read.csv(file.path(out_demand50, "vj146a2_2023_demand_gate_universe.csv"))
+excess_models <- read.csv(file.path(out_excess, "vj146a2_2023_excess_dark_models.csv"))
+vnp_ravi <- read.csv(file.path(out_vnp, "vnp46a2_2023_mlr_validation_ravi_style_table.csv"))
+
+demand50$date <- as.Date(demand50$date)
+demand80$date <- as.Date(demand80$date)
+
+demand50 <- demand50 %>%
+  mutate(any_shed_1_2am = ifelse(is.finite(shed_share_1_2am_primary) & shed_share_1_2am_primary > 0, 1L, 0L))
+demand80 <- demand80 %>%
+  mutate(any_shed_1_2am = ifelse(is.finite(shed_share_1_2am_primary) & shed_share_1_2am_primary > 0, 1L, 0L))
+```
+
+```{r recompute-flat-support}
+panel_files <- file.path(
+  vj_panel_dir,
+  paste0("settlement_day_vj146a2_cov_yearlykeep_2023-", sprintf("%02d", 1:12), ".parquet")
+)
+
+yearly_keep <- read_parquet(file.path(codebase_path, "Map Data", "reliability_outputs_vj146a2", "yearly_settlement_stats_2023.parquet")) %>%
+  mutate(
+    settlement_id = as.character(settlement_id),
+    population_yearly = as.numeric(population),
+    electrified_best_yearly = as.integer(electrified_best)
+  ) %>%
+  filter(electrified_best_yearly == 1L) %>%
+  select(settlement_id, population_yearly)
+
+sett_day <- bind_rows(lapply(panel_files, read_parquet)) %>%
+  mutate(
+    settlement_id = as.character(settlement_id),
+    date = as.Date(date),
+    population = as.numeric(population),
+    p_lit_sett = as.numeric(p_lit_sett),
+    strict_dark = p_lit_sett < 0.05,
+    mostly_dark = p_lit_sett < 0.20
+  ) %>%
+  inner_join(yearly_keep, by = "settlement_id") %>%
+  mutate(population = coalesce(population, population_yearly))
+
+total_settlements <- n_distinct(sett_day$settlement_id)
+threshold50 <- ceiling(0.50 * total_settlements)
+threshold75 <- ceiling(0.75 * total_settlements)
+
+ravi_daily_exact <- sett_day %>%
+  group_by(date) %>%
+  summarise(
+    n_settlements = n(),
+    n_settlements_pop_gt100 = sum(is.finite(population) & population > 100 & is.finite(p_lit_sett), na.rm = TRUE),
+    population_pop_gt100 = sum(population[is.finite(population) & population > 100 & is.finite(p_lit_sett)], na.rm = TRUE),
+    popw_strict_dark_share = safe_weighted_mean(
+      as.numeric(strict_dark[is.finite(population) & population > 100 & is.finite(p_lit_sett)]),
+      population[is.finite(population) & population > 100 & is.finite(p_lit_sett)]
+    ),
+    popw_mostly_dark_share = safe_weighted_mean(
+      as.numeric(mostly_dark[is.finite(population) & population > 100 & is.finite(p_lit_sett)]),
+      population[is.finite(population) & population > 100 & is.finite(p_lit_sett)]
+    ),
+    .groups = "drop"
+  )
+
+eskom_daily <- demand50 %>%
+  select(date, shed_share_1_2am_primary) %>%
+  distinct()
+
+ravi_daily_exact <- ravi_daily_exact %>%
+  left_join(eskom_daily, by = "date") %>%
+  mutate(any_shed_1_2am = ifelse(is.finite(shed_share_1_2am_primary) & shed_share_1_2am_primary > 0, 1L, 0L))
+```
+
+```{r build-results}
+outcome_def <- data.frame(
+  outcome = c("popw_strict_dark_share", "popw_mostly_dark_share"),
+  outcome_label = c("Strict dark: p_lit < 0.05", "Mostly dark: p_lit < 0.20")
+)
+
+fit_two <- function(data, method) {
+  bind_rows(lapply(seq_len(nrow(outcome_def)), function(i) {
+    model_metrics(data, outcome_def$outcome[[i]], method, outcome_def$outcome_label[[i]], unit_label = "pp")
+  }))
+}
+
+method_results <- bind_rows(
+  fit_two(ravi_daily_exact, "VJ ungated"),
+  fit_two(filter(ravi_daily_exact, n_settlements >= threshold50), "Flat gate: >=50% settlements observed"),
+  fit_two(filter(ravi_daily_exact, n_settlements >= threshold75), "Flat gate: >=75% settlements observed"),
+  fit_two(filter(demand50, gate_tier == "pass"), "Demand gate: T=40%, coverage>=50%"),
+  fit_two(filter(demand80, gate_tier == "pass"), "Demand gate: T=40%, coverage>=80%")
+)
+
+vnp_results <- vnp_ravi %>%
+  filter(model_type == "ravi_continuous_shed_share") %>%
+  transmute(
+    method = "VNP baseline",
+    outcome = outcome,
+    outcome_label = case_when(
+      outcome == "popw_strict_dark_share" ~ "Strict dark: p_lit < 0.05",
+      outcome == "popw_mostly_dark_share" ~ "Mostly dark: p_lit < 0.20",
+      TRUE ~ outcome
+    ),
+    n = n,
+    effect_per_10pp = effect_pp,
+    effect_se_per_10pp = NA_real_,
+    conf_low_per_10pp = conf_low_pp,
+    conf_high_per_10pp = conf_high_pp,
+    p_value = p_value,
+    pearson_r = sign(estimate) * sqrt(r_squared),
+    r_squared = r_squared,
+    adj_r_squared = NA_real_,
+    spearman_rho = NA_real_,
+    auc_any_shed = NA_real_,
+    rmse = NA_real_,
+    mae = NA_real_,
+    mean_outcome = NA_real_,
+    mean_shed_share = NA_real_,
+    min_shed_share = NA_real_,
+    max_shed_share = NA_real_,
+    unit_label = "pp"
+  )
+
+method_results <- bind_rows(method_results, vnp_results) %>%
+  mutate(
+    method = factor(
+      method,
+      levels = c(
+        "VNP baseline",
+        "VJ ungated",
+        "Flat gate: >=50% settlements observed",
+        "Flat gate: >=75% settlements observed",
+        "Demand gate: T=40%, coverage>=50%",
+        "Demand gate: T=40%, coverage>=80%"
+      )
+    ),
+    outcome_label = factor(outcome_label, levels = c("Strict dark: p_lit < 0.05", "Mostly dark: p_lit < 0.20"))
+  )
+
+recommended_results <- method_results %>%
+  filter(method == "Demand gate: T=40%, coverage>=50%")
+```
+
+## Headline Results
+
+```{r headline-table}
+headline_table <- recommended_results %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    `N nights` = n,
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3),
+    `Spearman rho` = fmt_num(spearman_rho, 3),
+    `AUC any shedding` = fmt_num(auc_any_shed, 3),
+    `Effect per 10 pp shed` = paste0(fmt_num(effect_per_10pp, 2), " pp"),
+    `Std. error` = paste0(fmt_num(effect_se_per_10pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(conf_low_per_10pp, 2), " to ", fmt_num(conf_high_per_10pp, 2), " pp"),
+    `p-value` = fmt_p(p_value),
+    `RMSE` = paste0(fmt_num(rmse * 100, 2), " pp"),
+    `MAE` = paste0(fmt_num(mae * 100, 2), " pp")
+  )
+
+kable(headline_table, caption = "Recommended VJ demand-gated validation results.")
+```
+
+The gate keeps `r recommended_results$n[[1]]` matched nights out of `r nrow(filter(ravi_daily_exact, is.finite(shed_share_1_2am_primary)))`. The effect sizes remain close to the ungated estimates while the fit improves, which is the desired behavior for a confidence gate.
+
+## Method Comparison
+
+```{r comparison-table}
+comparison_table <- method_results %>%
+  transmute(
+    Method = as.character(method),
+    Outcome = as.character(outcome_label),
+    `N` = n,
+    `Effect per 10 pp` = fmt_num(effect_per_10pp, 2),
+    `95% CI` = ifelse(
+      is.na(conf_low_per_10pp),
+      "",
+      paste0(fmt_num(conf_low_per_10pp, 2), " to ", fmt_num(conf_high_per_10pp, 2))
+    ),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3),
+    `p-value` = fmt_p(p_value)
+  )
+
+kable(comparison_table, caption = "Comparison of product, flat support, and demand-weighted support validation approaches.")
+```
+
+```{r method-r2-plot, fig.cap="Model fit across validation approaches. Demand-weighted coverage gating improves fit without relying on a flat count of settlement rows."}
+ggplot(method_results, aes(x = method, y = r_squared, fill = outcome_label)) +
+  geom_col(position = position_dodge(width = 0.72), width = 0.62) +
+  coord_flip() +
+  scale_y_continuous(labels = number_format(accuracy = 0.01), limits = c(0, NA)) +
+  scale_fill_manual(values = c("Strict dark: p_lit < 0.05" = "#2B6CB0", "Mostly dark: p_lit < 0.20" = "#D95F0E")) +
+  labs(
+    title = "Demand-weighted gating gives the cleanest VJ validation fit",
+    x = NULL,
+    y = expression(R^2),
+    fill = NULL
+  ) +
+  theme_pub()
+```
+
+```{r method-effect-plot, fig.cap="Effect size comparison. Effects are percentage-point changes in population-weighted dark share for a 10 percentage-point increase in Eskom shed share."}
+plot_effects <- method_results %>%
+  filter(method != "VNP baseline" | !is.na(conf_low_per_10pp))
+
+ggplot(plot_effects, aes(x = effect_per_10pp, y = method, color = outcome_label)) +
+  geom_vline(xintercept = 0, color = "#999999", linewidth = 0.3) +
+  geom_errorbarh(aes(xmin = conf_low_per_10pp, xmax = conf_high_per_10pp), height = 0.18, position = position_dodge(width = 0.55)) +
+  geom_point(size = 2.3, position = position_dodge(width = 0.55)) +
+  scale_color_manual(values = c("Strict dark: p_lit < 0.05" = "#2B6CB0", "Mostly dark: p_lit < 0.20" = "#D95F0E")) +
+  labs(
+    title = "Estimated Eskom MLR association is stable across gates",
+    x = "Effect per 10 pp shed share (percentage points)",
+    y = NULL,
+    color = NULL
+  ) +
+  theme_pub()
+```
+
+## Recommended Regression Plot
+
+```{r recommended-scatter, fig.cap="Recommended demand-gated validation scatter. Each point is a VJ product-date night passing the demand-weighted observation gate."}
+scatter_data <- demand50 %>%
+  filter(gate_tier == "pass", is.finite(shed_share_1_2am_primary)) %>%
+  select(date, shed_share_1_2am_primary, popw_strict_dark_share, popw_mostly_dark_share) %>%
+  pivot_longer(
+    c(popw_strict_dark_share, popw_mostly_dark_share),
+    names_to = "outcome",
+    values_to = "dark_share"
+  ) %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark: p_lit < 0.05",
+      popw_mostly_dark_share = "Mostly dark: p_lit < 0.20"
+    )
+  )
+
+ggplot(scatter_data, aes(x = shed_share_1_2am_primary, y = dark_share, color = outcome_label)) +
+  geom_point(alpha = 0.72, size = 1.7) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.65, color = "#222222") +
+  facet_wrap(~ outcome_label, ncol = 2, scales = "free_y") +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_manual(values = c("Strict dark: p_lit < 0.05" = "#2B6CB0", "Mostly dark: p_lit < 0.20" = "#D95F0E")) +
+  labs(
+    title = "High-confidence nights show a strong Eskom MLR relationship",
+    x = "Eskom MLR shed share, 01:00-02:00 SAST",
+    y = "Population-weighted dark share",
+    color = NULL
+  ) +
+  theme_pub() +
+  theme(legend.position = "none")
+```
+
+## Demand Gate Threshold Sweep
+
+```{r sweep-plot, fig.cap="Threshold sweep for the recommended demand gate. Higher thresholds improve fit but reduce sample size; 40 percent keeps most nights while improving the headline fit."}
+sweep_plot <- demand50_sweep %>%
+  filter(outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share", "demandw_down_only_z")) %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark",
+      popw_mostly_dark_share = "Mostly dark",
+      demandw_down_only_z = "Down-only radiance z"
+    )
+  )
+
+ggplot(sweep_plot, aes(x = threshold, y = r_squared, color = outcome_label)) +
+  geom_vline(xintercept = 0.40, linetype = "dashed", color = "#444444", linewidth = 0.4) +
+  geom_line(linewidth = 0.75) +
+  geom_point(aes(size = n), alpha = 0.82) +
+  scale_x_continuous(labels = percent_format(accuracy = 1), breaks = seq(0, 1, 0.1)) +
+  scale_y_continuous(labels = number_format(accuracy = 0.01), limits = c(0, NA)) +
+  scale_color_manual(values = c("Strict dark" = "#2B6CB0", "Mostly dark" = "#D95F0E", "Down-only radiance z" = "#4D9221")) +
+  scale_size_continuous(range = c(1.4, 5.2), name = "N nights") +
+  labs(
+    title = "Demand-gate sweep: binary darkness improves; radiance z remains weak",
+    x = "Minimum observed demand share",
+    y = expression(R^2),
+    color = NULL
+  ) +
+  theme_pub()
+```
+
+```{r sweep-table}
+sweep_table <- demand50_sweep %>%
+  filter(outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share", "demandw_down_only_z"),
+         threshold %in% c(0.00, 0.20, 0.40, 0.60, 0.80)) %>%
+  mutate(
+    Outcome = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark",
+      popw_mostly_dark_share = "Mostly dark",
+      demandw_down_only_z = "Down-only z"
+    )
+  ) %>%
+  transmute(
+    Outcome,
+    `Threshold` = percent(threshold, accuracy = 1),
+    `N` = n,
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3),
+    `AUC any shedding` = fmt_num(auc_any_shed, 3)
+  )
+
+kable(sweep_table, caption = "Selected threshold sweep points for the demand gate with settlement coverage >=50%.")
+```
+
+## Seasonal Selection Check
+
+```{r monthly-plot, fig.cap="Monthly selection induced by the recommended demand gate. Wet/summer months are more likely to be dropped and must be reported with the headline."}
+monthly_long <- demand50_monthly %>%
+  select(month, pass, low_confidence, fail) %>%
+  pivot_longer(c(pass, low_confidence, fail), names_to = "tier", values_to = "nights") %>%
+  mutate(tier = factor(tier, levels = c("pass", "low_confidence", "fail")))
+
+ggplot(monthly_long, aes(x = month, y = nights, fill = tier)) +
+  geom_col(width = 0.72) +
+  scale_fill_manual(values = c(pass = "#2B8CBE", low_confidence = "#FEC44F", fail = "#D95F0E")) +
+  labs(
+    title = "Demand gate is not season-neutral",
+    x = NULL,
+    y = "Product-date nights",
+    fill = NULL
+  ) +
+  theme_pub() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r monthly-table}
+monthly_table <- demand50_monthly %>%
+  transmute(
+    Month = month,
+    `Total nights` = total_nights,
+    Pass = pass,
+    `Low confidence` = low_confidence,
+    Fail = fail,
+    Dropped = dropped,
+    `Dropped share` = percent(dropped_share, accuracy = 0.1),
+    `Mean observed demand share` = percent(mean_gate_demand_share, accuracy = 0.1)
+  )
+
+kable(monthly_table, caption = "Monthly pass/drop table for the recommended demand gate.")
+```
+
+## Alternative Metrics
+
+```{r alternative-metrics}
+excess_headline <- excess_models %>%
+  filter(
+    outcome == "popw_excess_dark",
+    predictor == "shed_share_product_date_plus1_primary",
+    model_group == "alignment"
+  ) %>%
+  transmute(
+    Metric = "Excess darkness vs no-MLR baseline",
+    Sample = "No-control VJ sensitivity",
+    N = n,
+    `Effect per 10 pp` = fmt_num(effect_pp_per_10pp_shed, 2),
+    `95% CI` = paste0(fmt_num(conf_low_pp_per_10pp_shed, 2), " to ", fmt_num(conf_high_pp_per_10pp_shed, 2)),
+    `Pearson r` = fmt_num(r, 3),
+    `R2` = fmt_num(r_squared, 3),
+    `p-value` = fmt_p(p_value)
+  )
+
+down_only_rows <- bind_rows(
+  model_metrics(demand50, "demandw_down_only_z", "Down-only z ungated", "Demand-weighted down-only z", unit_label = "z"),
+  model_metrics(filter(demand50, gate_tier == "pass"), "demandw_down_only_z", "Down-only z demand-gated", "Demand-weighted down-only z", unit_label = "z")
+) %>%
+  transmute(
+    Metric = "Monthly median-radiance down-only z-score",
+    Sample = method,
+    N = n,
+    `Effect per 10 pp` = fmt_num(effect_per_10pp, 2),
+    `95% CI` = paste0(fmt_num(conf_low_per_10pp, 2), " to ", fmt_num(conf_high_per_10pp, 2)),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R2` = fmt_num(r_squared, 3),
+    `p-value` = fmt_p(p_value)
+  )
+
+alternative_table <- bind_rows(excess_headline, down_only_rows)
+kable(alternative_table, caption = "Alternative metric checks. These are useful sensitivities but weaker than the binary-darkness headline.")
+```
+
+## Conclusion
+
+The most rigorous current validation headline is VJ146A2 with population-weighted binary darkness and a demand-weighted observation gate. The gate improves model fit while keeping the estimated effect size stable, which suggests it is removing noisy low-observation nights rather than manufacturing the result.
+
+The flat 50 percent and 75 percent settlement-count filters are useful diagnostics, but they are less principled because they weight small rural settlements and large metros equally. The excess-darkness metric is conceptually attractive but much weaker in a simple no-control daily regression. The down-only radiance z-score remains too weak for the main validation headline. VNP validates positively, but VJ remains the stronger product for this use case.

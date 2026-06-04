@@ -1,0 +1,4 @@
+exposure,hours_relative_to_local_overpass_date,interpretation
+01:00-02:00 preferred,1,Selected overpass-hour exposure used in the recommended report.
+23:00-03:00 centered 4h,"-1,0,1,2","Whole-hour 4-hour sensitivity around the overpass hour, using 23:00 previous day through 02:00 on local_overpass_date."
+13:00-13:00 centered 24h,"-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12","Whole-hour 24-hour sensitivity around the nighttime period, using 13:00 previous day through 12:00 on local_overpass_date."

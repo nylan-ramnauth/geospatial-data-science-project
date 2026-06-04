@@ -1,0 +1,5 @@
+"threshold","n_vj_observation_days","total_strict_dark_events_filtered","total_mostly_dark_events_filtered","max_daily_strict_dark_events_filtered","max_daily_mostly_dark_events_filtered","total_population_strict_dark_filtered","total_population_mostly_dark_filtered","total_strict_dark_events_unfiltered","total_mostly_dark_events_unfiltered"
+5000,30,117,185,28,42,1583921,3213138,186,280
+10000,30,60,111,14,24,1176056,2681805,95,159
+50000,30,1,8,1,3,56096,646901,2,13
+100000,30,0,1,0,1,0,173115,0,3

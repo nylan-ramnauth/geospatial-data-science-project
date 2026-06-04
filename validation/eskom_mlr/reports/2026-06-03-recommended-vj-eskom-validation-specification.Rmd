@@ -1,0 +1,2484 @@
+---
+title: "Recommended VJ146A2 Eskom MLR Validation Specification"
+subtitle: "Demand-gated and annual excess-lit-screened population-weighted binary darkness, South Africa 2023"
+author: "Reliable Electrification Planning SA"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+    number_sections: false
+    fig_caption: true
+geometry: margin=0.68in
+fontsize: 10pt
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \usepackage{xcolor}
+  - \captionsetup{font=small,labelfont=bf}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 7.2,
+  fig.height = 4.35,
+  dpi = 300,
+  dev = "png",
+  fig.pos = "H",
+  out.width = "100%",
+  fig.path = "../figures/recommended-vj-eskom-validation/"
+)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(lmtest)
+  library(patchwork)
+  library(scales)
+  library(sandwich)
+  library(tidyr)
+})
+
+find_repo_root <- function(start = getwd()) {
+  current <- normalizePath(start, mustWork = TRUE)
+  repeat {
+    if (
+      file.exists(file.path(current, ".here")) &&
+        dir.exists(file.path(current, "validation"))
+    ) {
+      return(current)
+    }
+    parent <- dirname(current)
+    if (identical(parent, current)) stop("Could not locate Reliability-Assessment repo root.")
+    current <- parent
+  }
+}
+
+codebase_path <- find_repo_root()
+validation_path <- file.path(codebase_path, "validation")
+section_path <- file.path(validation_path, "eskom_mlr")
+data_path <- file.path(section_path, "data")
+reports_path <- file.path(section_path, "reports")
+figures_path <- file.path(section_path, "figures")
+
+coverage_file <- file.path(data_path, "vj146a2_2023_demand_gate_coverage.csv")
+monthly_file <- file.path(data_path, "vj146a2_2023_demand_gate_monthly_bias.csv")
+universe_file <- file.path(data_path, "vj146a2_2023_demand_gate_universe.csv")
+autocorr_summary_file <- file.path(data_path, "vj146a2_2023_autocorr_robustness_summary.csv")
+autocorr_hac_file <- file.path(data_path, "vj146a2_2023_hac_lag_sensitivity.csv")
+autocorr_block_file <- file.path(data_path, "vj146a2_2023_block_permutation_placebo.csv")
+autocorr_circular_file <- file.path(data_path, "vj146a2_2023_circular_shift_placebo.csv")
+autocorr_mlr_acf_file <- file.path(data_path, "vj146a2_2023_mlr_autocorrelation.csv")
+settlement_slope_summary_file <- file.path(data_path, "vj146a2_2023_per_settlement_slope_summary.csv")
+settlement_slope_fig_file <- file.path(figures_path, "generated", "vj146a2_per_settlement_slope_distribution.png")
+settlement_ladder_fe_file <- file.path(data_path, "vj146a2_2023_settlement_ladder_fe_results.csv")
+settlement_ladder_slope_file <- file.path(data_path, "vj146a2_2023_settlement_ladder_slope_summary.csv")
+settlement_ladder_bin_file <- file.path(data_path, "vj146a2_2023_settlement_ladder_population_bin_summary.csv")
+settlement_ladder_sample_file <- file.path(data_path, "vj146a2_2023_settlement_ladder_sample_summary.csv")
+national_dimming_daily_file <- file.path(data_path, "vj146a2_2023_national_dimming_daily.csv")
+national_dimming_metrics_file <- file.path(data_path, "vj146a2_2023_national_dimming_validation_metrics.csv")
+national_dimming_fe_file <- file.path(data_path, "vj146a2_2023_national_dimming_fe_robustness.csv")
+national_dimming_quartile_file <- file.path(data_path, "vj146a2_2023_national_dimming_extreme_quartile.csv")
+national_dimming_bins_file <- file.path(data_path, "vj146a2_2023_national_dimming_dose_response_bins.csv")
+national_dimming_baseline_file <- file.path(data_path, "vj146a2_2023_national_dimming_baseline_sources.csv")
+annual_iqr_counts_file <- file.path(data_path, "vj146a2_2023_annual_iqr_excess_lit_removal_counts.csv")
+annual_iqr_headline_file <- file.path(data_path, "vj146a2_2023_annual_iqr_excess_lit_eskom_headline_validation.csv")
+annual_iqr_fe_file <- file.path(data_path, "vj146a2_2023_annual_iqr_excess_lit_eskom_fe_validation.csv")
+annual_iqr_flags_file <- file.path(data_path, "vj146a2_2023_annual_iqr_excess_lit_day_flags.csv")
+excess_lit_definition_note <- file.path(reports_path, "2026-06-04-vj146a2-national-excess-lit-qa-definition.md")
+stage_summary_file <- file.path(data_path, "vj146a2_2023_stage_binned_mlr_stage_summary.csv")
+stage_ordinal_file <- file.path(data_path, "vj146a2_2023_stage_binned_mlr_ordinal_regression.csv")
+stage_ordinal_fe_file <- file.path(data_path, "vj146a2_2023_stage_binned_mlr_ordinal_fe_regression.csv")
+stage_categorical_file <- file.path(data_path, "vj146a2_2023_stage_binned_mlr_categorical_regression.csv")
+
+stopifnot(file.exists(coverage_file), file.exists(monthly_file), file.exists(universe_file))
+stopifnot(
+  file.exists(autocorr_summary_file),
+  file.exists(autocorr_hac_file),
+  file.exists(autocorr_block_file),
+  file.exists(autocorr_circular_file),
+  file.exists(autocorr_mlr_acf_file),
+  file.exists(settlement_slope_summary_file),
+  file.exists(settlement_slope_fig_file),
+  file.exists(settlement_ladder_fe_file),
+  file.exists(settlement_ladder_slope_file),
+  file.exists(settlement_ladder_bin_file),
+  file.exists(settlement_ladder_sample_file),
+  file.exists(national_dimming_daily_file),
+  file.exists(national_dimming_metrics_file),
+  file.exists(national_dimming_fe_file),
+  file.exists(national_dimming_quartile_file),
+  file.exists(national_dimming_bins_file),
+  file.exists(national_dimming_baseline_file),
+  file.exists(annual_iqr_counts_file),
+  file.exists(annual_iqr_headline_file),
+  file.exists(annual_iqr_fe_file),
+  file.exists(annual_iqr_flags_file),
+  file.exists(excess_lit_definition_note),
+  file.exists(stage_summary_file),
+  file.exists(stage_ordinal_file),
+  file.exists(stage_ordinal_fe_file),
+  file.exists(stage_categorical_file)
+)
+
+theme_report <- function(base_size = 10.5) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      panel.grid.minor = element_blank(),
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", size = base_size + 2),
+      plot.subtitle = element_text(color = "#4A5568"),
+      axis.title = element_text(color = "#2D3748"),
+      axis.text = element_text(color = "#2D3748"),
+      legend.position = "bottom",
+      legend.title = element_blank()
+    )
+}
+
+z_score <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / stats::sd(x, na.rm = TRUE)
+}
+
+color_eskom <- "#1A1A1A"
+color_strict <- "#B22222"
+color_mostly <- "#E69F00"
+color_relaxed <- "#2B8CBE"
+
+fmt_num <- function(x, digits = 2) formatC(as.numeric(x), digits = digits, format = "f")
+safe_ratio <- function(num, den) {
+  ifelse(is.finite(num) & is.finite(den) & den > 0, num / den, NA_real_)
+}
+fmt_p <- function(x) {
+  ifelse(
+    is.na(x), NA_character_,
+    ifelse(as.numeric(x) < 0.001, formatC(as.numeric(x), digits = 2, format = "e"), fmt_num(x, 3))
+  )
+}
+
+fmt_p_pub <- function(x) {
+  ifelse(
+    is.na(x), NA_character_,
+    ifelse(
+      as.numeric(x) < 0.01, "p < 0.01",
+      ifelse(
+        as.numeric(x) < 0.05, "p < 0.05",
+        ifelse(as.numeric(x) < 0.10, "p < 0.10", paste0("p = ", fmt_num(x, 2)))
+      )
+    )
+  )
+}
+
+auc_rank <- function(label, score) {
+  ok <- !is.na(label) & is.finite(score)
+  label <- as.integer(label[ok])
+  score <- score[ok]
+  n_pos <- sum(label == 1L)
+  n_neg <- sum(label == 0L)
+  if (n_pos == 0 || n_neg == 0) return(NA_real_)
+  ranks <- rank(score, ties.method = "average")
+  (sum(ranks[label == 1L]) - n_pos * (n_pos + 1) / 2) / (n_pos * n_neg)
+}
+
+fit_metrics <- function(data, outcome, label) {
+  sub <- data %>%
+    filter(is.finite(.data[[outcome]]), is.finite(shed_share_1_2am_primary))
+
+  fit <- lm(as.formula(paste(outcome, "~ shed_share_1_2am_primary")), data = sub)
+  sm <- summary(fit)
+  nw_lag <- 7L
+  robust_vcov <- NeweyWest(fit, lag = nw_lag, prewhite = FALSE, adjust = TRUE)
+  robust_test <- coeftest(fit, vcov. = robust_vcov)
+  coef_row <- robust_test["shed_share_1_2am_primary", ]
+  robust_se <- coef_row[["Std. Error"]]
+  ci <- unname(coef(fit)["shed_share_1_2am_primary"] + c(-1, 1) * stats::qnorm(0.975) * robust_se)
+  resid <- residuals(fit)
+
+  data.frame(
+    outcome = outcome,
+    outcome_label = label,
+    n = nobs(fit),
+    se_type = "Newey-West HAC",
+    nw_lag = nw_lag,
+    intercept = unname(coef(fit)[1]),
+    slope = unname(coef(fit)[2]),
+    effect_pp_per_10pp = unname(coef(fit)[2]) * 10,
+    effect_se_pp_per_10pp = robust_se * 10,
+    ci_low_pp = ci[[1]] * 10,
+    ci_high_pp = ci[[2]] * 10,
+    t_stat = coef_row[["t value"]],
+    p_value = coef_row[["Pr(>|t|)"]],
+    conventional_se_pp_per_10pp = sm$coefficients["shed_share_1_2am_primary", "Std. Error"] * 10,
+    bp_p_value = bptest(fit)$p.value,
+    dw_p_value = dwtest(fit)$p.value,
+    pearson_r = cor(sub[[outcome]], sub$shed_share_1_2am_primary),
+    r_squared = sm$r.squared,
+    adj_r_squared = sm$adj.r.squared,
+    spearman_rho = suppressWarnings(cor(sub[[outcome]], sub$shed_share_1_2am_primary, method = "spearman")),
+    auc_any_shed = auc_rank(sub$any_shed_1_2am, sub[[outcome]]),
+    residual_se_pp = sm$sigma * 100,
+    rmse_pp = sqrt(mean(resid^2)) * 100,
+    mae_pp = mean(abs(resid)) * 100,
+    mean_outcome_pp = mean(sub[[outcome]]) * 100,
+    mean_shed_share = mean(sub$shed_share_1_2am_primary),
+    min_shed_share = min(sub$shed_share_1_2am_primary),
+    max_shed_share = max(sub$shed_share_1_2am_primary),
+    stringsAsFactors = FALSE
+  )
+}
+
+fit_nw_slope <- function(data, outcome, predictor = "shed_share_1_2am_primary", controls = NULL, nw_lag = 7L) {
+  needed <- c(outcome, predictor, controls)
+  sub <- data %>%
+    filter(if_all(all_of(needed), ~ !is.na(.x))) %>%
+    filter(is.finite(.data[[outcome]]), is.finite(.data[[predictor]]))
+  if (nrow(sub) < 30 || stats::sd(sub[[predictor]], na.rm = TRUE) == 0) {
+    return(data.frame(
+      n = nrow(sub),
+      effect_pp_per_10pp = NA_real_,
+      se_pp_per_10pp = NA_real_,
+      ci_low_pp = NA_real_,
+      ci_high_pp = NA_real_,
+      p_value = NA_real_,
+      r_squared = NA_real_,
+      adj_r_squared = NA_real_
+    ))
+  }
+  rhs <- paste(c(predictor, controls), collapse = " + ")
+  fit <- lm(as.formula(paste(outcome, "~", rhs)), data = sub)
+  robust_vcov <- NeweyWest(fit, lag = nw_lag, prewhite = FALSE, adjust = TRUE)
+  robust_test <- coeftest(fit, vcov. = robust_vcov)
+  coef_row <- robust_test[predictor, ]
+  robust_se <- coef_row[["Std. Error"]]
+  slope <- unname(coef(fit)[predictor])
+  ci <- slope + c(-1, 1) * stats::qnorm(0.975) * robust_se
+  data.frame(
+    n = nobs(fit),
+    effect_pp_per_10pp = slope * 10,
+    se_pp_per_10pp = robust_se * 10,
+    ci_low_pp = ci[[1]] * 10,
+    ci_high_pp = ci[[2]] * 10,
+    p_value = coef_row[["Pr(>|t|)"]],
+    r_squared = summary(fit)$r.squared,
+    adj_r_squared = summary(fit)$adj.r.squared
+  )
+}
+
+test_fe_block <- function(data, outcome, controls, block_pattern, block_label, nw_lag = 7L) {
+  sub <- data %>%
+    filter(is.finite(.data[[outcome]]), is.finite(shed_share_1_2am_primary))
+  rhs <- paste(c("shed_share_1_2am_primary", controls), collapse = " + ")
+  fit <- lm(as.formula(paste(outcome, "~", rhs)), data = sub)
+  robust_vcov <- NeweyWest(fit, lag = nw_lag, prewhite = FALSE, adjust = TRUE)
+  coef_names <- names(coef(fit))
+  terms <- grep(block_pattern, coef_names, value = TRUE)
+  if (length(terms) == 0) {
+    return(data.frame(block = block_label, df = 0, chisq = NA_real_, p_value = NA_real_))
+  }
+  test <- car::linearHypothesis(
+    fit,
+    paste0(terms, " = 0"),
+    vcov. = robust_vcov,
+    test = "Chisq"
+  )
+  data.frame(
+    block = block_label,
+    df = length(terms),
+    chisq = test$Chisq[[2]],
+    p_value = test$`Pr(>Chisq)`[[2]]
+  )
+}
+
+coverage <- read.csv(coverage_file) %>%
+  mutate(
+    date = as.Date(date),
+    legacy_shed_share_0_1am = shed_share_0_1am,
+    legacy_shed_share_1_2am_primary = shed_share_1_2am_primary,
+    legacy_shed_share_2_3am = shed_share_2_3am,
+    legacy_shed_share_1_3am = shed_share_1_3am,
+    shed_share_0_1am = safe_ratio(mlr_sum_mwh_0_1am, contracted_demand_sum_mwh_0_1am),
+    shed_share_1_2am_primary = safe_ratio(mlr_sum_mwh_1_2am_primary, contracted_demand_sum_mwh_1_2am_primary),
+    shed_share_2_3am = safe_ratio(mlr_sum_mwh_2_3am, contracted_demand_sum_mwh_2_3am),
+    shed_share_1_3am = safe_ratio(mlr_sum_mwh_1_3am, contracted_demand_sum_mwh_1_3am),
+    any_shed_1_2am = ifelse(is.finite(shed_share_1_2am_primary) & shed_share_1_2am_primary > 0, 1L, 0L),
+    month_fe = factor(format(date, "%Y-%m")),
+    quarter_fe = factor(paste0("Q", ((as.integer(format(date, "%m")) - 1) %/% 3) + 1)),
+    dow_fe = factor(weekdays(date), levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+  )
+
+monthly <- read.csv(monthly_file)
+universe <- read.csv(universe_file)
+autocorr_summary <- read.csv(autocorr_summary_file)
+autocorr_hac <- read.csv(autocorr_hac_file)
+autocorr_block <- read.csv(autocorr_block_file)
+autocorr_circular <- read.csv(autocorr_circular_file)
+autocorr_mlr_acf <- read.csv(autocorr_mlr_acf_file)
+settlement_slope_summary <- read.csv(settlement_slope_summary_file)
+settlement_ladder_fe <- read.csv(settlement_ladder_fe_file)
+settlement_ladder_slope <- read.csv(settlement_ladder_slope_file)
+settlement_ladder_bins <- read.csv(settlement_ladder_bin_file)
+settlement_ladder_sample <- read.csv(settlement_ladder_sample_file)
+national_dimming_daily <- read.csv(national_dimming_daily_file) %>%
+  mutate(
+    date = as.Date(date),
+    month_fe = factor(month),
+    dow_fe = factor(dow_fe)
+  )
+national_dimming_metrics <- read.csv(national_dimming_metrics_file)
+national_dimming_fe <- read.csv(national_dimming_fe_file)
+national_dimming_quartile <- read.csv(national_dimming_quartile_file)
+national_dimming_bins <- read.csv(national_dimming_bins_file)
+national_dimming_baseline <- read.csv(national_dimming_baseline_file)
+annual_iqr_counts <- read.csv(annual_iqr_counts_file)
+annual_iqr_headline <- read.csv(annual_iqr_headline_file)
+annual_iqr_fe <- read.csv(annual_iqr_fe_file)
+annual_iqr_flags <- read.csv(annual_iqr_flags_file) %>%
+  mutate(date = as.Date(date))
+stage_summary <- read.csv(stage_summary_file)
+stage_ordinal <- read.csv(stage_ordinal_file)
+stage_ordinal_fe <- read.csv(stage_ordinal_fe_file)
+stage_categorical <- read.csv(stage_categorical_file)
+
+build_annual_iqr_sample <- function(scenario) {
+  removed_dates <- annual_iqr_flags %>%
+    filter(scenario == !!scenario, remove) %>%
+    pull(date)
+  coverage %>%
+    filter(gate_tier == "pass") %>%
+    filter(!(date %in% removed_dates))
+}
+
+annual_iqr_headline <- bind_rows(lapply(unique(annual_iqr_counts$scenario), function(scenario_name) {
+  scenario_sample <- build_annual_iqr_sample(scenario_name)
+  bind_rows(
+    fit_metrics(scenario_sample, "popw_strict_dark_share", "Strict dark") %>%
+      mutate(outcome = "popw_strict_dark_share"),
+    fit_metrics(scenario_sample, "popw_mostly_dark_share", "Mostly dark") %>%
+      mutate(outcome = "popw_mostly_dark_share"),
+    fit_metrics(scenario_sample, "popw_relaxed_dark_share", "Relaxed dark") %>%
+      mutate(outcome = "popw_relaxed_dark_share")
+  ) %>%
+    left_join(annual_iqr_counts, by = character()) %>%
+    filter(scenario == scenario_name) %>%
+    transmute(
+      scenario,
+      rule_label,
+      threshold,
+      outcome,
+      n,
+      effect_pp_per_10pp,
+      se_pp_per_10pp = effect_se_pp_per_10pp,
+      ci_low_pp,
+      ci_high_pp,
+      p_value,
+      pearson_r,
+      r_squared,
+      adj_r_squared,
+      auc_any_shed,
+      rmse_pp,
+      mae_pp,
+      observed_dates_removed,
+      rmd_pass_removed,
+      rmd_pass_retained
+    )
+}))
+
+annual_iqr_fe <- bind_rows(lapply(unique(annual_iqr_counts$scenario), function(scenario_name) {
+  scenario_sample <- build_annual_iqr_sample(scenario_name)
+  bind_rows(
+    fit_nw_slope(scenario_sample, "popw_strict_dark_share", controls = c("month_fe", "dow_fe")) %>%
+      mutate(outcome = "popw_strict_dark_share"),
+    fit_nw_slope(scenario_sample, "popw_mostly_dark_share", controls = c("month_fe", "dow_fe")) %>%
+      mutate(outcome = "popw_mostly_dark_share"),
+    fit_nw_slope(scenario_sample, "popw_relaxed_dark_share", controls = c("month_fe", "dow_fe")) %>%
+      mutate(outcome = "popw_relaxed_dark_share")
+  ) %>%
+    left_join(annual_iqr_counts, by = character()) %>%
+    filter(scenario == scenario_name) %>%
+    transmute(
+      scenario,
+      rule_label,
+      threshold,
+      outcome,
+      model = "Month + DOW FE",
+      n,
+      effect_pp_per_10pp,
+      se_pp_per_10pp,
+      ci_low_pp,
+      ci_high_pp,
+      p_value,
+      r_squared,
+      adj_r_squared,
+      observed_dates_removed,
+      rmd_pass_removed,
+      rmd_pass_retained
+    )
+}))
+
+write.csv(annual_iqr_headline, annual_iqr_headline_file, row.names = FALSE)
+write.csv(annual_iqr_fe, annual_iqr_fe_file, row.names = FALSE)
+
+preferred_excess_lit_scenario <- "annual_q3_plus_1p5_iqr"
+preferred_excess_lit_rule <- annual_iqr_counts %>%
+  filter(scenario == preferred_excess_lit_scenario)
+preferred_excess_lit_headline <- annual_iqr_headline %>%
+  filter(scenario %in% c("baseline_rmd_gate_pass", preferred_excess_lit_scenario))
+preferred_excess_lit_fe <- annual_iqr_fe %>%
+  filter(scenario %in% c("baseline_rmd_gate_pass", preferred_excess_lit_scenario))
+baseline_excess_lit_rule <- annual_iqr_counts %>%
+  filter(scenario == "baseline_rmd_gate_pass")
+preferred_excess_lit_remove_dates <- annual_iqr_flags %>%
+  filter(scenario == preferred_excess_lit_scenario, remove) %>%
+  pull(date)
+
+demand_gate_analysis <- coverage %>%
+  filter(gate_tier == "pass")
+
+analysis <- demand_gate_analysis %>%
+  filter(!date %in% preferred_excess_lit_remove_dates)
+
+results <- bind_rows(
+  fit_metrics(analysis, "popw_strict_dark_share", "Strict dark: p_lit < 0.05"),
+  fit_metrics(analysis, "popw_mostly_dark_share", "Mostly dark: p_lit < 0.20"),
+  fit_metrics(analysis, "popw_relaxed_dark_share", "Relaxed dark: p_lit < 0.40")
+) %>%
+  mutate(outcome_label = factor(outcome_label, levels = c(
+    "Strict dark: p_lit < 0.05",
+    "Mostly dark: p_lit < 0.20",
+    "Relaxed dark: p_lit < 0.40"
+  )))
+
+matched_n <- sum(is.finite(coverage$shed_share_1_2am_primary))
+demand_gate_pass_n <- nrow(demand_gate_analysis %>% filter(is.finite(shed_share_1_2am_primary)))
+pass_n <- nrow(analysis %>% filter(is.finite(shed_share_1_2am_primary)))
+pass_share <- pass_n / matched_n
+annual_iqr_preferred_removed_share <- preferred_excess_lit_rule$observed_dates_removed / baseline_excess_lit_rule$observed_dates_retained
+annual_iqr_preferred_pass_removed_share <- preferred_excess_lit_rule$rmd_pass_removed / preferred_excess_lit_rule$rmd_pass_n
+
+monthly_standard <- coverage %>%
+  mutate(
+    standard_tier = case_when(
+      gate_tier == "pass" & date %in% preferred_excess_lit_remove_dates ~ "Excess-lit removed",
+      gate_tier == "pass" ~ "Pass standard",
+      gate_tier == "low_confidence" ~ "Low confidence",
+      TRUE ~ "Fail"
+    ),
+    standard_tier = factor(standard_tier, levels = c("Pass standard", "Excess-lit removed", "Low confidence", "Fail"))
+  ) %>%
+  filter(is.finite(shed_share_1_2am_primary)) %>%
+  count(month, standard_tier, name = "nights") %>%
+  complete(month, standard_tier, fill = list(nights = 0)) %>%
+  group_by(month) %>%
+  mutate(
+    matched_eskom_nights = sum(nights),
+    dropped_share = sum(nights[standard_tier != "Pass standard"]) / matched_eskom_nights
+  ) %>%
+  ungroup()
+```
+
+# Purpose And Standard Specification
+
+This report documents only the recommended validation specification for the 2023 VJ146A2 night-lights panel against Eskom manual load reduction (MLR). The objective is to validate whether national night-time darkness rises on nights with higher Eskom MLR around the VIIRS local overpass.
+
+The standard sample combines two quality screens: a demand-weighted observation gate and an annual upper-Tukey excess-lit screen. The first removes dates where VJ does not observe enough fixed settlement demand; the second removes national stray-light outlier dates before estimating the Eskom calibration. After both screens, the standard validation sample keeps `r pass_n` matched VJ/Eskom nights.
+
+The recommended specification is:
+
+\[
+y_d = \alpha + \beta \cdot \text{shed share}_{d,01:00-02:00} + \epsilon_d
+\]
+
+where \(y_d\) is a population-weighted national share of people living in settlements classified as dark on VJ product-date night \(d\), and
+
+\[
+\text{shed share}_{d,01:00-02:00}
+=
+\frac{\sum \text{Manual Load Reduction}_{d,01:00-02:00}}
+{\sum \text{RSA Contracted Demand}_{d,01:00-02:00}}.
+\]
+
+This denominator follows Eskom's glossary interpretation that RSA Contracted Demand is contracted demand, not served demand excluding MLR. Effects are reported as \(10\beta\): the percentage-point change in the dark population share for a 10 percentage-point increase in Eskom MLR as a share of RSA Contracted Demand.
+
+The coefficient is estimated by OLS. Because the validation is a daily time series, all reported coefficient standard errors, confidence intervals, and p-values use Newey-West HAC standard errors with a 7-day lag. This leaves the point estimates unchanged but makes inference robust to heteroskedasticity and short-run residual autocorrelation.
+
+# Source Inputs
+
+```{r input-table}
+input_table <- data.frame(
+  Input = c(
+    "VJ146A2 settlement-day panel",
+    "VJ146A4 annual composite comparison",
+    "VJ146A2 yearly keep list",
+    "Settlement demand weights",
+    "Eskom hourly grid signal"
+  ),
+  Definition = c(
+    "Settlement-night lit share, coverage, and radiance summaries",
+    "Daily excess-lit screen against the 2023 annual composite",
+    "Electrified settlement universe for 2023",
+    "Fixed settlement `demand` field from the settlement GPKG",
+    "Hourly Manual Load_Reduction(MLR) and RSA Contracted Demand"
+  ),
+  Role = c(
+    "Defines the two validation outcomes",
+    "Removes nationally over-lit outlier dates before calibration",
+    "Keeps the validation universe fixed",
+    "Weights the night-level observation-support gate",
+    "Provides the independent validation signal"
+  )
+)
+
+kable(input_table, booktabs = TRUE, caption = "Inputs used by the recommended validation specification.")
+```
+
+# Demand-Weighted Confidence Gate
+
+A settlement-night is counted as observed if at least 50 percent of that settlement's night-light footprint is valid after QA/cloud/no-data filtering. This aligns the report with the existing pipeline-style coverage rule.
+
+For each night:
+
+\[
+\text{observed demand share}_d =
+\frac{\sum_i \text{demand}_i \cdot 1(\text{coverage}_{i,d} \ge 0.50)}
+{\sum_i \text{demand}_i}
+\]
+
+The headline regression keeps only nights with:
+
+\[
+\text{observed demand share}_d \ge 0.40
+\]
+
+The demand gate alone keeps `r demand_gate_pass_n` of `r matched_n` matched Eskom nights. After the annual excess-lit screen below, the standard validation sample keeps `r pass_n` nights (`r percent(pass_share, accuracy = 0.1)` of matched nights). The denominator is the validation universe: `r format(universe$validation_universe_settlements, big.mark = ",")` settlements with population greater than 100, carrying `r percent(universe$validation_demand_share_of_all, accuracy = 0.1)` of the positive-demand yearly-keep settlement demand.
+
+# Annual Excess-Lit IQR Screen
+
+The standard specification also includes a national stray-light screen designed to remove days that look spuriously over-lit before calibrating VJ darkness against Eskom MLR. This follows the logic of the Black Marble composite workflow: daily radiance observations are screened for outliers using Tukey boxplot fences before composite means are formed (Wang et al., 2022; Tukey, 1977). The implementation here is a day-level analogue, not the full Black Marble pixel-level compositing algorithm.
+
+For each VJ146A2 product date, the daily panel is compared with the 2023 annual VJ146A4 composite only over pixels that are valid in both rasters. Among those comparable pixels:
+
+\[
+\text{excess lit share}_d =
+\frac{\#\{p: \text{daily}_{p,d} > 1 \ \text{and annual}_p \le 1\}}
+{\#\{p: \text{daily}_{p,d} \ \text{valid and annual}_p \ \text{valid}\}}
+\]
+
+The threshold \(1\) is the same lit/dark radiance cutoff used for the national QA diagnostic. The denominator is therefore date-specific: if half of a daily raster is invalid, those invalid daily pixels are not compared with the annual composite and do not enter either the numerator or denominator.
+
+The standard screen computes one annual Tukey fence across all 363 observed 2023 daily `excess_lit_share` values and removes dates satisfying:
+
+\[
+\text{excess lit share}_d > Q3_{\text{year}} + 1.5 \times IQR_{\text{year}}
+\]
+
+Only the upper tail is removed. Low-lit outliers are not removed by this screen because unusually dark days can be real load shedding or blackout signal rather than stray light. An annual fence is preferred over monthly fences because several months have limited usable observations after the demand-confidence gate, making monthly IQR thresholds less stable.
+
+This standard screen removes `r preferred_excess_lit_rule$observed_dates_removed` of `r baseline_excess_lit_rule$observed_dates_retained` observed VJ dates (`r percent(annual_iqr_preferred_removed_share, accuracy = 0.1)`), including `r preferred_excess_lit_rule$rmd_pass_removed` of `r preferred_excess_lit_rule$rmd_pass_n` demand-gated validation nights (`r percent(annual_iqr_preferred_pass_removed_share, accuracy = 0.1)`). It retains `r preferred_excess_lit_rule$rmd_pass_retained` validation nights, with at least `r preferred_excess_lit_rule$min_monthly_rmd_pass_retained` retained standard nights in every month.
+
+```{r excess-lit-iqr-counts}
+annual_iqr_rule_labels <- c(
+  annual_q3 = "> Q3_year",
+  annual_q3_plus_0p5_iqr = "> Q3_year + 0.5 * IQR_year",
+  annual_q3_plus_1p5_iqr = "> Q3_year + 1.5 * IQR_year"
+)
+
+annual_iqr_counts_table <- annual_iqr_counts %>%
+  filter(scenario != "baseline_rmd_gate_pass") %>%
+  mutate(
+    Rule = recode(scenario, !!!annual_iqr_rule_labels),
+    `Observed dates removed` = observed_dates_removed,
+    `Observed dates removed share` = percent(observed_dates_removed / baseline_excess_lit_rule$observed_dates_retained, accuracy = 0.1),
+    `Demand-gated nights removed` = rmd_pass_removed,
+    `Demand-gated nights removed share` = percent(rmd_pass_removed / rmd_pass_n, accuracy = 0.1),
+    `Standard nights retained` = rmd_pass_retained,
+    `Minimum retained standard nights in a month` = min_monthly_rmd_pass_retained,
+    `Threshold` = fmt_num(threshold, 4)
+  ) %>%
+  select(
+    Rule,
+    Threshold,
+    `Observed dates removed`,
+    `Observed dates removed share`,
+    `Demand-gated nights removed`,
+    `Demand-gated nights removed share`,
+    `Standard nights retained`,
+    `Minimum retained standard nights in a month`
+  )
+
+kable(
+  annual_iqr_counts_table,
+  booktabs = TRUE,
+  caption = "Annual excess-lit IQR screens. The standard specification uses the Black Marble-style upper Tukey fence, Q3_year + 1.5 * IQR_year."
+)
+```
+
+# Key Continuous MLR Result
+
+The headline result is the continuous Eskom MLR regression on the standard sample. The stage-binned check below is included for interpretation, but the continuous 01:00-02:00 SAST MLR share of RSA Contracted Demand remains the statistical calibration variable.
+
+# Regression Outcomes
+
+Three binary-darkness outcomes are used:
+
+- **Strict dark:** settlement lit share \(p\_lit < 0.05\).
+- **Mostly dark:** settlement lit share \(p\_lit < 0.20\).
+- **Relaxed dark / not-up at 0.40:** settlement lit share \(p\_lit < 0.40\).
+
+Each outcome is aggregated nationally as a population-weighted share. The predictor is Eskom MLR divided by RSA Contracted Demand from 01:00-02:00 SAST on the local overpass date, using the established `VJ product date + 1` alignment.
+
+# Headline Tables
+
+```{r headline-table}
+headline_fit <- results %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    N = n,
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R-squared` = fmt_num(r_squared, 3),
+    `Spearman rho` = fmt_num(spearman_rho, 3),
+    `AUC: any MLR` = fmt_num(auc_any_shed, 3),
+    `p-value` = fmt_p_pub(p_value)
+  )
+
+headline_effect <- results %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    `Effect per 10 pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW std. error` = paste0(fmt_num(effect_se_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `RMSE` = paste0(fmt_num(rmse_pp, 2), " pp"),
+    `MAE` = paste0(fmt_num(mae_pp, 2), " pp")
+  )
+
+kable(headline_fit, booktabs = TRUE, caption = "Association and detection metrics for the recommended demand-gated and annual excess-lit-screened VJ validation.")
+kable(headline_effect, booktabs = TRUE, caption = "OLS effect size and prediction-error metrics. Effects are percentage-point changes in dark population share for a 10 percentage-point increase in Eskom MLR divided by RSA Contracted Demand. Standard errors, confidence intervals, and p-values use Newey-West HAC inference with a 7-day lag.")
+```
+
+```{r uptime-aligned-bridge-table}
+uptime_bridge_simple <- fit_metrics(
+  analysis,
+  "demandw_relaxed_dark_share",
+  "Demand-weighted not-up: p_lit < 0.40"
+) %>%
+  transmute(
+    Model = "Simple OLS",
+    N = n,
+    `Effect per 10 pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW std. error` = paste0(fmt_num(effect_se_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R-squared` = fmt_num(r_squared, 3)
+  )
+
+uptime_bridge_fe <- fit_nw_slope(
+  analysis,
+  "demandw_relaxed_dark_share",
+  controls = c("month_fe", "dow_fe")
+) %>%
+  transmute(
+    Model = "Month + DOW FE",
+    N = n,
+    `Effect per 10 pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW std. error` = paste0(fmt_num(se_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `Pearson r` = NA_character_,
+    `R-squared` = fmt_num(r_squared, 3)
+  )
+
+uptime_bridge_table <- bind_rows(uptime_bridge_simple, uptime_bridge_fe)
+
+kable(
+  uptime_bridge_table,
+  booktabs = TRUE,
+  caption = "Uptime-aligned demand-weighted bridge regression. The dependent variable is the daily demand-weighted share of settlements with p_lit < 0.40, the complement of the current p_lit >= 0.40 uptime construction."
+)
+```
+
+The \(p\_lit < 0.40\) bridge outcome is included because it is the daily national analogue of the current PyPSA-facing uptime threshold. It is not used to replace the stricter headline darkness definitions, but it shows whether the same Eskom MLR signal survives at the relaxed threshold needed for the uptime construction.
+
+```{r excess-lit-validation-sensitivity}
+annual_iqr_scenario_labels <- c(
+  baseline_rmd_gate_pass = "Baseline gate only",
+  annual_q3 = "> Q3_year",
+  annual_q3_plus_0p5_iqr = "> Q3_year + 0.5 * IQR_year",
+  annual_q3_plus_1p5_iqr = "> Q3_year + 1.5 * IQR_year"
+)
+
+annual_iqr_outcome_labels <- c(
+  popw_strict_dark_share = "Strict dark",
+  popw_mostly_dark_share = "Mostly dark",
+  popw_relaxed_dark_share = "Relaxed dark"
+)
+
+annual_iqr_validation_table <- annual_iqr_headline %>%
+  mutate(
+    Rule = recode(scenario, !!!annual_iqr_scenario_labels),
+    Outcome = recode(outcome, !!!annual_iqr_outcome_labels),
+    Rule = factor(Rule, levels = annual_iqr_scenario_labels),
+    Outcome = factor(Outcome, levels = c("Strict dark", "Mostly dark", "Relaxed dark")),
+    `Effect per 10 pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R-squared` = fmt_num(r_squared, 3),
+    `AUC: any MLR` = fmt_num(auc_any_shed, 3),
+    `Removed demand-gated nights` = rmd_pass_removed,
+    `Retained standard nights` = rmd_pass_retained
+  ) %>%
+  arrange(Rule, Outcome) %>%
+  select(
+    Rule,
+    Outcome,
+    N = n,
+    `Removed demand-gated nights`,
+    `Retained standard nights`,
+    `Effect per 10 pp MLR/contracted`,
+    `NW 95% CI`,
+    `p-value`,
+    `Pearson r`,
+    `R-squared`,
+    `AUC: any MLR`
+  )
+
+kable(
+  annual_iqr_validation_table,
+  booktabs = TRUE,
+  caption = "Validation comparison across annual excess-lit removal thresholds. The standard specification is Q3_year + 1.5 * IQR_year."
+)
+
+annual_iqr_fe_table <- preferred_excess_lit_fe %>%
+  mutate(
+    Rule = recode(scenario, !!!annual_iqr_scenario_labels),
+    Outcome = recode(outcome, !!!annual_iqr_outcome_labels),
+    Rule = factor(Rule, levels = c("Baseline gate only", "> Q3_year + 1.5 * IQR_year")),
+    Outcome = factor(Outcome, levels = c("Strict dark", "Mostly dark", "Relaxed dark")),
+    `Effect per 10 pp MLR/contracted` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW 95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `R-squared` = fmt_num(r_squared, 3),
+    `Removed demand-gated nights` = rmd_pass_removed,
+    `Retained standard nights` = rmd_pass_retained
+  ) %>%
+  arrange(Rule, Outcome) %>%
+  select(
+    Rule,
+    Outcome,
+    N = n,
+    `Removed demand-gated nights`,
+    `Retained standard nights`,
+    `Effect per 10 pp MLR/contracted`,
+    `NW 95% CI`,
+    `p-value`,
+    `R-squared`
+  )
+
+kable(
+  annual_iqr_fe_table,
+  booktabs = TRUE,
+  caption = "Month plus day-of-week fixed-effects comparison for the standard annual excess-lit screen."
+)
+```
+
+The preferred annual upper-Tukey screen leaves the calibration essentially unchanged. In the strict-dark headline, the effect changes from 2.37 to 2.42 percentage points per 10 percentage points of MLR divided by RSA Contracted Demand and \(R^2\) changes from 0.577 to 0.581. In the mostly-dark headline, the effect changes from 3.99 to 4.05 percentage points and \(R^2\) changes from 0.557 to 0.555. For the relaxed \(p\_lit < 0.40\) outcome, the standard-sample effect is `r fmt_num(results$effect_pp_per_10pp[results$outcome == "popw_relaxed_dark_share"], 2)` percentage points and \(R^2\) is `r fmt_num(results$r_squared[results$outcome == "popw_relaxed_dark_share"], 3)`. The result is therefore not driven by a small set of nationally over-lit dates.
+
+Robust inference is appropriate here. Breusch-Pagan tests reject homoskedasticity for all three binary outcomes, and Durbin-Watson tests indicate positive residual autocorrelation. Newey-West standard errors are therefore used for inference while leaving the OLS point estimates and prediction-error metrics unchanged.
+
+# Headline Regression Relationship
+
+```{r scatter-plot, fig.cap="Standard validation regression relationship. Points are VJ product-date nights passing the demand gate and annual excess-lit screen."}
+scatter_df <- analysis %>%
+  filter(is.finite(shed_share_1_2am_primary)) %>%
+  select(date, shed_share_1_2am_primary, popw_strict_dark_share, popw_mostly_dark_share, popw_relaxed_dark_share) %>%
+  pivot_longer(c(popw_strict_dark_share, popw_mostly_dark_share, popw_relaxed_dark_share), names_to = "outcome", values_to = "dark_share") %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark: p_lit < 0.05",
+      popw_mostly_dark_share = "Mostly dark: p_lit < 0.20",
+      popw_relaxed_dark_share = "Relaxed dark: p_lit < 0.40"
+    ),
+    outcome_label = factor(outcome_label, levels = c(
+      "Strict dark: p_lit < 0.05",
+      "Mostly dark: p_lit < 0.20",
+      "Relaxed dark: p_lit < 0.40"
+    ))
+  )
+
+ggplot(scatter_df, aes(x = shed_share_1_2am_primary, y = dark_share, color = outcome_label)) +
+  geom_point(alpha = 0.70, size = 1.55) +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.62, color = "#222222") +
+  facet_wrap(~ outcome_label, ncol = 3, scales = "free_y") +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_manual(values = c(
+    "Strict dark: p_lit < 0.05" = color_strict,
+    "Mostly dark: p_lit < 0.20" = color_mostly,
+    "Relaxed dark: p_lit < 0.40" = color_relaxed
+  )) +
+  labs(
+    title = "Higher Eskom MLR predicts higher national darkness",
+    subtitle = "Recommended specification: VJ146A2, standard screened nights, OLS regression",
+    x = "Eskom MLR / RSA Contracted Demand, 01:00-02:00 SAST",
+    y = "Population-weighted dark share"
+  ) +
+  theme_report() +
+  theme(legend.position = "none")
+```
+
+# Headline Effect Size And Uncertainty
+
+```{r effect-plot, fig.cap="Coefficient estimates with Newey-West 95 percent confidence intervals. Effects are percentage-point changes in population-weighted dark share for a 10 percentage-point increase in Eskom MLR divided by RSA Contracted Demand."}
+ggplot(results, aes(x = effect_pp_per_10pp, y = outcome_label, color = outcome_label)) +
+  geom_vline(xintercept = 0, color = "#999999", linewidth = 0.3) +
+  geom_errorbarh(aes(xmin = ci_low_pp, xmax = ci_high_pp), height = 0.12, linewidth = 0.72) +
+  geom_point(size = 2.6) +
+  geom_text(aes(label = paste0(fmt_num(effect_pp_per_10pp, 2), " pp")), nudge_y = 0.18, size = 3.2, show.legend = FALSE) +
+  scale_color_manual(values = c(
+    "Strict dark: p_lit < 0.05" = color_strict,
+    "Mostly dark: p_lit < 0.20" = color_mostly,
+    "Relaxed dark: p_lit < 0.40" = color_relaxed
+  )) +
+  labs(
+    title = "Effect sizes are precise and positive",
+    subtitle = "Intervals use Newey-West HAC standard errors with a 7-day lag",
+    x = "Effect per 10 pp Eskom MLR / RSA Contracted Demand (percentage points)",
+    y = NULL
+  ) +
+  theme_report() +
+  theme(legend.position = "none")
+```
+
+# Daily Timing Match
+
+```{r timing-figure, fig.width=7.4, fig.height=9.0, fig.cap="Daily standardized timing comparison. Lines connect consecutive standard validation nights; gray ticks mark 2023 dates outside the validation sample."}
+strict_stats <- results %>%
+  filter(outcome == "popw_strict_dark_share") %>%
+  slice(1)
+
+color_eskom <- "#1A1A1A"
+color_strict <- "#B22222"
+color_mostly <- "#E69F00"
+days_in_year <- as.integer(as.Date("2023-12-31") - as.Date("2023-01-01") + 1)
+
+ts_df <- analysis %>%
+  filter(is.finite(shed_share_1_2am_primary), is.finite(popw_strict_dark_share)) %>%
+  arrange(date) %>%
+  mutate(
+    shed_z = z_score(shed_share_1_2am_primary),
+    strict_z = z_score(popw_strict_dark_share),
+    q_num = ((as.integer(format(date, "%m")) - 1) %/% 3) + 1,
+    quarter = factor(
+      c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")[q_num],
+      levels = c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")
+    )
+  ) %>%
+  select(date, quarter, shed_z, strict_z) %>%
+  pivot_longer(c(shed_z, strict_z), names_to = "series", values_to = "value") %>%
+  mutate(
+    series = recode(
+      series,
+      shed_z = "Eskom MLR",
+      strict_z = "VJ strict darkness"
+    ),
+    series = factor(series, levels = c("Eskom MLR", "VJ strict darkness"))
+  ) %>%
+  group_by(series, quarter) %>%
+  arrange(date, .by_group = TRUE) %>%
+  mutate(run_id = cumsum(c(TRUE, diff(date) > 1))) %>%
+  ungroup()
+
+all_dates <- data.frame(date = seq(as.Date("2023-01-01"), as.Date("2023-12-31"), by = "day")) %>%
+  left_join(
+    coverage %>%
+      select(date, gate_tier, shed_share_1_2am_primary, popw_strict_dark_share),
+    by = "date"
+  ) %>%
+  mutate(
+    in_validation_sample = gate_tier == "pass" &
+      !date %in% preferred_excess_lit_remove_dates &
+      is.finite(shed_share_1_2am_primary) &
+      is.finite(popw_strict_dark_share),
+    q_num = ((as.integer(format(date, "%m")) - 1) %/% 3) + 1,
+    quarter = factor(
+      c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")[q_num],
+      levels = c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")
+    )
+  )
+
+missing_dates <- all_dates %>%
+  filter(!in_validation_sample) %>%
+  mutate(
+    xmin = date - 0.45,
+    xmax = date + 0.45
+  )
+
+y_floor <- -2.18
+y_strip_top <- -1.88
+y_top <- max(3.2, ceiling(max(ts_df$value, na.rm = TRUE) * 10) / 10 + 0.12)
+
+p_time <- ggplot(ts_df, aes(x = date, y = value, color = series, group = interaction(series, quarter, run_id))) +
+  geom_rect(
+    data = missing_dates,
+    aes(xmin = xmin, xmax = xmax, ymin = y_floor, ymax = y_strip_top),
+    inherit.aes = FALSE,
+    fill = "#A0AEC0",
+    alpha = 0.24
+  ) +
+  geom_hline(yintercept = 0, color = "#CBD5E0", linewidth = 0.28) +
+  geom_line(linewidth = 0.50, alpha = 0.78) +
+  geom_point(
+    alpha = 0.70,
+    size = 0.98
+  ) +
+  facet_wrap(~ quarter, ncol = 1, scales = "free_x") +
+  scale_color_manual(values = c("Eskom MLR" = color_eskom, "VJ strict darkness" = color_strict)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(limits = c(y_floor, y_top), breaks = -2:floor(y_top)) +
+  labs(
+    title = "Daily Eskom MLR and satellite darkness move together",
+    subtitle = paste0(
+      "Sample: ", pass_n, " of ", days_in_year, " calendar days pass the matched VJ + Eskom standard screen; no rolling mean.\n",
+      "Both series are standardized over the same ", pass_n, " days; gray ticks show excluded dates. r = ",
+      fmt_num(strict_stats$pearson_r, 3), ", R2 = ", fmt_num(strict_stats$r_squared, 3), "."
+    ),
+    x = NULL,
+    y = "Standard deviations from\nseries mean",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.4) +
+  theme(
+    legend.position = "bottom",
+    strip.text = element_text(face = "bold", color = "#2D3748"),
+    panel.spacing = unit(0.8, "lines"),
+    plot.margin = margin(5.5, 5.5, 18, 5.5)
+  )
+
+p_time
+```
+
+The timing diagnostic compares Eskom MLR with VJ strict darkness. The black line is Eskom MLR and the red line is VJ strict darkness; both are converted to standard deviations from their own mean over the same `r pass_n` standard validation days. Lines break across missing dates, so the plot does not interpolate through cloudy or excluded nights. The quarterly layout makes short-run agreement and seasonal differences visible without applying a rolling mean. The strict-dark association over these days is \(r =\) `r fmt_num(strict_stats$pearson_r, 3)` with \(R^2 =\) `r fmt_num(strict_stats$r_squared, 3)`; the OLS slope remains significant at `r fmt_p_pub(strict_stats$p_value)` using Newey-West HAC inference.
+
+\newpage
+
+# Dose-Response
+
+```{r dose-response-figure, fig.width=7.4, fig.height=4.55, fig.cap="Absolute dark population share by Eskom MLR intensity. All standard validation nights are sorted into ten equal-count bins; bars show 95 percent confidence intervals."}
+
+bin_df <- analysis %>%
+  filter(is.finite(shed_share_1_2am_primary)) %>%
+  mutate(shed_decile = ntile(shed_share_1_2am_primary, 10)) %>%
+  select(shed_decile, shed_share_1_2am_primary, popw_strict_dark_share, popw_mostly_dark_share) %>%
+  pivot_longer(
+    c(popw_strict_dark_share, popw_mostly_dark_share),
+    names_to = "outcome",
+    values_to = "dark_share"
+  ) %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark",
+      popw_mostly_dark_share = "Mostly dark"
+    )
+  ) %>%
+  group_by(outcome_label, shed_decile) %>%
+  summarise(
+    n = n(),
+    mean_shed = mean(shed_share_1_2am_primary),
+    mean_dark = mean(dark_share),
+    se_dark = stats::sd(dark_share) / sqrt(n),
+    ci_low = mean_dark - 1.96 * se_dark,
+    ci_high = mean_dark + 1.96 * se_dark,
+    .groups = "drop"
+  )
+
+bin_n_text <- sum(bin_df$n[bin_df$outcome_label == "Strict dark"])
+strict_bin_endpoint <- bin_df %>%
+  filter(outcome_label == "Strict dark", mean_shed == max(mean_shed)) %>%
+  slice(1)
+mostly_bin_endpoint <- bin_df %>%
+  filter(outcome_label == "Mostly dark", mean_shed == max(mean_shed)) %>%
+  slice(1)
+
+p_bins <- ggplot(bin_df, aes(x = mean_shed, y = mean_dark, color = outcome_label)) +
+  geom_errorbar(aes(ymin = pmax(ci_low, 0), ymax = ci_high), width = 0, linewidth = 0.48, alpha = 0.85) +
+  geom_line(linewidth = 0.62, alpha = 0.75) +
+  geom_point(aes(size = n), alpha = 0.92) +
+  annotate(
+    "text",
+    x = strict_bin_endpoint$mean_shed,
+    y = strict_bin_endpoint$mean_dark - 0.0048,
+    label = percent(strict_bin_endpoint$mean_dark, accuracy = 0.1),
+    color = color_strict,
+    hjust = 1,
+    size = 3.0
+  ) +
+  annotate(
+    "text",
+    x = mostly_bin_endpoint$mean_shed,
+    y = mostly_bin_endpoint$mean_dark + 0.0048,
+    label = percent(mostly_bin_endpoint$mean_dark, accuracy = 0.1),
+    color = color_mostly,
+    hjust = 1,
+    size = 3.0
+  ) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_size_continuous(range = c(2.0, 4.2), guide = "none") +
+  labs(
+    title = "Higher MLR nights have higher dark population shares",
+    subtitle = paste0(
+      bin_n_text,
+      " standard validation nights are split into 10 equal-count MLR bins."
+    ),
+    x = "Average Eskom MLR / RSA Contracted Demand within bin, 01:00-02:00 SAST",
+    y = "Mean dark population share",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.4) +
+  theme(
+    legend.position = "bottom",
+    plot.margin = margin(16, 5.5, 5.5, 5.5)
+  )
+
+p_bins
+```
+
+The dose-response figure reports the absolute relationship. All `r bin_n_text` standard validation nights are sorted by Eskom MLR and split into ten equal-count bins. Each point is the average dark population share inside that bin, and the x-axis is the average MLR intensity inside the same bin. The highest MLR bin has an average strict-dark share of `r percent(strict_bin_endpoint$mean_dark, accuracy = 0.1)` and a mostly-dark share of `r percent(mostly_bin_endpoint$mean_dark, accuracy = 0.1)`.
+
+\newpage
+
+# Deviation From No-MLR Baseline
+
+```{r no-shed-baseline-figure, fig.width=7.4, fig.height=4.55, fig.cap="Baseline-relative darkness by Eskom MLR intensity. Positive-MLR nights are sorted into ten equal-count bins; bars show approximate 95 percent confidence intervals."}
+baseline_df <- analysis %>%
+  filter(is.finite(shed_share_1_2am_primary), shed_share_1_2am_primary == 0) %>%
+  select(popw_strict_dark_share, popw_mostly_dark_share) %>%
+  pivot_longer(everything(), names_to = "outcome", values_to = "dark_share") %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark",
+      popw_mostly_dark_share = "Mostly dark"
+    )
+  ) %>%
+  group_by(outcome, outcome_label) %>%
+  summarise(
+    baseline_n = n(),
+    baseline_mean = mean(dark_share),
+    baseline_se = stats::sd(dark_share) / sqrt(baseline_n),
+    .groups = "drop"
+  )
+
+positive_bin_df <- analysis %>%
+  filter(is.finite(shed_share_1_2am_primary), shed_share_1_2am_primary > 0) %>%
+  mutate(shed_bin = ntile(shed_share_1_2am_primary, 10)) %>%
+  select(shed_bin, shed_share_1_2am_primary, popw_strict_dark_share, popw_mostly_dark_share) %>%
+  pivot_longer(
+    c(popw_strict_dark_share, popw_mostly_dark_share),
+    names_to = "outcome",
+    values_to = "dark_share"
+  ) %>%
+  mutate(
+    outcome_label = recode(
+      outcome,
+      popw_strict_dark_share = "Strict dark",
+      popw_mostly_dark_share = "Mostly dark"
+    )
+  ) %>%
+  group_by(outcome, outcome_label, shed_bin) %>%
+  summarise(
+    n = n(),
+    mean_shed = mean(shed_share_1_2am_primary),
+    mean_dark = mean(dark_share),
+    se_dark = stats::sd(dark_share) / sqrt(n),
+    .groups = "drop"
+  ) %>%
+  left_join(baseline_df, by = c("outcome", "outcome_label")) %>%
+  mutate(
+    excess_pp = (mean_dark - baseline_mean) * 100,
+    excess_se_pp = sqrt(se_dark^2 + baseline_se^2) * 100,
+    ci_low_pp = excess_pp - 1.96 * excess_se_pp,
+    ci_high_pp = excess_pp + 1.96 * excess_se_pp
+  )
+
+baseline_points <- baseline_df %>%
+  transmute(
+    outcome,
+    outcome_label,
+    shed_bin = 0L,
+    n = baseline_n,
+    mean_shed = 0,
+    excess_pp = 0,
+    ci_low_pp = 0,
+    ci_high_pp = 0
+  )
+
+baseline_plot_df <- bind_rows(
+  baseline_points,
+  positive_bin_df %>%
+    select(outcome, outcome_label, shed_bin, n, mean_shed, excess_pp, ci_low_pp, ci_high_pp)
+) %>%
+  mutate(outcome_label = factor(outcome_label, levels = c("Mostly dark", "Strict dark")))
+
+baseline_n_text <- baseline_df %>%
+  distinct(baseline_n) %>%
+  pull(baseline_n) %>%
+  first()
+
+positive_n_text <- nrow(analysis %>% filter(is.finite(shed_share_1_2am_primary), shed_share_1_2am_primary > 0))
+strict_endpoint <- baseline_plot_df %>%
+  filter(outcome_label == "Strict dark", mean_shed == max(mean_shed)) %>%
+  slice(1)
+mostly_endpoint <- baseline_plot_df %>%
+  filter(outcome_label == "Mostly dark", mean_shed == max(mean_shed)) %>%
+  slice(1)
+
+ggplot(baseline_plot_df, aes(x = mean_shed, y = excess_pp, color = outcome_label)) +
+  geom_hline(yintercept = 0, color = "#4A5568", linewidth = 0.35) +
+  geom_errorbar(aes(ymin = ci_low_pp, ymax = ci_high_pp), width = 0, linewidth = 0.55, alpha = 0.88) +
+  geom_line(linewidth = 0.72, alpha = 0.82) +
+  geom_point(aes(size = n), alpha = 0.94) +
+  annotate(
+    "text",
+    x = strict_endpoint$mean_shed,
+    y = strict_endpoint$excess_pp - 0.55,
+    label = paste0("+", fmt_num(strict_endpoint$excess_pp, 1), " pp"),
+    color = color_strict,
+    hjust = 1,
+    size = 3.0
+  ) +
+  annotate(
+    "text",
+    x = mostly_endpoint$mean_shed,
+    y = mostly_endpoint$excess_pp + 0.55,
+    label = paste0("+", fmt_num(mostly_endpoint$excess_pp, 1), " pp"),
+    color = color_mostly,
+    hjust = 1,
+    size = 3.0
+  ) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 1), " pp")) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_size_continuous(range = c(2.2, 4.8), guide = "none") +
+  labs(
+    title = "MLR nights are darker than comparable no-MLR nights",
+    subtitle = paste0(
+      "Zero = mean of ", baseline_n_text,
+      " no-MLR nights; ", positive_n_text,
+      " positive-MLR nights are split into 10 equal-count bins."
+    ),
+    x = "Average Eskom MLR / RSA Contracted Demand within bin, 01:00-02:00 SAST",
+    y = "Increase in dark population share vs no-MLR nights",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.6) +
+  theme(legend.position = "bottom")
+```
+
+The baseline-relative figure reports magnitude rather than standardized co-movement. The zero point is the mean outcome on high-confidence nights with no Eskom MLR. The remaining `r positive_n_text` positive-MLR nights are sorted by Eskom MLR and split into ten equal-count bins, so the x-axis is the average MLR intensity inside each bin rather than a manually chosen cutoff. At the highest MLR bin, strict darkness is about `r fmt_num(strict_endpoint$excess_pp, 1)` pp above the no-MLR baseline and mostly-darkness is about `r fmt_num(mostly_endpoint$excess_pp, 1)` pp above baseline.
+
+\newpage
+
+# Extreme-Quartile Check
+
+```{r extreme-quartile-check, fig.width=7.4, fig.height=4.9, fig.cap="Top-versus-bottom Eskom MLR quartile comparison. The bottom quartile contains the lowest-MLR standard validation nights; the top quartile contains the highest-MLR standard validation nights. Points show mean dark population share."}
+quartile_sample <- analysis %>%
+  filter(
+    is.finite(shed_share_1_2am_primary),
+    is.finite(popw_strict_dark_share),
+    is.finite(popw_mostly_dark_share)
+  ) %>%
+  arrange(shed_share_1_2am_primary) %>%
+  mutate(
+    mlr_quartile = ntile(shed_share_1_2am_primary, 4),
+    quartile_group = case_when(
+      mlr_quartile == 1 ~ "Bottom quartile",
+      mlr_quartile == 4 ~ "Top quartile",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(quartile_group)) %>%
+  arrange(date) %>%
+  mutate(
+    top_quartile = as.integer(quartile_group == "Top quartile"),
+    quartile_group = factor(quartile_group, levels = c("Bottom quartile", "Top quartile"))
+  )
+
+fit_quartile <- function(data, outcome, label) {
+  fit <- lm(as.formula(paste(outcome, "~ top_quartile")), data = data)
+  robust_vcov <- NeweyWest(fit, lag = 7L, prewhite = FALSE, adjust = TRUE)
+  robust_test <- coeftest(fit, vcov. = robust_vcov)
+  coef_row <- robust_test["top_quartile", ]
+  diff <- unname(coef(fit)["top_quartile"])
+  se <- coef_row[["Std. Error"]]
+  ci <- diff + c(-1, 1) * stats::qnorm(0.975) * se
+
+  means <- data %>%
+    group_by(quartile_group) %>%
+    summarise(
+      n = n(),
+      mean_dark_pp = mean(.data[[outcome]]) * 100,
+      mean_mlr_pct = mean(shed_share_1_2am_primary) * 100,
+      .groups = "drop"
+    )
+
+  data.frame(
+    outcome = outcome,
+    outcome_label = label,
+    n = nrow(data),
+    bottom_n = means$n[means$quartile_group == "Bottom quartile"],
+    top_n = means$n[means$quartile_group == "Top quartile"],
+    bottom_mean_dark_pp = means$mean_dark_pp[means$quartile_group == "Bottom quartile"],
+    top_mean_dark_pp = means$mean_dark_pp[means$quartile_group == "Top quartile"],
+    bottom_mean_mlr_pct = means$mean_mlr_pct[means$quartile_group == "Bottom quartile"],
+    top_mean_mlr_pct = means$mean_mlr_pct[means$quartile_group == "Top quartile"],
+    difference_pp = diff * 100,
+    se_pp = se * 100,
+    ci_low_pp = ci[[1]] * 100,
+    ci_high_pp = ci[[2]] * 100,
+    p_value = coef_row[["Pr(>|t|)"]],
+    r_squared = summary(fit)$r.squared,
+    stringsAsFactors = FALSE
+  )
+}
+
+quartile_results <- bind_rows(
+  fit_quartile(quartile_sample, "popw_strict_dark_share", "Strict dark"),
+  fit_quartile(quartile_sample, "popw_mostly_dark_share", "Mostly dark")
+)
+
+quartile_table <- quartile_results %>%
+  transmute(
+    Outcome = outcome_label,
+    `Bottom quartile mean` = paste0(fmt_num(bottom_mean_dark_pp, 2), " pp"),
+    `Top quartile mean` = paste0(fmt_num(top_mean_dark_pp, 2), " pp"),
+    `Difference` = paste0(fmt_num(difference_pp, 2), " pp"),
+    `NW std. error` = paste0(fmt_num(se_pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `R-squared` = fmt_num(r_squared, 3),
+    N = n
+  )
+
+kable(
+  quartile_table,
+  booktabs = TRUE,
+  caption = "Extreme-quartile comparison. The regression sample keeps only the bottom and top quartiles of Eskom MLR among standard validation nights. Standard errors are Newey-West HAC with a 7-day lag."
+)
+
+quartile_plot_df <- quartile_sample %>%
+  group_by(quartile_group) %>%
+  summarise(
+    `Strict dark` = mean(popw_strict_dark_share) * 100,
+    `Mostly dark` = mean(popw_mostly_dark_share) * 100,
+    mean_mlr_pct = mean(shed_share_1_2am_primary) * 100,
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  pivot_longer(c(`Strict dark`, `Mostly dark`), names_to = "outcome_label", values_to = "mean_dark_pp") %>%
+  mutate(
+    quartile_axis = paste0(
+      quartile_group,
+      "\nmean MLR = ",
+      fmt_num(mean_mlr_pct, 1),
+      "%"
+    ),
+    quartile_axis = factor(quartile_axis, levels = unique(quartile_axis)),
+    outcome_label = factor(outcome_label, levels = c("Mostly dark", "Strict dark"))
+  )
+
+strict_q <- quartile_results %>% filter(outcome_label == "Strict dark")
+mostly_q <- quartile_results %>% filter(outcome_label == "Mostly dark")
+
+ggplot(quartile_plot_df, aes(x = quartile_axis, y = mean_dark_pp, color = outcome_label, group = outcome_label)) +
+  geom_line(linewidth = 0.78) +
+  geom_point(size = 2.5) +
+  annotate(
+    "text",
+    x = 2,
+    y = strict_q$top_mean_dark_pp + 0.34,
+    label = paste0("+", fmt_num(strict_q$difference_pp, 1), " pp"),
+    color = color_strict,
+    hjust = 1,
+    size = 3.0
+  ) +
+  annotate(
+    "text",
+    x = 2,
+    y = mostly_q$top_mean_dark_pp + 0.48,
+    label = paste0("+", fmt_num(mostly_q$difference_pp, 1), " pp"),
+    color = color_mostly,
+    hjust = 1,
+    size = 3.0
+  ) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 1), " pp")) +
+  labs(
+    title = "High-MLR nights are much darker than no-MLR nights",
+    subtitle = paste0(
+      "Bottom quartile: n = ", strict_q$bottom_n,
+      "; top quartile: n = ", strict_q$top_n,
+      ". Middle two quartiles are omitted for this extreme-bin check."
+    ),
+    x = NULL,
+    y = "Mean dark population share",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.7)
+```
+
+The extreme-quartile comparison is a deliberately simple robustness check. It discards the middle half of the MLR distribution and asks whether the highest-MLR nights are visibly darker than the lowest-MLR nights. In this sample, the bottom quartile consists of `r strict_q$bottom_n` no-MLR nights with average MLR `r fmt_num(strict_q$bottom_mean_mlr_pct, 1)` percent, while the top quartile consists of `r strict_q$top_n` nights with average MLR `r fmt_num(strict_q$top_mean_mlr_pct, 1)` percent. Top-quartile nights are `r fmt_num(strict_q$difference_pp, 1)` pp darker under the strict definition and `r fmt_num(mostly_q$difference_pp, 1)` pp darker under the mostly-dark definition, both with `r fmt_p_pub(strict_q$p_value)` inference. This is not the preferred estimator because it throws away half the data, but it is an intuitive check that the continuous dose-response is not driven by a thin set of intermediate observations.
+
+\newpage
+
+# Stage-Binned Validation
+
+South African load shedding is publicly communicated in stages. Eskom defines stages in 1,000 MW increments: Stage 1 permits up to 1,000 MW of national load reduction, Stage 2 up to 2,000 MW, and so on through Stage 8.[^eskom-stage-source] A public summary table also reports approximate shares of grid users without power by stage, from about 6 percent at Stage 1 to about 50 percent at Stage 8.[^wiki-stage-source] These sources are useful for interpretation, but they are not a substitute for the continuous Eskom MLR variable used in the headline regression.
+
+The validation therefore adds a stage-binned check as a communication layer. It converts the same 01:00-02:00 SAST MLR exposure into an implied stage:
+
+\[
+\text{stage}_d =
+\begin{cases}
+0 & \text{if MLR}_d = 0 \\
+\min(8, \lceil \text{MLR MW}_d / 1000 \rceil) & \text{if MLR}_d > 0
+\end{cases}
+\]
+
+This is an implied MLR stage, not an official historical stage schedule. In the standard validation sample the maximum 01:00-02:00 MLR is `r fmt_num(max(stage_summary$max_mlr_mw, na.rm = TRUE), 0)` MW, so the stage check reaches Stage `r max(stage_summary$implied_stage, na.rm = TRUE)` only.
+
+[^eskom-stage-source]: Eskom, "Understanding Eskom Load Shedding Stages," clipped in `1-sources/web-clips/2026-06-04 WEB Eskom load shedding.md` from https://loadshedding.eskom.co.za/LoadShedding/ScheduleInterpretation.
+[^wiki-stage-source]: Wikipedia contributors, "South African energy crisis," clipped in `1-sources/web-clips/2026-06-04 WIKI South African energy crisis.md` from https://en.wikipedia.org/wiki/South_African_energy_crisis. The Wikipedia table is used only as a contextual benchmark for public stage interpretation.
+
+```{r stage-binned-validation-table}
+stage_table <- stage_summary %>%
+  transmute(
+    `Implied stage` = stage_label,
+    Nights = n,
+    `Mean MLR MW` = fmt_num(mean_mlr_mw, 0),
+    `Mean MLR share` = percent(mean_mlr_share, accuracy = 0.1),
+    `Pop. strict dark` = percent(popw_strict_dark_share, accuracy = 0.1),
+    `Pop. mostly dark` = percent(popw_mostly_dark_share, accuracy = 0.1),
+    `Demand-wtd. strict dark` = percent(demandw_strict_dark_share, accuracy = 0.1),
+    `Demand-wtd. mostly dark` = percent(demandw_mostly_dark_share, accuracy = 0.1),
+    `Public user-off benchmark` = percent(expected_users_without_power_share, accuracy = 0.1)
+  )
+
+kable(
+  stage_table,
+  booktabs = TRUE,
+  caption = "Stage-binned validation summary. Stages are implied from the same 01:00-02:00 Eskom MLR exposure used in the headline regression. The public user-off benchmark is contextual and is not used to fit the model."
+)
+```
+
+The population-weighted columns report the national share of the observed considered settlement population living in settlements that cross the strict or mostly-dark threshold on that night. The demand-weighted columns use the same settlement darkness thresholds, but report the national share of observed considered settlement demand located in those settlements, using the fixed settlement `demand` field instead of population. They are included because the PyPSA-facing reliability metric is ultimately demand-weighted, while the headline validation remains population-weighted for interpretability.
+
+```{r stage-binned-validation-figure, fig.width=7.4, fig.height=4.9, fig.cap="Stage-binned validation. Points are mean national dark population shares by implied MLR stage; bars are approximate 95 percent intervals across validation nights."}
+stage_plot_df <- stage_summary %>%
+  transmute(
+    implied_stage,
+    stage_label,
+    `Strict dark` = popw_strict_dark_share,
+    `Mostly dark` = popw_mostly_dark_share,
+    `Demand strict dark` = demandw_strict_dark_share,
+    `Demand mostly dark` = demandw_mostly_dark_share,
+    se_strict = se_popw_strict_dark_share,
+    se_mostly = se_popw_mostly_dark_share
+  ) %>%
+  select(implied_stage, stage_label, `Strict dark`, `Mostly dark`, se_strict, se_mostly) %>%
+  pivot_longer(
+    cols = c(`Strict dark`, `Mostly dark`),
+    names_to = "outcome",
+    values_to = "mean_dark_share"
+  ) %>%
+  mutate(
+    se = ifelse(outcome == "Strict dark", se_strict, se_mostly),
+    outcome = factor(outcome, levels = c("Strict dark", "Mostly dark"))
+  )
+
+ggplot(stage_plot_df, aes(x = implied_stage, y = mean_dark_share, color = outcome, group = outcome)) +
+  geom_errorbar(
+    aes(ymin = pmax(0, mean_dark_share - 1.96 * se), ymax = mean_dark_share + 1.96 * se),
+    width = 0.12,
+    linewidth = 0.5
+  ) +
+  geom_line(linewidth = 0.72) +
+  geom_point(size = 2.15) +
+  scale_x_continuous(breaks = stage_summary$implied_stage, labels = stage_summary$stage_label) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), limits = c(0, 0.07)) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  labs(
+    title = "Higher implied load-shedding stages have higher VJ darkness",
+    subtitle = "Stage 4 has only six validation nights, so its exact mean is less stable.",
+    x = NULL,
+    y = "National dark population share",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.2) +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+```
+
+```{r stage-binned-regression-table}
+stage_outcome_labels <- c(
+  popw_strict_dark_share = "Population strict dark",
+  popw_mostly_dark_share = "Population mostly dark",
+  demandw_strict_dark_share = "Demand strict dark",
+  demandw_mostly_dark_share = "Demand mostly dark",
+  demandw_down_only_z = "Demand down-only dimming z"
+)
+
+stage_ordinal_table <- bind_rows(
+  stage_ordinal %>% mutate(Specification = "No fixed effects"),
+  stage_ordinal_fe %>% mutate(Specification = "Month + DOW FE")
+) %>%
+  mutate(
+    Outcome = recode(outcome, !!!stage_outcome_labels),
+    `Effect per implied stage` = ifelse(
+      outcome == "demandw_down_only_z",
+      fmt_num(estimate_scaled, 3),
+      paste0(fmt_num(estimate_scaled, 2), " pp")
+    ),
+    `NW std. error` = ifelse(
+      outcome == "demandw_down_only_z",
+      fmt_num(std_error_scaled, 3),
+      paste0(fmt_num(std_error_scaled, 2), " pp")
+    ),
+    `95% CI` = ifelse(
+      outcome == "demandw_down_only_z",
+      paste0(fmt_num(ci_low_scaled, 3), " to ", fmt_num(ci_high_scaled, 3)),
+      paste0(fmt_num(ci_low_scaled, 2), " to ", fmt_num(ci_high_scaled, 2), " pp")
+    ),
+    `p-value` = fmt_p_pub(p_value),
+    `R-squared` = fmt_num(r_squared, 3)
+  ) %>%
+  filter(Outcome %in% c("Population strict dark", "Population mostly dark", "Demand down-only dimming z")) %>%
+  select(Specification, Outcome, N = n, `Effect per implied stage`, `NW std. error`, `95% CI`, `p-value`, `R-squared`)
+
+kable(
+  stage_ordinal_table,
+  booktabs = TRUE,
+  caption = "Ordinal implied-stage regressions. Binary-darkness effects are percentage-point changes per one-stage increase; the continuous dimming effect is in z-score units. Inference uses Newey-West HAC standard errors with a 7-day lag."
+)
+```
+
+The stage-binned results support the same conclusion as the continuous MLR regression. Mean strict darkness rises from `r percent(stage_summary$popw_strict_dark_share[stage_summary$implied_stage == 0], accuracy = 0.1)` at Stage 0 to `r percent(stage_summary$popw_strict_dark_share[stage_summary$implied_stage == 3], accuracy = 0.1)` at Stage 3; mean mostly-darkness rises from `r percent(stage_summary$popw_mostly_dark_share[stage_summary$implied_stage == 0], accuracy = 0.1)` to `r percent(stage_summary$popw_mostly_dark_share[stage_summary$implied_stage == 3], accuracy = 0.1)`. Stage 4 is directionally similar but has only `r stage_summary$n[stage_summary$implied_stage == 4]` nights.
+
+The NTL response is much smaller than the public user-off benchmark, which is expected. Eskom stages describe scheduled national load reduction and customer interruption windows, whereas VJ observes one nighttime overpass, backup supply can keep lights on, and binary darkness misses partial dimming. The stage check is therefore best read as a monotonic plausibility validation, while the continuous MLR regression remains the statistical headline.
+
+# Methodological Details And Robustness
+
+The remaining sections document monthly selection, calendar controls, serial-correlation checks, alternative outcome definitions, and settlement-level diagnostics.
+
+# Seasonal Selection Caveat
+
+```{r monthly-plot, fig.cap="Monthly pass/drop composition under the recommended standard screen. The standard sample combines the demand gate and annual excess-lit removal."}
+ggplot(monthly_standard, aes(x = month, y = nights, fill = standard_tier)) +
+  geom_col(width = 0.70) +
+  scale_fill_manual(values = c("Pass standard" = "#2B8CBE", "Excess-lit removed" = "#7B3294", "Low confidence" = "#FEC44F", "Fail" = "#D95F0E")) +
+  labs(
+    title = "The standard screen remains seasonally uneven",
+    subtitle = "Cloud and low-observation months still drive most dropped dates; annual excess-lit removal is smaller",
+    x = NULL,
+    fill = NULL,
+    y = "Product-date nights"
+  ) +
+  theme_report() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The largest monthly drop occurs in `r monthly_standard$month[which.max(monthly_standard$dropped_share)]`, where `r percent(max(monthly_standard$dropped_share), accuracy = 0.1)` of matched product-date nights are low-confidence, fail the demand gate, or are removed by the annual excess-lit screen. This is acceptable for a high-confidence validation headline only if the selection table remains visible with the headline.
+
+\newpage
+
+# Fixed-Effects Robustness
+
+```{r fixed-effects-table}
+specs <- data.frame(
+  spec_label = c("(1)", "(2)", "(3)", "(4)", "(5)"),
+  model_name = c("Baseline", "Quarter FE", "Month FE", "Day-of-week FE", "Month + DOW FE"),
+  controls = I(list(
+    NULL,
+    "quarter_fe",
+    "month_fe",
+    "dow_fe",
+    c("month_fe", "dow_fe")
+  )),
+  stringsAsFactors = FALSE
+)
+
+robustness <- bind_rows(lapply(seq_len(nrow(specs)), function(i) {
+  bind_rows(
+    cbind(
+      outcome_label = "Strict dark",
+      spec_label = specs$spec_label[i],
+      model_name = specs$model_name[i],
+      fit_nw_slope(analysis, "popw_strict_dark_share", controls = specs$controls[[i]])
+    ),
+    cbind(
+      outcome_label = "Mostly dark",
+      spec_label = specs$spec_label[i],
+      model_name = specs$model_name[i],
+      fit_nw_slope(analysis, "popw_mostly_dark_share", controls = specs$controls[[i]])
+    )
+  )
+}))
+
+make_econ_table <- function(data, outcome) {
+  d <- data %>%
+    filter(outcome_label == outcome) %>%
+    mutate(
+      quarter_fe = ifelse(model_name == "Quarter FE", "Yes", "No"),
+      month_fe = ifelse(model_name %in% c("Month FE", "Month + DOW FE"), "Yes", "No"),
+      dow_fe = ifelse(model_name %in% c("Day-of-week FE", "Month + DOW FE"), "Yes", "No")
+    )
+
+  table_long <- bind_rows(
+    d %>% transmute(row = "Effect per 10 pp MLR/contracted", spec_label, value = paste0(fmt_num(effect_pp_per_10pp, 2), " pp")),
+    d %>% transmute(row = "Newey-West SE", spec_label, value = paste0("(", fmt_num(se_pp_per_10pp, 2), ")")),
+    d %>% transmute(row = "p-value", spec_label, value = fmt_p_pub(p_value)),
+    d %>% transmute(row = "R-squared", spec_label, value = fmt_num(r_squared, 3)),
+    d %>% transmute(row = "Adjusted R-squared", spec_label, value = fmt_num(adj_r_squared, 3)),
+    d %>% transmute(row = "Observations", spec_label, value = format(n, big.mark = ",")),
+    d %>% transmute(row = "Quarter FE", spec_label, value = quarter_fe),
+    d %>% transmute(row = "Month FE", spec_label, value = month_fe),
+    d %>% transmute(row = "Day-of-week FE", spec_label, value = dow_fe)
+  )
+
+  model_header <- d %>%
+    transmute(row = "Model", spec_label, value = model_name)
+
+  bind_rows(model_header, table_long) %>%
+    pivot_wider(names_from = spec_label, values_from = value) %>%
+    rename(Statistic = row)
+}
+
+strict_robustness_table <- make_econ_table(robustness, "Strict dark")
+mostly_robustness_table <- make_econ_table(robustness, "Mostly dark")
+
+kable(
+  strict_robustness_table,
+  booktabs = TRUE,
+  caption = "Economist-style robustness table for the strict-dark outcome. The dependent variable is the population share in settlements with p_lit < 0.05. Standard errors are Newey-West HAC with a 7-day lag."
+)
+
+kable(
+  mostly_robustness_table,
+  booktabs = TRUE,
+  caption = "Economist-style robustness table for the mostly-dark outcome. The dependent variable is the population share in settlements with p_lit < 0.20. Standard errors are Newey-West HAC with a 7-day lag."
+)
+
+fe_joint_tests <- bind_rows(
+  cbind(
+    Outcome = "Strict dark",
+    test_fe_block(analysis, "popw_strict_dark_share", "quarter_fe", "^quarter_fe", "Quarter FE")
+  ),
+  cbind(
+    Outcome = "Strict dark",
+    test_fe_block(analysis, "popw_strict_dark_share", "month_fe", "^month_fe", "Month FE")
+  ),
+  cbind(
+    Outcome = "Strict dark",
+    test_fe_block(analysis, "popw_strict_dark_share", "dow_fe", "^dow_fe", "Day-of-week FE")
+  ),
+  cbind(
+    Outcome = "Strict dark",
+    test_fe_block(analysis, "popw_strict_dark_share", c("month_fe", "dow_fe"), "^month_fe", "Month FE in Month + DOW model")
+  ),
+  cbind(
+    Outcome = "Strict dark",
+    test_fe_block(analysis, "popw_strict_dark_share", c("month_fe", "dow_fe"), "^dow_fe", "DOW FE in Month + DOW model")
+  ),
+  cbind(
+    Outcome = "Mostly dark",
+    test_fe_block(analysis, "popw_mostly_dark_share", "quarter_fe", "^quarter_fe", "Quarter FE")
+  ),
+  cbind(
+    Outcome = "Mostly dark",
+    test_fe_block(analysis, "popw_mostly_dark_share", "month_fe", "^month_fe", "Month FE")
+  ),
+  cbind(
+    Outcome = "Mostly dark",
+    test_fe_block(analysis, "popw_mostly_dark_share", "dow_fe", "^dow_fe", "Day-of-week FE")
+  ),
+  cbind(
+    Outcome = "Mostly dark",
+    test_fe_block(analysis, "popw_mostly_dark_share", c("month_fe", "dow_fe"), "^month_fe", "Month FE in Month + DOW model")
+  ),
+  cbind(
+    Outcome = "Mostly dark",
+    test_fe_block(analysis, "popw_mostly_dark_share", c("month_fe", "dow_fe"), "^dow_fe", "DOW FE in Month + DOW model")
+  )
+) %>%
+  transmute(
+    Outcome,
+    `Fixed-effect block tested` = block,
+    df,
+    `Wald chi-square` = fmt_num(chisq, 2),
+    `p-value` = fmt_p_pub(p_value)
+  )
+
+kable(
+  fe_joint_tests,
+  booktabs = TRUE,
+  caption = "Joint significance tests for fixed-effect blocks. Tests are Newey-West HAC Wald tests with a 7-day lag."
+)
+```
+
+The fixed-effects estimates answer whether the validation signal survives calendar controls. Month fixed effects are the most important check because cloud, observation quality, electricity demand, and lighting behavior can all vary by month. The fixed-effect blocks are jointly significant, so they are not cosmetic controls. Even after absorbing this calendar variation, the Eskom MLR coefficient remains large and statistically significant, which makes a pure seasonal-comovement explanation less plausible.
+
+# Autocorrelation And Dynamic Robustness
+
+The validation panel is a daily time series, so serial correlation matters for inference and interpretation. It does not by itself invalidate OLS: under exogeneity, the OLS slope remains a valid co-movement estimate, but conventional iid standard errors are inappropriate. The report therefore uses Newey-West HAC inference as the baseline and adds five complementary checks: HAC lag sensitivity, moving-block bootstrap, AR(1) residual errors, a lagged-outcome model, first differences, and timing-preserving placebo tests.
+
+```{r autocorr-robustness-tables, fig.width=7.4, fig.height=9.8, fig.cap="Autocorrelation and dynamic robustness. Panel A compares coefficient estimates across time-series corrections and dynamic specifications. Panel B shows that Newey-West standard errors are stable across lag choices. Panel C reports persistence in the Eskom MLR validation signal."}
+autocorr_methods <- c(
+  "Baseline OLS + Newey-West",
+  "Moving-block bootstrap",
+  "AR(1) error model",
+  "Lagged-outcome model",
+  "First-difference model"
+)
+
+autocorr_method_labels <- c(
+  "Baseline OLS + Newey-West" = "Baseline NW",
+  "Moving-block bootstrap" = "Block bootstrap",
+  "AR(1) error model" = "AR(1) errors",
+  "Lagged-outcome model" = "Lagged outcome",
+  "First-difference model" = "First differences"
+)
+
+autocorr_plot_df <- autocorr_summary %>%
+  filter(method %in% autocorr_methods) %>%
+  mutate(
+    outcome_short = ifelse(grepl("Strict", outcome_label), "Strict dark", "Mostly dark"),
+    method_short = recode(method, !!!autocorr_method_labels),
+    method_short = factor(
+      method_short,
+      levels = rev(c("Baseline NW", "Block bootstrap", "AR(1) errors", "Lagged outcome", "First differences"))
+    ),
+    outcome_short = factor(outcome_short, levels = c("Mostly dark", "Strict dark"))
+  )
+
+autocorr_table <- autocorr_plot_df %>%
+  mutate(
+    Outcome = outcome_short,
+    Specification = method_short,
+    `Effect per 10 pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `Std. error` = paste0(fmt_num(se_pp_per_10pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(ci_low_pp_per_10pp, 2), " to ", fmt_num(ci_high_pp_per_10pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `R-squared` = ifelse(is.finite(r_squared), fmt_num(r_squared, 3), "")
+  ) %>%
+  select(Outcome, Specification, N = n, `Effect per 10 pp MLR`, `Std. error`, `95% CI`, `p-value`, `R-squared`)
+
+kable(
+  autocorr_table,
+  booktabs = TRUE,
+  caption = "Autocorrelation and dynamic robustness results. Effects are percentage-point changes in dark population share for a 10 percentage-point increase in Eskom MLR divided by RSA Contracted Demand. Baseline, lagged-outcome, and first-difference specifications use Newey-West HAC standard errors with a 7-day lag; the bootstrap row uses a 14-day moving-block bootstrap."
+)
+
+circular_summary <- autocorr_circular %>%
+  group_by(outcome, outcome_label) %>%
+  summarise(
+    n_shifts = n(),
+    actual_effect_pp = first(actual_effect_pp_per_10pp),
+    max_placebo_effect_pp = max(effect_pp_per_10pp, na.rm = TRUE),
+    min_placebo_effect_pp = min(effect_pp_per_10pp, na.rm = TRUE),
+    share_abs_ge_actual = mean(abs_at_least_actual, na.rm = TRUE),
+    strongest_shift = shift_observed_rows[which.max(abs(effect_pp_per_10pp))],
+    strongest_shift_effect_pp = effect_pp_per_10pp[which.max(abs(effect_pp_per_10pp))],
+    .groups = "drop"
+  )
+
+placebo_table <- autocorr_block %>%
+  transmute(
+    Outcome = ifelse(grepl("Strict", outcome_label), "Strict dark", "Mostly dark"),
+    `Actual effect` = paste0(fmt_num(actual_effect_pp_per_10pp, 2), " pp"),
+    `Block-placebo mean` = paste0(fmt_num(placebo_mean_effect_pp_per_10pp, 2), " pp"),
+    `Block-placebo 95% range` = paste0(
+      fmt_num(placebo_ci_low_pp_per_10pp, 2),
+      " to ",
+      fmt_num(placebo_ci_high_pp_per_10pp, 2),
+      " pp"
+    ),
+    `Empirical p-value` = fmt_p_pub(empirical_p_value)
+  ) %>%
+  left_join(
+    circular_summary %>%
+      transmute(
+        Outcome = ifelse(grepl("Strict", outcome_label), "Strict dark", "Mostly dark"),
+        `Circular shifts above actual` = paste0(round(100 * share_abs_ge_actual, 1), "%"),
+        `Strongest circular shift` = paste0(
+          strongest_shift,
+          " days (",
+          fmt_num(strongest_shift_effect_pp, 2),
+          " pp)"
+        )
+      ),
+    by = "Outcome"
+  )
+
+kable(
+  placebo_table,
+  booktabs = TRUE,
+  caption = "Block-permutation and circular-shift placebo tests. Block permutation breaks the true date match while preserving 14-observation chunks of the Eskom series. Circular shifts rotate the full Eskom series against the VJ series."
+)
+
+p_autocorr_effects <- ggplot(
+  autocorr_plot_df,
+  aes(x = effect_pp_per_10pp, y = method_short, color = outcome_short)
+) +
+  geom_vline(xintercept = 0, color = "#4A5568", linewidth = 0.35) +
+  geom_errorbar(
+    aes(xmin = ci_low_pp_per_10pp, xmax = ci_high_pp_per_10pp),
+    width = 0.18,
+    linewidth = 0.62,
+    position = position_dodge(width = 0.56),
+    orientation = "y"
+  ) +
+  geom_point(size = 2.0, position = position_dodge(width = 0.56)) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_x_continuous(labels = function(x) paste0(fmt_num(x, 1), " pp")) +
+  labs(
+    title = "A. Dynamic checks reduce but do not remove the slope",
+    x = "Effect per 10 pp MLR / RSA Contracted Demand",
+    y = NULL,
+    color = NULL
+  ) +
+  theme_report(base_size = 9.0) +
+  theme(legend.position = "bottom")
+
+p_hac_lag <- autocorr_hac %>%
+  mutate(
+    outcome_short = ifelse(grepl("Strict", outcome_label), "Strict dark", "Mostly dark"),
+    outcome_short = factor(outcome_short, levels = c("Mostly dark", "Strict dark"))
+  ) %>%
+  ggplot(aes(x = nw_lag, y = se_pp_per_10pp, color = outcome_short)) +
+  geom_vline(xintercept = 7, color = "#2D3748", linewidth = 0.35, linetype = "dashed") +
+  geom_line(linewidth = 0.70) +
+  geom_point(size = 1.8) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_x_continuous(breaks = sort(unique(autocorr_hac$nw_lag))) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 2), " pp")) +
+  labs(
+    title = "B. HAC standard errors are stable across lag choices",
+    x = "Newey-West lag",
+    y = "SE, pp per 10 pp MLR",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.0) +
+  theme(legend.position = "none")
+
+p_mlr_acf <- autocorr_mlr_acf %>%
+  ggplot(aes(x = lag_days, y = autocorrelation)) +
+  geom_hline(yintercept = 0, color = "#4A5568", linewidth = 0.32) +
+  geom_col(width = 0.72, fill = "#4A5568") +
+  annotate(
+    "text",
+    x = 7,
+    y = autocorr_mlr_acf$autocorrelation[autocorr_mlr_acf$lag_days == 7] + 0.08,
+    label = paste0("Lag 7 = ", fmt_num(autocorr_mlr_acf$autocorrelation[autocorr_mlr_acf$lag_days == 7], 2)),
+    size = 2.8,
+    color = "#2D3748"
+  ) +
+  scale_x_continuous(breaks = seq(0, 30, 5)) +
+  scale_y_continuous(limits = c(0, 0.88)) +
+  labs(
+    title = "C. Eskom MLR persistence explains nearby placebo signal",
+    x = "Lag in days",
+    y = "Autocorrelation"
+  ) +
+  theme_report(base_size = 9.0)
+
+p_autocorr_effects / p_hac_lag / p_mlr_acf +
+  plot_layout(heights = c(1.45, 0.95, 0.95))
+```
+
+The robustness checks support the OLS validation interpretation. For strict darkness, the baseline effect is `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_strict_dark_share" & autocorr_plot_df$method == "Baseline OLS + Newey-West"], 2)` pp per 10 pp MLR. The moving-block bootstrap gives nearly the same uncertainty, while the AR(1) residual model gives a slightly lower `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_strict_dark_share" & autocorr_plot_df$method == "AR(1) error model"], 2)` pp estimate. The deliberately harder dynamic checks reduce the coefficient to `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_strict_dark_share" & autocorr_plot_df$method == "Lagged-outcome model"], 2)` pp in the lagged-outcome model and `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_strict_dark_share" & autocorr_plot_df$method == "First-difference model"], 2)` pp in first differences, but both remain positive and statistically significant.
+
+For mostly-darkness, the same pattern holds: the baseline effect is `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_mostly_dark_share" & autocorr_plot_df$method == "Baseline OLS + Newey-West"], 2)` pp, and the first-difference effect remains `r fmt_num(autocorr_plot_df$effect_pp_per_10pp[autocorr_plot_df$outcome == "popw_mostly_dark_share" & autocorr_plot_df$method == "First-difference model"], 2)` pp. The interpretation is conservative: serial correlation and persistence matter, but they do not explain away the validation relationship.
+
+The placebo tests reinforce this conclusion. When 14-observation Eskom blocks are permuted against the VJ series, the strict-dark placebo 95 percent range is only `r fmt_num(autocorr_block$placebo_ci_low_pp_per_10pp[autocorr_block$outcome == "popw_strict_dark_share"], 2)` to `r fmt_num(autocorr_block$placebo_ci_high_pp_per_10pp[autocorr_block$outcome == "popw_strict_dark_share"], 2)` pp, far below the actual `r fmt_num(autocorr_block$actual_effect_pp_per_10pp[autocorr_block$outcome == "popw_strict_dark_share"], 2)` pp effect. No circular shift produces an effect as large as the correctly aligned same-night specification. Nearby shifted effects are still positive because Eskom MLR is persistent: its autocorrelation is `r fmt_num(autocorr_mlr_acf$autocorrelation[autocorr_mlr_acf$lag_days == 1], 2)` at lag 1, `r fmt_num(autocorr_mlr_acf$autocorrelation[autocorr_mlr_acf$lag_days == 3], 2)` at lag 3, and `r fmt_num(autocorr_mlr_acf$autocorrelation[autocorr_mlr_acf$lag_days == 7], 2)` at lag 7.
+
+\newpage
+
+# Lead-Lag Timing Placebo
+
+```{r lead-lag-placebo, fig.width=7.4, fig.height=4.8, fig.cap="Lead-lag placebo test. Zero is the established same-night VJ/Eskom alignment; negative shifts use earlier Eskom MLR and positive shifts use later Eskom MLR. Bands show Newey-West 95 percent confidence intervals."}
+mlr_lookup <- coverage %>%
+  select(date, shifted_mlr = shed_share_1_2am_primary)
+
+shift_values <- -30:30
+lead_lag_df <- bind_rows(lapply(shift_values, function(k) {
+  shifted <- analysis %>%
+    select(date, month_fe, dow_fe, popw_strict_dark_share, popw_mostly_dark_share) %>%
+    mutate(shift_date = date + k) %>%
+    left_join(mlr_lookup, by = c("shift_date" = "date"))
+
+  bind_rows(
+    cbind(
+      outcome_label = "Strict dark",
+      shift_days = k,
+      fit_nw_slope(shifted, "popw_strict_dark_share", predictor = "shifted_mlr")
+    ),
+    cbind(
+      outcome_label = "Mostly dark",
+      shift_days = k,
+      fit_nw_slope(shifted, "popw_mostly_dark_share", predictor = "shifted_mlr")
+    )
+  )
+})) %>%
+  mutate(outcome_label = factor(outcome_label, levels = c("Mostly dark", "Strict dark")))
+
+lead_lag_zero <- lead_lag_df %>%
+  filter(shift_days == 0)
+
+ggplot(lead_lag_df, aes(x = shift_days, y = effect_pp_per_10pp, color = outcome_label, fill = outcome_label)) +
+  geom_hline(yintercept = 0, color = "#4A5568", linewidth = 0.32) +
+  geom_vline(xintercept = 0, color = "#2D3748", linewidth = 0.42, linetype = "dashed") +
+  geom_ribbon(aes(ymin = ci_low_pp, ymax = ci_high_pp), alpha = 0.12, color = NA) +
+  geom_line(linewidth = 0.72) +
+  geom_point(data = lead_lag_zero, size = 2.4) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_fill_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_x_continuous(breaks = seq(-30, 30, 10)) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 1), " pp")) +
+  labs(
+    title = "The validation signal is strongest around the correct night",
+    subtitle = "Placebo regressions replace same-night MLR with MLR from earlier or later dates.",
+    x = "Shift in Eskom MLR date relative to VJ product date",
+    y = "Effect per 10 pp MLR / RSA Contracted Demand",
+    color = NULL,
+    fill = NULL
+  ) +
+  theme_report(base_size = 9.6)
+```
+
+The lead-lag timing placebo asks whether the validation result is tied to the correct date alignment. If the validation result were only a broad seasonal artifact, similarly large effects would appear at many arbitrary date shifts. Instead, the correct alignment is highlighted at zero and nearby shifts remain informative mainly because Eskom MLR is serially persistent over adjacent days. This test is therefore a credibility check on timing, not a replacement for the month fixed-effects robustness table.
+
+\newpage
+
+# Demand-Gate Sensitivity
+
+```{r gate-threshold-sensitivity, fig.width=7.4, fig.height=5.8, fig.cap="Sensitivity to the observed-demand gate. The recommended 40 percent threshold is marked by the dashed vertical line. Coefficients use Newey-West 95 percent confidence intervals."}
+thresholds <- seq(0.20, 0.70, by = 0.05)
+
+gate_sensitivity <- bind_rows(lapply(thresholds, function(th) {
+  sub <- coverage %>%
+    filter(
+      observed_demand_share >= th,
+      !date %in% preferred_excess_lit_remove_dates,
+      is.finite(shed_share_1_2am_primary),
+      is.finite(popw_strict_dark_share),
+      is.finite(popw_mostly_dark_share)
+    )
+  bind_rows(
+    cbind(
+      outcome_label = "Strict dark",
+      threshold = th,
+      fit_nw_slope(sub, "popw_strict_dark_share")
+    ),
+    cbind(
+      outcome_label = "Mostly dark",
+      threshold = th,
+      fit_nw_slope(sub, "popw_mostly_dark_share")
+    )
+  )
+})) %>%
+  mutate(outcome_label = factor(outcome_label, levels = c("Mostly dark", "Strict dark")))
+
+gate_n <- gate_sensitivity %>%
+  filter(outcome_label == "Strict dark") %>%
+  select(threshold, n)
+
+p_gate_effect <- ggplot(gate_sensitivity, aes(x = threshold, y = effect_pp_per_10pp, color = outcome_label, fill = outcome_label)) +
+  geom_vline(xintercept = 0.40, color = "#2D3748", linewidth = 0.42, linetype = "dashed") +
+  geom_ribbon(aes(ymin = ci_low_pp, ymax = ci_high_pp), alpha = 0.12, color = NA) +
+  geom_line(linewidth = 0.72) +
+  geom_point(size = 2.0) +
+  scale_color_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_fill_manual(values = c("Strict dark" = color_strict, "Mostly dark" = color_mostly)) +
+  scale_x_continuous(labels = percent_format(accuracy = 1), breaks = thresholds) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 1), " pp")) +
+  labs(
+    title = "The MLR-darkness slope is stable around the recommended demand gate",
+    subtitle = "Thresholds vary the minimum observed demand share required for a night to enter the regression.",
+    x = NULL,
+    y = "Effect per 10 pp MLR / RSA Contracted Demand",
+    color = NULL,
+    fill = NULL
+  ) +
+  theme_report(base_size = 9.3) +
+  theme(axis.text.x = element_blank(), legend.position = "bottom")
+
+p_gate_n <- ggplot(gate_n, aes(x = threshold, y = n)) +
+  geom_vline(xintercept = 0.40, color = "#2D3748", linewidth = 0.42, linetype = "dashed") +
+  geom_line(color = "#4A5568", linewidth = 0.65) +
+  geom_point(color = "#4A5568", size = 1.8) +
+  geom_text(aes(label = n), vjust = -0.45, size = 2.5, color = "#4A5568") +
+  scale_x_continuous(labels = percent_format(accuracy = 1), breaks = thresholds) +
+  scale_y_continuous(limits = c(0, max(gate_n$n) * 1.18)) +
+  labs(
+    x = "Minimum observed demand share",
+    y = "N nights"
+  ) +
+  theme_report(base_size = 9.3) +
+  theme(legend.position = "none")
+
+p_gate_effect / p_gate_n + plot_layout(heights = c(2.2, 1))
+```
+
+The demand-gate sensitivity figure checks whether the headline result is an artifact of the chosen 40 percent observed-demand gate. The coefficient remains positive over a broad threshold range, while the lower panel shows the expected sample-size tradeoff: stricter gates increase confidence in observation quality but reduce the number of validation nights.
+
+\newpage
+
+# National Continuous-Dimming Robustness
+
+The headline metrics classify settlements as dark or not dark. That is intentionally conservative, but it can miss partial dimming in large and normally bright settlements. To test whether the national validation also holds for partial light loss, we add a continuous-dimming robustness check.
+
+For each observed settlement-night, define a settlement-specific baseline lit share \(p^{baseline}_{i,m}\). The preferred baseline is the median \(p\_lit\) for the same settlement and month among the lowest-MLR 20 percent of standard validation nights. If that settlement-month baseline is sparse, the script falls back to an annual low-MLR baseline and then to the annual standard-night median.
+
+The preferred continuous outcome is:
+
+\[
+\text{Down-only dimming}_d =
+\sum_i w_{i,d} \cdot \max(p^{baseline}_{i,m(d)} - p_{i,d}, 0)
+\]
+
+where \(w_{i,d}\) is the observed settlement population share on date \(d\). This metric is measured in population-weighted percentage points of light loss. It is "down-only" so that noise-driven brightening in one place does not cancel genuine dimming elsewhere.
+
+```{r national-dimming-tables}
+dimming_order <- c(
+  "Strict dark: p_lit < 0.05",
+  "Mostly dark: p_lit < 0.20",
+  "Raw continuous darkness: 1 - p_lit",
+  "Signed baseline dimming",
+  "Down-only baseline dimming"
+)
+
+dimming_colors <- c(
+  "Strict dark: p_lit < 0.05" = color_strict,
+  "Mostly dark: p_lit < 0.20" = color_mostly,
+  "Raw continuous darkness: 1 - p_lit" = "#D55E00",
+  "Signed baseline dimming" = "#0072B2",
+  "Down-only baseline dimming" = "#8B1A1A"
+)
+
+dimming_assoc_table <- national_dimming_metrics %>%
+  mutate(outcome_label = factor(outcome_label, levels = dimming_order)) %>%
+  arrange(outcome_label) %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    N = n,
+    `Pearson r` = fmt_num(pearson_r, 3),
+    `R-squared` = fmt_num(r_squared, 3),
+    `Spearman rho` = fmt_num(spearman_rho, 3),
+    `AUC: any MLR` = fmt_num(auc_any_shed, 3)
+  )
+
+dimming_effect_table <- national_dimming_metrics %>%
+  mutate(outcome_label = factor(outcome_label, levels = dimming_order)) %>%
+  arrange(outcome_label) %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    `Effect per 10 pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW SE` = paste0(fmt_num(se_nw_pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    RMSE = paste0(fmt_num(rmse_pp, 2), " pp"),
+    MAE = paste0(fmt_num(mae_pp, 2), " pp")
+  )
+
+dimming_baseline_table <- national_dimming_baseline %>%
+  transmute(
+    `Baseline source` = recode(
+      baseline_source,
+      settlement_month_low_mlr = "Settlement-month low-MLR median",
+      settlement_annual_low_mlr = "Settlement annual low-MLR median",
+      settlement_annual_all_pass = "Settlement annual pass-night median"
+    ),
+    Settlements = format(settlements, big.mark = ","),
+    `Settlement share` = percent(settlement_share, accuracy = 0.1),
+    `Population share` = percent(population_share, accuracy = 0.1)
+  )
+
+dimming_fe_table <- national_dimming_fe %>%
+  filter(outcome == "down_only_baseline_dimming") %>%
+  transmute(
+    Model = model,
+    N = n,
+    `Effect per 10 pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `NW SE` = paste0(fmt_num(se_nw_pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value),
+    `R-squared` = fmt_num(r_squared, 3)
+  )
+
+dimming_quartile_table <- national_dimming_quartile %>%
+  filter(outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share", "down_only_baseline_dimming")) %>%
+  mutate(outcome_label = factor(outcome_label, levels = dimming_order)) %>%
+  arrange(outcome_label) %>%
+  transmute(
+    Outcome = as.character(outcome_label),
+    `Bottom quartile mean` = paste0(fmt_num(bottom_mean_pp, 2), " pp"),
+    `Top quartile mean` = paste0(fmt_num(top_mean_pp, 2), " pp"),
+    `Top - bottom` = paste0(fmt_num(top_minus_bottom_pp, 2), " pp"),
+    `95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp")
+  )
+
+kable(
+  dimming_baseline_table,
+  booktabs = TRUE,
+  caption = "Baseline source coverage for national continuous dimming. The preferred baseline is settlement-month low-MLR median p_lit; fallback baselines preserve settlement coverage where monthly low-MLR support is sparse."
+)
+
+kable(
+  dimming_assoc_table,
+  booktabs = TRUE,
+  caption = "National binary and continuous association metrics. Continuous outcomes are population-weighted national light-loss measures."
+)
+
+kable(
+  dimming_effect_table,
+  booktabs = TRUE,
+  caption = "National binary and continuous effect-size metrics. Effects are percentage-point changes in the outcome for a 10 percentage-point increase in Eskom MLR divided by RSA Contracted Demand; standard errors and p-values use Newey-West HAC inference with a 7-day lag."
+)
+
+kable(
+  dimming_fe_table,
+  booktabs = TRUE,
+  caption = "Fixed-effects robustness for the preferred down-only baseline-dimming metric. Effects are percentage-point changes in population-weighted dimming for a 10 percentage-point increase in Eskom MLR."
+)
+
+kable(
+  dimming_quartile_table,
+  booktabs = TRUE,
+  caption = "Extreme-quartile comparison. The bottom quartile contains the lowest-MLR standard validation nights; the top quartile contains the highest-MLR standard validation nights."
+)
+```
+
+```{r national-dimming-coefficient-figure, fig.width=7.4, fig.height=4.95, fig.cap="National binary and continuous validation coefficients. Points show OLS effects per 10 percentage points of Eskom MLR divided by RSA Contracted Demand; intervals use Newey-West HAC standard errors with a 7-day lag."}
+dimming_coef_plot <- national_dimming_metrics %>%
+  mutate(outcome_label = factor(outcome_label, levels = rev(dimming_order)))
+
+ggplot(dimming_coef_plot, aes(x = effect_pp_per_10pp, y = outcome_label, color = outcome_label)) +
+  geom_vline(xintercept = 0, color = "#4A5568", linewidth = 0.34) +
+  geom_errorbar(aes(xmin = ci_low_pp, xmax = ci_high_pp), width = 0.15, linewidth = 0.70, orientation = "y") +
+  geom_point(size = 2.35) +
+  geom_text(
+    aes(label = paste0(fmt_num(effect_pp_per_10pp, 2), " pp")),
+    nudge_y = 0.18,
+    size = 3.0,
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = dimming_colors) +
+  labs(
+    title = "Continuous dimming complements the binary darkness headline",
+    subtitle = "Binary outcomes validate severe disappearance; down-only dimming validates partial national light loss.",
+    x = "Effect per 10 pp Eskom MLR, percentage points",
+    y = NULL,
+    color = NULL
+  ) +
+  theme_report(base_size = 9.5) +
+  theme(legend.position = "none")
+```
+
+```{r national-dimming-dose-figure, fig.width=7.4, fig.height=4.9, fig.cap="Continuous national dimming dose-response. Standard validation nights are split into ten equal-count bins by Eskom MLR divided by RSA Contracted Demand; bars show approximate 95 percent confidence intervals."}
+dimming_dose_plot <- national_dimming_bins %>%
+  filter(outcome %in% c("raw_continuous_darkness", "signed_baseline_dimming", "down_only_baseline_dimming")) %>%
+  mutate(
+    outcome_label = factor(
+      outcome_label,
+      levels = c(
+        "Raw continuous darkness: 1 - p_lit",
+        "Signed baseline dimming",
+        "Down-only baseline dimming"
+      )
+    )
+  )
+
+ggplot(dimming_dose_plot, aes(x = mean_shed, y = mean_value, color = outcome_label)) +
+  geom_hline(yintercept = 0, color = "#4A5568", linewidth = 0.32) +
+  geom_errorbar(aes(ymin = ci_low, ymax = ci_high), width = 0, linewidth = 0.50, alpha = 0.82) +
+  geom_line(linewidth = 0.68, alpha = 0.86) +
+  geom_point(size = 2.0, alpha = 0.94) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 0.1)) +
+  scale_color_manual(values = dimming_colors) +
+  labs(
+    title = "Baseline-relative dimming rises with MLR intensity",
+    subtitle = "Down-only dimming is monotonic and avoids offsetting local darkening with unrelated brightening.",
+    x = "Average Eskom MLR / RSA Contracted Demand within bin, 01:00-02:00 SAST",
+    y = "Population-weighted national outcome",
+    color = NULL
+  ) +
+  theme_report(base_size = 9.5)
+```
+
+```{r national-dimming-timeseries-figure, fig.width=7.4, fig.height=7.7, fig.cap="Daily standardized Eskom MLR and down-only national dimming. Lines connect consecutive standard validation nights within each quarter; no rolling mean is applied."}
+dimming_ts_df <- national_dimming_daily %>%
+  filter(is.finite(shed_share_1_2am_primary), is.finite(down_only_baseline_dimming)) %>%
+  arrange(date) %>%
+  mutate(
+    shed_z = z_score(shed_share_1_2am_primary),
+    dimming_z = z_score(down_only_baseline_dimming),
+    quarter = factor(
+      c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")[((as.integer(format(date, "%m")) - 1) %/% 3) + 1],
+      levels = c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")
+    )
+  ) %>%
+  select(date, quarter, shed_z, dimming_z) %>%
+  pivot_longer(c(shed_z, dimming_z), names_to = "series", values_to = "value") %>%
+  mutate(
+    series = recode(series, shed_z = "Eskom MLR", dimming_z = "Down-only national dimming"),
+    series = factor(series, levels = c("Eskom MLR", "Down-only national dimming"))
+  ) %>%
+  group_by(series, quarter) %>%
+  arrange(date, .by_group = TRUE) %>%
+  mutate(run_id = cumsum(c(TRUE, diff(date) > 1))) %>%
+  ungroup()
+
+dimming_pref <- national_dimming_metrics %>%
+  filter(outcome == "down_only_baseline_dimming") %>%
+  slice(1)
+
+ggplot(dimming_ts_df, aes(x = date, y = value, color = series, group = interaction(series, quarter, run_id))) +
+  geom_hline(yintercept = 0, color = "#CBD5E0", linewidth = 0.28) +
+  geom_line(linewidth = 0.50, alpha = 0.76) +
+  geom_point(size = 0.86, alpha = 0.66) +
+  facet_wrap(~ quarter, ncol = 1, scales = "free_x") +
+  scale_color_manual(values = c("Eskom MLR" = color_eskom, "Down-only national dimming" = "#8B1A1A")) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  labs(
+    title = "Eskom MLR and baseline-relative dimming move together",
+    subtitle = paste0(
+      "Both series are standardized over the same ", dimming_pref$n,
+      " standard validation nights; r = ",
+      fmt_num(dimming_pref$pearson_r, 3),
+      ", R2 = ",
+      fmt_num(dimming_pref$r_squared, 3),
+      "."
+    ),
+    x = NULL,
+    y = "Standard deviations from series mean",
+    color = NULL
+  ) +
+  theme_report(base_size = 8.8) +
+  theme(
+    strip.text = element_text(face = "bold", color = "#2D3748"),
+    legend.position = "bottom"
+  )
+```
+
+The continuous results strengthen the interpretation without changing the headline specification. The preferred down-only baseline dimming metric has \(r =\) `r fmt_num(dimming_pref$pearson_r, 3)`, \(R^2 =\) `r fmt_num(dimming_pref$r_squared, 3)`, and an effect of `r fmt_num(dimming_pref$effect_pp_per_10pp, 2)` pp per 10 pp Eskom MLR. This is slightly weaker than the strict binary-darkness headline in raw correlation, but it is substantively important because it captures partial dimming that a dark/not-dark threshold can miss. It is therefore best read as a bridge between the national validation and the local-area reliability product needed for PyPSA.
+
+\newpage
+
+# Settlement-Level Heterogeneity
+
+```{r per-settlement-slopes, fig.width=7.4, fig.height=5.8, fig.cap="Distribution of settlement-level MLR-darkness slopes. Each settlement is estimated separately using standard validation nights. The histogram is population-weighted; dashed lines mark the population-weighted mean slope."}
+settlement_slope_table <- settlement_slope_summary %>%
+  transmute(
+    Outcome = ifelse(outcome == "strict", "Strict dark", "Mostly dark"),
+    `Estimable settlements` = format(settlements_estimable, big.mark = ","),
+    `Weighted mean slope` = paste0(fmt_num(population_weighted_mean_slope_pp, 2), " pp"),
+    `Median slope` = paste0(fmt_num(median_slope_pp, 2), " pp"),
+    `Weighted median` = paste0(fmt_num(weighted_median_slope_pp, 2), " pp"),
+    `Settlements positive` = percent(share_settlements_positive, accuracy = 0.1),
+    `Population positive` = percent(share_population_positive, accuracy = 0.1),
+    `Population sig. positive` = percent(share_population_sig_positive, accuracy = 0.1)
+  )
+
+kable(
+  settlement_slope_table,
+  booktabs = TRUE,
+  caption = "Per-settlement slope distribution. Each settlement is separately regressed on Eskom MLR using standard validation nights with at least 50 observations. Constant-outcome settlements are retained with zero slopes."
+)
+
+knitr::include_graphics(settlement_slope_fig_file)
+```
+
+This diagnostic estimates one separate slope per settlement and asks whether the national validation signal is broad-based or concentrated in a few places. It should not replace the national-night regression: Eskom MLR is still a national date-level variable, and individual settlement regressions are noisy. Its value is descriptive heterogeneity.
+
+For strict darkness, `r percent(settlement_slope_summary$share_settlements_positive[settlement_slope_summary$outcome == "strict"], accuracy = 0.1)` of estimable settlements have positive slopes, but those settlements contain only `r percent(settlement_slope_summary$share_population_positive[settlement_slope_summary$outcome == "strict"], accuracy = 0.1)` of the estimable population. For mostly-darkness, `r percent(settlement_slope_summary$share_settlements_positive[settlement_slope_summary$outcome == "mostly"], accuracy = 0.1)` of settlements and `r percent(settlement_slope_summary$share_population_positive[settlement_slope_summary$outcome == "mostly"], accuracy = 0.1)` of the population have positive slopes. The population-weighted mean local slope is positive for both outcomes, but the population-weighted median is zero. The interpretation is therefore nuanced: the signal is widespread across many settlements and positive in the population-weighted mean, while a large share of the population lives in settlements that are rarely or never classified dark at the settlement level.
+
+\newpage
+
+# Robustness Appendix: Settlement Threshold Ladder
+
+The headline validation is intentionally national and conservative. This appendix asks a different question: when Eskom MLR increases, do individual settlements become more likely to darken, and does the answer depend on how strictly "dark" is defined?
+
+The settlement-level appendix keeps the same standard 2023 validation dates and estimates:
+
+\[
+y_{i,d} = \alpha_i + \beta \cdot \text{shed share}_{d,01:00-02:00} + \gamma_m + \delta_w + \epsilon_{i,d}
+\]
+
+where \(y_{i,d}\) is a settlement-night darkness outcome, \(\alpha_i\) are settlement fixed effects, \(\gamma_m\) are month fixed effects, and \(\delta_w\) are day-of-week fixed effects. Standard errors are clustered by date, so inference is not driven by treating thousands of settlements on the same night as independent national shocks.
+
+Four outcomes are compared:
+
+- **Strict binary darkness:** \(p\_lit < 0.05\).
+- **Mostly-dark binary darkness:** \(p\_lit < 0.20\).
+- **Relaxed binary darkness:** \(p\_lit < 0.40\).
+- **Continuous dimming:** \(1 - p\_lit\).
+
+The last outcome is not a replacement for the strict headline metric. It is a robustness diagnostic designed to detect partial dimming, especially in large urban settlements that may lose electricity service without crossing a binary "dark" threshold.
+
+```{r settlement-ladder-tables}
+ladder_outcome_levels <- c(
+  "p_lit < 0.05",
+  "p_lit < 0.20",
+  "p_lit < 0.40",
+  "Continuous: 1 - p_lit"
+)
+
+ladder_outcome_labels <- c(
+  "p_lit < 0.05" = "Strict",
+  "p_lit < 0.20" = "Mostly dark",
+  "p_lit < 0.40" = "Relaxed",
+  "Continuous: 1 - p_lit" = "Continuous dimming"
+)
+
+coverage_labels <- c(
+  "0.5" = "Coverage >= 50%",
+  "0.75" = "Coverage >= 75%",
+  "0.9" = "Coverage >= 90%"
+)
+
+ladder_fe_pref <- settlement_ladder_fe %>%
+  filter(model == "Settlement FE + month + DOW FE") %>%
+  mutate(
+    coverage_label = recode(as.character(coverage_min), !!!coverage_labels),
+    outcome_short = recode(outcome_label, !!!ladder_outcome_labels),
+    outcome_short = factor(outcome_short, levels = unname(ladder_outcome_labels)),
+    coverage_label = factor(coverage_label, levels = unname(coverage_labels))
+  )
+
+ladder_slope_all <- settlement_ladder_slope %>%
+  filter(pop_bin == "All") %>%
+  mutate(
+    coverage_label = recode(as.character(coverage_min), !!!coverage_labels),
+    outcome_short = recode(outcome_label, !!!ladder_outcome_labels),
+    outcome_short = factor(outcome_short, levels = unname(ladder_outcome_labels)),
+    coverage_label = factor(coverage_label, levels = unname(coverage_labels))
+  )
+
+ladder_sample_table <- settlement_ladder_sample %>%
+  mutate(
+    `Coverage gate` = recode(as.character(coverage_min), !!!coverage_labels),
+    `Settlement-nights` = format(n_rows, big.mark = ","),
+    `Settlements` = format(n_settlements, big.mark = ","),
+    `Dates` = n_dates,
+    `Median nights per settlement` = median_rows_per_settlement
+  ) %>%
+  select(`Coverage gate`, `Settlement-nights`, `Settlements`, `Dates`, `Median nights per settlement`)
+
+kable(
+  ladder_sample_table,
+  booktabs = TRUE,
+  caption = "Settlement-level sample sizes under stricter settlement-night coverage gates."
+)
+
+ladder_fe_table <- ladder_fe_pref %>%
+  transmute(
+    `Coverage gate` = coverage_label,
+    Outcome = outcome_short,
+    `Effect per 10 pp MLR` = paste0(fmt_num(effect_pp_per_10pp, 2), " pp"),
+    `Date-clustered SE` = paste0("(", fmt_num(se_cluster_date_pp, 2), ")"),
+    `95% CI` = paste0(fmt_num(ci_low_pp, 2), " to ", fmt_num(ci_high_pp, 2), " pp"),
+    `p-value` = fmt_p_pub(p_value)
+  )
+
+kable(
+  ladder_fe_table,
+  booktabs = TRUE,
+  caption = "Settlement fixed-effects threshold ladder. Dependent variables are settlement-night darkness outcomes. All specifications include settlement, month, and day-of-week fixed effects; standard errors are clustered by date."
+)
+
+ladder_r2_table <- ladder_fe_pref %>%
+  transmute(
+    `Coverage gate` = coverage_label,
+    Outcome = outcome_short,
+    `Full R2` = fmt_num(model_full_r2, 3),
+    `Within R2` = fmt_num(model_within_r2, 3),
+    `MLR partial R2` = fmt_num(mlr_partial_r2, 3)
+  )
+
+kable(
+  ladder_r2_table,
+  booktabs = TRUE,
+  caption = "Settlement fixed-effects fit statistics. Full R2 includes settlement fixed effects and calendar controls; within R2 is computed after removing settlement means; MLR partial R2 is the incremental explanatory power of Eskom MLR after settlement, month, and day-of-week effects."
+)
+
+ladder_breadth_table <- ladder_slope_all %>%
+  filter(coverage_min == 0.5) %>%
+  transmute(
+    Outcome = outcome_short,
+    `Population-weighted mean local slope` = paste0(fmt_num(population_weighted_mean_slope_pp, 2), " pp"),
+    `Weighted median local slope` = paste0(fmt_num(weighted_median_slope_pp, 2), " pp"),
+    `Population with positive local slope` = percent(share_population_positive, accuracy = 0.1),
+    `Population with significant positive slope` = percent(share_population_sig_positive, accuracy = 0.1)
+  )
+
+kable(
+  ladder_breadth_table,
+  booktabs = TRUE,
+  caption = "Local settlement-slope breadth at the 50 percent settlement-night coverage gate. Local slopes are settlement-by-settlement regressions of the outcome on Eskom MLR."
+)
+```
+
+The R2 statistics should be read separately. Full R2 includes the settlement fixed effects, so it captures persistent cross-sectional differences in baseline brightness. Within R2 asks how much of the remaining day-to-day variation within the same settlement is explained by the model. MLR partial R2 is narrower still: it measures only the incremental contribution of Eskom MLR after settlement, month, and day-of-week controls. In this setting, a small partial R2 is expected because a national MLR series cannot explain most local settlement-night noise, even when its average effect is precise and economically meaningful.
+
+```{r settlement-ladder-effects-figure, fig.width=7.4, fig.height=4.9, fig.cap="Settlement fixed-effects threshold ladder. Points show the effect of a 10 percentage-point increase in Eskom MLR on settlement-night darkness outcomes; bars are 95 percent confidence intervals using date-clustered standard errors."}
+ladder_colors <- c(
+  "Coverage >= 50%" = "#8B1A1A",
+  "Coverage >= 75%" = "#D55E00",
+  "Coverage >= 90%" = "#0072B2"
+)
+
+ggplot(
+  ladder_fe_pref,
+  aes(x = coverage_label, y = effect_pp_per_10pp, color = coverage_label)
+) +
+  geom_hline(yintercept = 0, color = "#4A5568", linewidth = 0.32) +
+  geom_errorbar(aes(ymin = ci_low_pp, ymax = ci_high_pp), width = 0.12, linewidth = 0.58) +
+  geom_point(size = 2.1) +
+  geom_line(aes(group = outcome_short), color = "#4A5568", linewidth = 0.36, alpha = 0.45) +
+  facet_wrap(~ outcome_short, nrow = 1) +
+  scale_color_manual(values = ladder_colors) +
+  scale_y_continuous(
+    labels = function(x) paste0(fmt_num(x, 1), " pp"),
+    limits = c(0, 9.5),
+    breaks = c(0, 2.5, 5.0, 7.5)
+  ) +
+  labs(
+    title = "Settlement-level effects are stable under stricter coverage gates",
+    subtitle = "The signal strengthens when darkness is measured as partial dimming rather than only strict binary darkness.",
+    x = NULL,
+    y = "Effect per 10 pp Eskom MLR",
+    color = NULL
+  ) +
+  theme_report(base_size = 8.7) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    strip.text = element_text(face = "bold", color = "#2D3748"),
+    legend.position = "bottom"
+  )
+```
+
+```{r settlement-ladder-breadth-figure, fig.width=7.4, fig.height=5.15, fig.cap="Settlement detection breadth by outcome definition and coverage gate. Panel A reports the population share living in settlements with positive local Eskom-MLR slopes. Panel B reports the population-weighted mean local slope."}
+ladder_breadth_plot <- ladder_slope_all %>%
+  mutate(
+    outcome_short = factor(outcome_short, levels = unname(ladder_outcome_labels)),
+    coverage_label = factor(coverage_label, levels = unname(coverage_labels))
+  )
+
+breadth_long <- bind_rows(
+  ladder_breadth_plot %>%
+    transmute(
+      outcome_short,
+      coverage_label,
+      metric = "A. Population share with positive local slope",
+      value = share_population_positive * 100
+    ),
+  ladder_breadth_plot %>%
+    transmute(
+      outcome_short,
+      coverage_label,
+      metric = "B. Population-weighted mean local slope",
+      value = population_weighted_mean_slope_pp
+    )
+) %>%
+  mutate(metric = factor(metric, levels = c(
+    "A. Population share with positive local slope",
+    "B. Population-weighted mean local slope"
+  )))
+
+ggplot(
+  breadth_long,
+  aes(x = outcome_short, y = value, color = coverage_label, group = coverage_label)
+) +
+  geom_hline(
+    data = data.frame(metric = factor("B. Population-weighted mean local slope", levels = levels(breadth_long$metric))),
+    aes(yintercept = 0),
+    inherit.aes = FALSE,
+    color = "#4A5568",
+    linewidth = 0.32
+  ) +
+  geom_line(linewidth = 0.62, alpha = 0.82) +
+  geom_point(size = 2.0) +
+  facet_wrap(~ metric, ncol = 1, scales = "free_y") +
+  scale_color_manual(values = ladder_colors) +
+  scale_y_continuous(labels = function(x) paste0(fmt_num(x, 1))) +
+  labs(
+    title = "Settlement detection broadens sharply under continuous dimming",
+    subtitle = "Coverage thresholds barely change the pattern; the outcome definition drives the breadth result.",
+    x = NULL,
+    y = "Percent or percentage points",
+    color = NULL
+  ) +
+  theme_report(base_size = 8.9) +
+  theme(
+    axis.text.x = element_text(angle = 18, hjust = 1),
+    strip.text = element_text(face = "bold", color = "#2D3748"),
+    legend.position = "bottom"
+  )
+```
+
+```{r settlement-ladder-population-bin-figure, fig.width=7.4, fig.height=4.95, fig.cap="Detection breadth by settlement population size at the 50 percent coverage gate. Bars show the population share within each size bin living in settlements with positive local Eskom-MLR slopes."}
+pop_bin_levels <- c("101-1k", "1k-10k", "10k-100k", ">100k")
+pop_bin_colors <- c(
+  "101-1k" = "#CC6677",
+  "1k-10k" = "#228833",
+  "10k-100k" = "#4477AA",
+  ">100k" = "#AA3377"
+)
+
+ladder_bins_50 <- settlement_ladder_bins %>%
+  filter(coverage_min == 0.5, pop_bin %in% pop_bin_levels) %>%
+  mutate(
+    pop_bin = factor(pop_bin, levels = pop_bin_levels),
+    outcome_short = recode(outcome_label, !!!ladder_outcome_labels),
+    outcome_short = factor(outcome_short, levels = unname(ladder_outcome_labels))
+  )
+
+ggplot(ladder_bins_50, aes(x = outcome_short, y = share_population_positive, fill = pop_bin)) +
+  geom_col(position = position_dodge(width = 0.74), width = 0.64) +
+  geom_hline(yintercept = 0.5, color = "#4A5568", linewidth = 0.28, linetype = "dashed") +
+  scale_fill_manual(values = pop_bin_colors) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), limits = c(0, 1.04)) +
+  labs(
+    title = "Large settlements are under-detected by strict binary darkness",
+    subtitle = "For settlements above 100,000 people, strict-dark local slopes are rarely positive.\nContinuous dimming recovers the expected response.",
+    x = NULL,
+    y = "Population share with positive local slope",
+    fill = "Settlement population"
+  ) +
+  theme_report(base_size = 9.0) +
+  theme(
+    axis.text.x = element_text(angle = 18, hjust = 1),
+    legend.position = "bottom"
+  )
+```
+
+The appendix supports two conclusions. First, raising the settlement-night coverage gate from 50 percent to 75 or 90 percent does not overturn the validation result. The sample shrinks from `r format(settlement_ladder_sample$n_rows[settlement_ladder_sample$coverage_min == 0.5], big.mark = ",")` to `r format(settlement_ladder_sample$n_rows[settlement_ladder_sample$coverage_min == 0.9], big.mark = ",")` settlement-nights, but the same `r settlement_ladder_sample$n_dates[settlement_ladder_sample$coverage_min == 0.5]` standard dates and almost all settlements remain.
+
+Second, the binary national outcomes are conservative by construction. At coverage >= 50 percent, only `r percent(ladder_slope_all$share_population_positive[ladder_slope_all$coverage_min == 0.5 & ladder_slope_all$outcome_label == "p_lit < 0.05"], accuracy = 0.1)` of the population lives in settlements with a positive strict-dark local slope, compared with `r percent(ladder_slope_all$share_population_positive[ladder_slope_all$coverage_min == 0.5 & ladder_slope_all$outcome_label == "Continuous: 1 - p_lit"], accuracy = 0.1)` for continuous dimming. This is not evidence that MLR avoids large settlements; it is evidence that a strict dark/non-dark threshold can miss partial dimming in large, bright places.
+
+# Interpretation
+
+The recommended specification is statistically strong and methodologically clean. The coefficient is positive, precise, and robust across strict and mostly-dark definitions. The demand-weighted gate improves the validation by filtering nights where the satellite did not observe enough fixed settlement demand, while the annual excess-lit screen removes nationally over-lit outlier dates before calibration.
+
+The annual excess-lit IQR screen removes only `r percent(annual_iqr_preferred_removed_share, accuracy = 0.1)` of observed 2023 VJ dates and `r percent(annual_iqr_preferred_pass_removed_share, accuracy = 0.1)` of demand-gated validation nights under the standard \(Q3_{\text{year}} + 1.5 \times IQR_{\text{year}}\) rule. Removing those days modestly improves the fixed-effects calibration and does not weaken the headline relationship, so the validation is not an artifact of a small number of nationally over-lit dates.
+
+This validation remains an association between national Eskom MLR and satellite-observed darkness. It does not convert radiance loss into physical energy-not-served, and it does not prove individual settlement outages.

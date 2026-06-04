@@ -1,0 +1,3 @@
+"outcome","outcome_label","method","n","block_size","replications","effect_pp_per_10pp","se_pp_per_10pp","ci_low_pp_per_10pp","ci_high_pp_per_10pp","p_value","notes"
+"popw_strict_dark_share","Strict dark: p_lit < 0.05","Moving-block bootstrap",267,14,2000,2.41568283550843,0.152539334405341,2.12153498398335,2.71462201076695,0.000999500249875062,"Circular moving-block bootstrap, block size 14, B=2000."
+"popw_mostly_dark_share","Mostly dark: p_lit < 0.20","Moving-block bootstrap",267,14,2000,4.04776878690102,0.266230815456071,3.50577045007121,4.59179774468882,0.000999500249875062,"Circular moving-block bootstrap, block size 14, B=2000."

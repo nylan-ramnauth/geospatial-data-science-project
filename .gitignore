@@ -39,3 +39,19 @@ Template for Assignment Report.md
 blackmarbler/out_vnp46a2_sa_daily_github_json/
 docs/second_brain_personal.md
 docs/second_brain_classes.md
+
+# VJ146A2 external/generated data for validation handoff
+blackmarbler/out_vj146a2_sa_daily/
+Map Data/settlement_day_outputs_vj146a2/
+Map Data/reliability_outputs_vj146a2/
+.matplotlib-cache/
+nightlights_p_lit_raster_2000m_01_nocloud.gif
+nightlight_downloader/Others/.Rhistory
+
+# Validation generated/bulk artifacts
+validation/closeups/figures/generated/
+validation/*/data/*.parquet
+validation/pypsa_uptime/data/vj146a2_2023_pypsa_localarea_daily_*audit.csv
+validation/pypsa_uptime/data/vj146a2_2023_pypsa_localarea_daily_demand_support.csv
+validation/closeups/data/vj146a2_full_year_large_dark_events.csv
+validation/closeups/data/vj146a2_full_year_plot_gif_candidate_screen.csv

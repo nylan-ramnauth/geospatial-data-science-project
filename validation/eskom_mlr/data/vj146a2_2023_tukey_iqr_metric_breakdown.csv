@@ -1,0 +1,15 @@
+reason_group,metric,reason_style,method,n_metric_days,n_unique_days,n_rmd_pass_metric_days,n_rmd_pass_unique_days
+excess_lit,excess_lit_share,TRUE,monthly_tukey,22,22,17,17
+excess_dark,excess_dark_share,TRUE,monthly_tukey,9,9,7,7
+radiance_positive,residual_log_p95,TRUE,monthly_tukey,1,1,1,1
+radiance_positive,residual_gt_1_share,TRUE,monthly_tukey,33,33,27,27
+radiance_rmse,residual_log_rmse,FALSE,monthly_tukey,3,3,3,3
+radiance_negative,residual_lt_minus_1_share,TRUE,monthly_tukey,26,26,23,23
+low_valid_share,low_valid_share,TRUE,monthly_tukey,7,7,3,3
+excess_lit,excess_lit_share,TRUE,yearly_tukey,17,17,13,13
+excess_dark,excess_dark_share,TRUE,yearly_tukey,7,7,7,7
+radiance_positive,residual_log_p95,TRUE,yearly_tukey,0,0,0,0
+radiance_positive,residual_gt_1_share,TRUE,yearly_tukey,37,37,32,32
+radiance_rmse,residual_log_rmse,FALSE,yearly_tukey,3,3,3,3
+radiance_negative,residual_lt_minus_1_share,TRUE,yearly_tukey,16,16,16,16
+low_valid_share,low_valid_share,TRUE,yearly_tukey,5,5,0,0
