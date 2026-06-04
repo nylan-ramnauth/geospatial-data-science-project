@@ -130,6 +130,7 @@ RAD_SIGMA_MIN <- as.numeric(Sys.getenv("VJ146A2_DEMAND_GATE_RAD_SIGMA_MIN", "0.0
 GATE_SHARE_COL <- Sys.getenv("VJ146A2_DEMAND_GATE_SHARE_COL", "observed_demand_share")
 STRICT_DARK_MAX <- 0.05
 MOSTLY_DARK_MAX <- 0.20
+RELAXED_DARK_MAX <- 0.40
 
 if (!is.finite(GATE_T) || GATE_T < 0 || GATE_T > 1) stop("Invalid GATE_T.")
 if (!is.finite(HARD_FLOOR) || HARD_FLOOR < 0 || HARD_FLOOR > 1) stop("Invalid HARD_FLOOR.")
@@ -233,8 +234,8 @@ window_exposure <- function(eskom, hours, suffix) {
       contracted_demand_mean = safe_mean(`RSA Contracted Demand`),
       contracted_demand_sum_mwh = safe_sum(`RSA Contracted Demand`),
       shed_share = ifelse(
-        mlr_sum_mwh + contracted_demand_sum_mwh > 0,
-        mlr_sum_mwh / (mlr_sum_mwh + contracted_demand_sum_mwh),
+        contracted_demand_sum_mwh > 0,
+        mlr_sum_mwh / contracted_demand_sum_mwh,
         NA_real_
       ),
       .groups = "drop"
@@ -323,7 +324,8 @@ sett_day <- dplyr::bind_rows(lapply(VJ_PANEL_FILES, arrow::read_parquet)) %>%
     mean_rad_sett = as.numeric(mean_rad_sett),
     median_rad_sett = as.numeric(median_rad_sett),
     strict_dark = p_lit_sett < STRICT_DARK_MAX,
-    mostly_dark = p_lit_sett < MOSTLY_DARK_MAX
+    mostly_dark = p_lit_sett < MOSTLY_DARK_MAX,
+    relaxed_dark = p_lit_sett < RELAXED_DARK_MAX
   ) %>%
   filter(date >= month_start, date <= analysis_end) %>%
   inner_join(
@@ -406,12 +408,20 @@ daily_ntl <- sett_day %>%
       as.numeric(mostly_dark[observed_any]),
       population[observed_any]
     ),
+    popw_relaxed_dark_share = safe_weighted_mean(
+      as.numeric(relaxed_dark[observed_any]),
+      population[observed_any]
+    ),
     demandw_strict_dark_share = safe_weighted_mean(
       as.numeric(strict_dark[observed_any]),
       demand_weight[observed_any]
     ),
     demandw_mostly_dark_share = safe_weighted_mean(
       as.numeric(mostly_dark[observed_any]),
+      demand_weight[observed_any]
+    ),
+    demandw_relaxed_dark_share = safe_weighted_mean(
+      as.numeric(relaxed_dark[observed_any]),
       demand_weight[observed_any]
     ),
     demandw_down_only_z = safe_weighted_mean(
@@ -471,8 +481,10 @@ daily_panel <- daily_ntl %>%
 outcomes <- c(
   "popw_strict_dark_share",
   "popw_mostly_dark_share",
+  "popw_relaxed_dark_share",
   "demandw_strict_dark_share",
   "demandw_mostly_dark_share",
+  "demandw_relaxed_dark_share",
   "demandw_down_only_z",
   "demandw_down_only_z_coverage_ok"
 )
@@ -668,13 +680,14 @@ fmt_p <- function(x) {
 main_rows <- validation_table %>%
   filter(
     sample %in% c("ungated_all_complete", "gated_pass"),
-    outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share", "demandw_down_only_z")
+    outcome %in% c("popw_strict_dark_share", "popw_mostly_dark_share", "popw_relaxed_dark_share", "demandw_down_only_z")
   ) %>%
   mutate(
     outcome_label = recode(
       outcome,
       popw_strict_dark_share = "Population-weighted strict dark",
       popw_mostly_dark_share = "Population-weighted mostly dark",
+      popw_relaxed_dark_share = "Population-weighted p_lit < 0.40",
       demandw_down_only_z = "Demand-weighted down-only z"
     )
   )

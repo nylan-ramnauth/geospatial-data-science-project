@@ -217,8 +217,8 @@ window_exposure <- function(eskom, hours, suffix) {
       contracted_demand_mean = safe_mean(`RSA Contracted Demand`),
       contracted_demand_sum_mwh = safe_sum(`RSA Contracted Demand`),
       shed_share = ifelse(
-        mlr_sum_mwh + contracted_demand_sum_mwh > 0,
-        mlr_sum_mwh / (mlr_sum_mwh + contracted_demand_sum_mwh),
+        contracted_demand_sum_mwh > 0,
+        mlr_sum_mwh / contracted_demand_sum_mwh,
         NA_real_
       ),
       .groups = "drop"
@@ -1018,7 +1018,7 @@ p_scatter <- ggplot(scatter_panel, aes(x = shed_share_1_2am_primary, y = events,
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.8) +
   labs(
     title = "Primary MLR exposure vs large candidate dark events",
-    subtitle = "Shed share is MLR / (MLR + RSA contracted demand), local overpass date hour beginning 01:00",
+    subtitle = "Shed share is MLR / RSA contracted demand, local overpass date hour beginning 01:00",
     x = "Shed share, 01:00-02:00 SAST",
     y = "Daily candidate event count",
     color = NULL,
@@ -1226,7 +1226,7 @@ p_ravi_scatter <- ggplot(ravi_scatter_panel, aes(x = shed_share_1_2am_primary, y
   scale_y_continuous(labels = function(x) sprintf("%.1f%%", x * 100)) +
   labs(
     title = "Population-weighted darkness vs local-overpass Eskom shed share",
-    subtitle = "Settlements with population > 100; shed share = MLR / (MLR + RSA contracted demand)",
+    subtitle = "Settlements with population > 100; shed share = MLR / RSA contracted demand",
     x = "Supply-normalized Eskom MLR, 01:00-02:00 SAST",
     y = "Population-weighted share of people in dark settlements",
     caption = caption_base
@@ -1345,7 +1345,7 @@ write_ravi_report_rmd <- function(path) {
     "",
     "- Date handling: `vj_product_date = date`; `local_overpass_date = VJ product date + 1`.",
     "- Eskom exposure: local-clock hour beginning 01:00 SAST, interpreted as the 01:00-02:00 overpass window.",
-    "- Predictor: `shed_share_1_2am_primary = MLR / (MLR + RSA Contracted Demand)`.",
+    "- Predictor: `shed_share_1_2am_primary = MLR / RSA Contracted Demand`.",
     "- Darkness definitions: strict dark is `p_lit_sett < 0.05`; mostly dark is `p_lit_sett < 0.20`.",
     paste0("- Sample: ", ANALYSIS_WINDOW_TEXT, " VJ146A2 product dates with matched Eskom local-overpass exposure; VJ pre-Stage-2 `electrified_best == 1` settlements with population greater than 100."),
     "",
