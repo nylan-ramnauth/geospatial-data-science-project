@@ -24,6 +24,9 @@ codebase_dir <- paths$repo_root
 local_area_shp <- file.path(codebase_dir, "Map Data", "Local Area", "LOCAL_AREA_GCCA2025.shp")
 metric_csv <- file.path(paths$data_dir, "vj146a2_2023_pypsa_localarea_demand_weighted_uptime.csv")
 fig_dir <- file.path(paths$figures_dir, "vj146a2-pypsa-demand-weighted-uptime")
+pypsa_gpkg <- file.path(paths$data_dir, "vj146a2_2023_pypsa_localarea_reliability_regions.gpkg")
+pypsa_gpkg_layer <- "vj146a2_2023_localarea_reliability"
+pypsa_gpkg_audit <- file.path(paths$data_dir, "vj146a2_2023_pypsa_localarea_reliability_regions_audit.csv")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
 if (!file.exists(local_area_shp)) stop("Missing LocalArea shapefile: ", local_area_shp)
@@ -63,8 +66,115 @@ safe_pretty_breaks <- function(x, n = 5) {
 local_areas <- st_read(local_area_shp, quiet = TRUE)
 metric <- read.csv(metric_csv, stringsAsFactors = FALSE)
 
+required_metric_columns <- c(
+  "area_name",
+  "year",
+  "not_up_040_share_demandw",
+  "availability_040_demandw",
+  "area_demand",
+  "share_demand_kept",
+  "n_dates_daily_first",
+  "mean_observed_demand_share_daily_first",
+  "demand_gate_threshold",
+  "excess_lit_screen"
+)
+missing_metric_columns <- setdiff(required_metric_columns, names(metric))
+if (length(missing_metric_columns) > 0) {
+  stop("Metric CSV is missing required PyPSA export column(s): ", paste(missing_metric_columns, collapse = ", "))
+}
+if (anyDuplicated(metric$area_name) > 0) {
+  duplicated_areas <- unique(metric$area_name[duplicated(metric$area_name)])
+  stop("Metric CSV contains duplicate area_name values: ", paste(duplicated_areas, collapse = ", "))
+}
+if (anyDuplicated(local_areas$LocalArea) > 0) {
+  duplicated_areas <- unique(local_areas$LocalArea[duplicated(local_areas$LocalArea)])
+  stop("LocalArea boundary file contains duplicate LocalArea values: ", paste(duplicated_areas, collapse = ", "))
+}
+
+service_deficit <- metric$not_up_040_share_demandw
+availability <- metric$availability_040_demandw
+bad_metric_values <- !is.finite(service_deficit) |
+  service_deficit < 0 |
+  service_deficit > 1 |
+  !is.finite(availability) |
+  availability < 0 |
+  availability > 1
+if (any(bad_metric_values)) {
+  stop(
+    "Metric CSV contains invalid not-up or availability shares for: ",
+    paste(metric$area_name[bad_metric_values], collapse = ", ")
+  )
+}
+
 local_map <- local_areas %>%
-  left_join(metric, by = c("LocalArea" = "area_name"))
+  left_join(metric, by = c("LocalArea" = "area_name")) %>%
+  mutate(
+    area_name = LocalArea,
+    value_unit = "share",
+    service_deficit_column = "not_up_040_share_demandw",
+    availability_column = "availability_040_demandw",
+    geometry_source = "LOCAL_AREA_GCCA2025.shp",
+    metric_source = basename(metric_csv),
+    pypsa_export_status = if_else(
+      is.finite(not_up_040_share_demandw) &
+        not_up_040_share_demandw >= 0 &
+        not_up_040_share_demandw <= 1 &
+        is.finite(availability_040_demandw) &
+        availability_040_demandw >= 0 &
+        availability_040_demandw <= 1,
+      "ready",
+      "missing_or_invalid_metric"
+    )
+  )
+
+metric_without_geometry <- setdiff(metric$area_name, local_areas$LocalArea)
+geometry_without_metric <- setdiff(local_areas$LocalArea, metric$area_name)
+if (length(metric_without_geometry) > 0) {
+  stop("Metric area_name values without LocalArea geometry: ", paste(metric_without_geometry, collapse = ", "))
+}
+
+export_audit <- local_map %>%
+  st_drop_geometry() %>%
+  transmute(
+    LocalArea,
+    area_name,
+    pypsa_export_status,
+    not_up_040_share_demandw,
+    availability_040_demandw,
+    value_unit,
+    area_demand,
+    share_demand_kept,
+    n_dates_daily_first,
+    mean_observed_demand_share_daily_first,
+    demand_gate_threshold,
+    excess_lit_screen
+  )
+utils::write.csv(export_audit, pypsa_gpkg_audit, row.names = FALSE, na = "")
+message("Wrote: ", pypsa_gpkg_audit)
+if (length(geometry_without_metric) > 0) {
+  warning(
+    "LocalArea geometry without PyPSA uptime metric; exported with missing_or_invalid_metric status: ",
+    paste(geometry_without_metric, collapse = ", "),
+    call. = FALSE
+  )
+}
+if (any(export_audit$pypsa_export_status != "ready")) {
+  warning(
+    "PyPSA reliability GPKG contains non-ready LocalArea rows. See audit: ",
+    pypsa_gpkg_audit,
+    call. = FALSE
+  )
+}
+
+st_write(
+  local_map,
+  dsn = pypsa_gpkg,
+  layer = pypsa_gpkg_layer,
+  delete_dsn = TRUE,
+  quiet = TRUE
+)
+message("Wrote: ", pypsa_gpkg)
+message("GPKG layer: ", pypsa_gpkg_layer)
 
 country_outline <- suppressMessages(suppressWarnings(sf::st_union(local_map)))
 

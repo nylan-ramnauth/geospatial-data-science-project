@@ -1,0 +1,2 @@
+"min_observed_pixels","n_days","correlation","r_squared","intercept","slope","mean_dark_share_scheduled","mean_dark_share_not_scheduled"
+1000,297,0.473671323317,0.224364522532879,-0.000100105621734173,1.33088775817487e-06,0.00519653716309324,0.000158518488773839

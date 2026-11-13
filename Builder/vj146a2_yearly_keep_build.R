@@ -49,7 +49,26 @@ SETT_GPKG <- file.path(
 OUT_DIR <- file.path(BASE_PATH, "Map Data", "reliability_outputs_vj146a2")
 YEAR_LABEL <- Sys.getenv("VJ146A2_YEAR", "2023")
 
-TARGET_POP_SHARE <- as.numeric(Sys.getenv("VJ146A2_TARGET_POP_SHARE", "0.877"))
+WORLD_BANK_ELECTRIFICATION_TARGETS <- c(
+  "2019" = 0.850,
+  "2020" = 0.900,
+  "2021" = 0.893,
+  "2022" = 0.865,
+  "2023" = 0.877
+)
+DEFAULT_TARGET_POP_SHARE <- if (YEAR_LABEL %in% names(WORLD_BANK_ELECTRIFICATION_TARGETS)) {
+  WORLD_BANK_ELECTRIFICATION_TARGETS[[YEAR_LABEL]]
+} else {
+  0.877
+}
+TARGET_POP_SHARE <- as.numeric(Sys.getenv("VJ146A2_TARGET_POP_SHARE", as.character(DEFAULT_TARGET_POP_SHARE)))
+TARGET_POP_SHARE_SOURCE <- if (nzchar(Sys.getenv("VJ146A2_TARGET_POP_SHARE", ""))) {
+  Sys.getenv("VJ146A2_TARGET_POP_SHARE_SOURCE", "manual_env_override")
+} else if (YEAR_LABEL %in% names(WORLD_BANK_ELECTRIFICATION_TARGETS)) {
+  "World Bank EG.ELC.ACCS.ZS access_to_electricity_percent_population"
+} else {
+  "fallback_2023_default"
+}
 PIXEL_LIT_THRESHOLD <- as.numeric(Sys.getenv("VJ146A2_PIXEL_LIT_THRESHOLD", "1.0"))
 SETTLEMENT_LIT_THRESHOLDS <- seq(0.05, 0.95, by = 0.01)
 MIN_COVERAGE_SHARE <- as.numeric(Sys.getenv("VJ146A2_ANNUAL_MIN_COVERAGE", "0.50"))
@@ -58,14 +77,28 @@ POP_FIELD <- "population"
 ANNUAL_PRODUCT_PRIORITY <- c("VJ146A4", "VNP46A4")
 ANNUAL_VARIABLE <- "NearNadir_Composite_Snow_Free"
 ANNUAL_QUALITY_FLAG_RM <- c(1L, 2L) # keep quality flag 0, matching VNP Stage 4
+ANNUAL_H5_CACHE_OVERRIDE <- Sys.getenv("VJ146A2_ANNUAL_H5_CACHE_DIR", "")
 ANNUAL_H5_CACHE_DIRS <- c(
-  VJ146A4 = file.path(BASE_PATH, "blackmarbler", "out_vj146a2_sa_daily", "h5_cache_annual"),
-  VNP46A4 = file.path(BASE_PATH, "blackmarbler", "out_vnp46a2_sa_daily", "h5_cache_annual")
+  VJ146A4 = Sys.getenv(
+    "VJ146A2_VJ146A4_H5_CACHE_DIR",
+    if (nzchar(ANNUAL_H5_CACHE_OVERRIDE)) {
+      ANNUAL_H5_CACHE_OVERRIDE
+    } else {
+      file.path(BASE_PATH, "blackmarbler", "out_vj146a2_sa_daily", "h5_cache_annual")
+    }
+  ),
+  VNP46A4 = Sys.getenv(
+    "VJ146A2_VNP46A4_H5_CACHE_DIR",
+    file.path(BASE_PATH, "blackmarbler", "out_vnp46a2_sa_daily", "h5_cache_annual")
+  )
 )
 CHECK_ALL_TILES_EXIST <- Sys.getenv("VJ146A2_ANNUAL_CHECK_ALL_TILES", "1") != "0"
 
 TILES_URL <- "https://raw.githubusercontent.com/worldbank/blackmarbler/main/data/blackmarbletiles.geojson"
-TILES_PATH <- file.path(BASE_PATH, "blackmarbler", "blackmarbletiles.geojson")
+TILES_PATH <- Sys.getenv(
+  "VJ146A2_BLACKMARBLE_TILES_PATH",
+  file.path(BASE_PATH, "blackmarbler", "blackmarbletiles.geojson")
+)
 
 dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
 for (cache_dir in ANNUAL_H5_CACHE_DIRS) dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
@@ -123,6 +156,52 @@ patch_blackmarbler_tiles <- function(tiles_url, tiles_path) {
 
 patch_blackmarbler_vj_annual_support <- function() {
   ns <- asNamespace("blackmarbler")
+
+  patch_namespace_function(ns, "file_to_raster", function(h5_file, variable, quality_flag_rm) {
+    h5_data <- terra::rast(h5_file)
+    tile_i <- stringr::str_extract(h5_file, "h\\d{2}v\\d{2}")
+    tiles_path <- Sys.getenv(
+      "VJ146A2_BLACKMARBLE_TILES_PATH",
+      file.path(here::here(), "blackmarbler", "blackmarbletiles.geojson")
+    )
+    tiles_source <- if (file.exists(tiles_path)) {
+      tiles_path
+    } else {
+      "https://raw.githubusercontent.com/worldbank/blackmarbler/main/data/blackmarbletiles.geojson"
+    }
+    bm_tiles_sf <- sf::read_sf(tiles_source)
+    grid_i_sf <- bm_tiles_sf[bm_tiles_sf$TileID %in% tile_i, ]
+    if (nrow(grid_i_sf) == 0) stop("Black Marble tile metadata not found for tile: ", tile_i)
+    grid_i_sf_box <- sf::st_bbox(grid_i_sf)
+    xMin <- round(min(grid_i_sf_box$xmin))
+    yMin <- round(min(grid_i_sf_box$ymin))
+    xMax <- round(max(grid_i_sf_box$xmax))
+    yMax <- round(max(grid_i_sf_box$ymax))
+    var_names <- names(h5_data)
+    if (!(variable %in% var_names)) {
+      warning(paste0("'", variable, "'", " not a valid variable option. Valid options include:\n", paste(var_names, collapse = "\n")))
+    }
+    out <- h5_data[[variable]]
+    if (length(quality_flag_rm) > 0) {
+      if (stringr::str_detect(h5_file, "VNP46A2")) {
+        qf <- h5_data$Mandatory_Quality_Flag
+      } else {
+        variable_short <- variable %>%
+          stringr::str_replace_all("_Num", "") %>%
+          stringr::str_replace_all("_Std", "")
+        qf_name <- paste0(variable_short, "_Quality")
+        qf <- h5_data[[qf_name]]
+      }
+      for (val in quality_flag_rm) {
+        out[qf == val] <- NA
+      }
+    }
+    terra::crs(out) <- "EPSG:4326"
+    terra::ext(out) <- c(xMin, xMax, yMin, yMax)
+    out <- remove_fill_value(out, variable)
+    out <- apply_scaling_factor(out, variable)
+    out
+  })
 
   patch_namespace_function(ns, "define_variable", function(variable, product_id) {
     if (is.null(variable)) {
@@ -193,6 +272,27 @@ patch_blackmarbler_vj_annual_support <- function() {
       if (!is.null(days)) param_df <- param_df[as.numeric(param_df$day) %in% as.numeric(days), ]
     }
 
+    if (product_id %in% annual_products && !is.null(years) && length(years) == 1L) {
+      cache_dir <- if (identical(product_id, "VJ146A4")) {
+        Sys.getenv(
+          "VJ146A2_VJ146A4_H5_CACHE_DIR",
+          Sys.getenv("VJ146A2_ANNUAL_H5_CACHE_DIR", "")
+        )
+      } else {
+        Sys.getenv("VJ146A2_VNP46A4_H5_CACHE_DIR", "")
+      }
+      if (nzchar(cache_dir) && dir.exists(cache_dir)) {
+        files <- list.files(
+          cache_dir,
+          pattern = paste0("^", product_id, "\\.A", years[[1]], "001\\..*\\.h5$"),
+          full.names = FALSE
+        )
+        if (length(files) > 0) {
+          return(data.frame(name = files, stringsAsFactors = FALSE))
+        }
+      }
+    }
+
     purrr::map2(param_df$year, param_df$day, read_bm_csv, product_id) %>%
       dplyr::bind_rows()
   })
@@ -200,7 +300,10 @@ patch_blackmarbler_vj_annual_support <- function() {
   patch_namespace_function(ns, "bm_raster_i", function(roi_sf, product_id, date, bearer, variable,
                                                        quality_flag_rm, check_all_tiles_exist,
                                                        h5_dir, download_method, quiet, temp_dir) {
-    tiles_path <- file.path(here::here(), "blackmarbler", "blackmarbletiles.geojson")
+    tiles_path <- Sys.getenv(
+      "VJ146A2_BLACKMARBLE_TILES_PATH",
+      file.path(here::here(), "blackmarbler", "blackmarbletiles.geojson")
+    )
     tiles_source <- if (file.exists(tiles_path)) {
       tiles_path
     } else {
@@ -282,12 +385,95 @@ require_cols <- function(x, required, label) {
   }
 }
 
+annual_cache_has_year <- function() {
+  any(vapply(names(ANNUAL_H5_CACHE_DIRS), function(product_id) {
+    cache_dir <- ANNUAL_H5_CACHE_DIRS[[product_id]]
+    dir.exists(cache_dir) &&
+      length(list.files(
+        cache_dir,
+        pattern = paste0("^", product_id, "\\.A", YEAR_LABEL, "001\\..*\\.h5$"),
+        full.names = TRUE
+      )) > 0
+  }, logical(1)))
+}
+
+read_local_annual_composite <- function(product_id, roi_sf) {
+  cache_dir <- ANNUAL_H5_CACHE_DIRS[[product_id]]
+  if (!dir.exists(cache_dir)) return(NULL)
+  files <- list.files(
+    cache_dir,
+    pattern = paste0("^", product_id, "\\.A", YEAR_LABEL, "001\\..*\\.h5$"),
+    full.names = TRUE
+  )
+  if (length(files) == 0) return(NULL)
+  if (!file.exists(TILES_PATH)) stop("Black Marble tile metadata not found: ", TILES_PATH)
+
+  bm_tiles_sf <- sf::read_sf(TILES_PATH)
+  rasters <- lapply(files, function(h5_file) {
+    h5_data <- terra::rast(h5_file)
+    if (!(ANNUAL_VARIABLE %in% names(h5_data))) {
+      stop("Annual H5 missing variable ", ANNUAL_VARIABLE, ": ", h5_file)
+    }
+    out <- h5_data[[ANNUAL_VARIABLE]]
+    qf_name <- paste0(ANNUAL_VARIABLE, "_Quality")
+    if (length(ANNUAL_QUALITY_FLAG_RM) > 0 && qf_name %in% names(h5_data)) {
+      qf <- h5_data[[qf_name]]
+      for (val in ANNUAL_QUALITY_FLAG_RM) out[qf == val] <- NA
+    }
+    out[out == 65535] <- NA
+
+    tile_i <- stringr::str_extract(basename(h5_file), "h\\d{2}v\\d{2}")
+    grid_i_sf <- bm_tiles_sf[bm_tiles_sf$TileID %in% tile_i, ]
+    if (nrow(grid_i_sf) == 0) stop("Black Marble tile metadata not found for tile: ", tile_i)
+    grid_i_sf_box <- sf::st_bbox(grid_i_sf)
+    terra::crs(out) <- "EPSG:4326"
+    terra::ext(out) <- c(
+      round(min(grid_i_sf_box$xmin)),
+      round(max(grid_i_sf_box$xmax)),
+      round(min(grid_i_sf_box$ymin)),
+      round(max(grid_i_sf_box$ymax))
+    )
+    names(out) <- "rad"
+    out
+  })
+
+  rasters <- rasters[!vapply(rasters, is.null, logical(1))]
+  if (length(rasters) == 0) return(NULL)
+  rad <- if (length(rasters) == 1) {
+    rasters[[1]]
+  } else {
+    do.call(terra::mosaic, c(rasters, fun = "max"))
+  }
+  terra::crop(rad, roi_sf)
+}
+
 download_annual_composite <- function(roi_sf, bearer) {
   reasons <- character()
   for (product_id in ANNUAL_PRODUCT_PRIORITY) {
     fallback_used <- product_id != ANNUAL_PRODUCT_PRIORITY[[1]]
     fallback_reason <- if (fallback_used) paste(reasons, collapse = " | ") else ""
     message("Trying annual Black Marble product: ", product_id)
+
+    local_rad <- tryCatch(
+      read_local_annual_composite(product_id, roi_sf),
+      error = function(e) e
+    )
+    if (inherits(local_rad, "SpatRaster")) {
+      names(local_rad) <- "rad"
+      if (fallback_used) {
+        message("Annual fallback used: ", product_id, " because ", fallback_reason)
+      }
+      return(list(
+        raster = local_rad,
+        product_id = product_id,
+        fallback_used = fallback_used,
+        fallback_reason = fallback_reason
+      ))
+    }
+    if (inherits(local_rad, "condition")) {
+      reasons <- c(reasons, paste0(product_id, " local cache: ", conditionMessage(local_rad)))
+      message("Local annual product failed: ", product_id, " | ", conditionMessage(local_rad))
+    }
 
     rad <- tryCatch(
       blackmarbler::bm_raster(
@@ -351,11 +537,16 @@ if (nrow(sett) == 0) stop("Settlement GPKG has zero settlement rows.")
 patch_blackmarbler_tiles(TILES_URL, TILES_PATH)
 patch_blackmarbler_vj_annual_support()
 
-bearer <- blackmarbler::get_nasa_token(
-  username = Sys.getenv("EARTHDATA_USER"),
-  password = Sys.getenv("EARTHDATA_PASS")
-)
-if (!nzchar(bearer)) stop("Could not retrieve NASA bearer token.")
+if (annual_cache_has_year()) {
+  bearer <- Sys.getenv("EARTHDATA_BEARER", "")
+  message("Using local annual H5 cache; skipping NASA token retrieval.")
+} else {
+  bearer <- blackmarbler::get_nasa_token(
+    username = Sys.getenv("EARTHDATA_USER"),
+    password = Sys.getenv("EARTHDATA_PASS")
+  )
+  if (!nzchar(bearer)) stop("Could not retrieve NASA bearer token.")
+}
 
 roi_sf <- sf::st_sf(id = 1L, geometry = sf::st_as_sfc(sf::st_bbox(sett)))
 annual <- download_annual_composite(roi_sf, bearer)
@@ -435,6 +626,7 @@ calib <- rbindlist(lapply(SETTLEMENT_LIT_THRESHOLDS, function(threshold) {
     population_electrified = pop_elect,
     share_population_electrified = share_pop,
     target_population_share = TARGET_POP_SHARE,
+    target_population_share_source = TARGET_POP_SHARE_SOURCE,
     abs_error = abs(share_pop - TARGET_POP_SHARE)
   )
 }))
@@ -448,6 +640,7 @@ print(best)
 sett_stats[, electrified_best := as.integer(support_ok & p_lit_sett_year >= best$settlement_lit_threshold)]
 sett_stats[, settlement_lit_threshold_best := best$settlement_lit_threshold]
 sett_stats[, target_population_share := TARGET_POP_SHARE]
+sett_stats[, target_population_share_source := TARGET_POP_SHARE_SOURCE]
 
 setcolorder(
   sett_stats,

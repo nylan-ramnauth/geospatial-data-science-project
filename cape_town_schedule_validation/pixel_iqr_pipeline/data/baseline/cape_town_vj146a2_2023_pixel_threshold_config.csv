@@ -1,0 +1,2 @@
+"year","start_month","end_month","lower_threshold_mode","lower_quantile","lower_iqr_k","lower_absolute_override","upper_threshold_mode","upper_quantile","upper_iqr_k","upper_absolute_override","min_pixel_valid_days","n_daily_rasters"
+"2023","2023-01","2023-12","tukey_lower",0.25,1.5,NA,"tukey_upper",0.75,1.5,NA,60,363

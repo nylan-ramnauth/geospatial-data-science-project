@@ -1,0 +1,5 @@
+"any_overpass_sched","exposure","exposure_label","exposure_value","n","mean_dark","median_dark","share_nonzero","any_day_sched"
+0,"any_overpass_sched","Any overpass schedule",0,3084,0.00198904958926533,0,0.0813878080415045,NA
+1,"any_overpass_sched","Any overpass schedule",1,522,0.0431019845145045,0.00651226417069076,0.628352490421456,NA
+NA,"any_day_sched","Any full-day schedule",0,963,0.0011235658895997,0,0.0467289719626168,0
+NA,"any_day_sched","Any full-day schedule",1,2643,0.0104243174037764,0,0.202043132803632,1

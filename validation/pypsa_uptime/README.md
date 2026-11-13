@@ -23,4 +23,13 @@ The builder expects external VJ146A2 Parquet panels, LocalArea boundaries, settl
 ## Main Output
 
 - `data/vj146a2_2023_pypsa_localarea_demand_weighted_uptime.csv`
+- `data/vj146a2_2023_pypsa_localarea_reliability_regions.gpkg`
+- `data/vj146a2_2023_pypsa_localarea_reliability_regions_audit.csv`
 - `figures/vj146a2-pypsa-demand-weighted-uptime/localarea_demand_weighted_uptime_vj146a2_2023_annual_excess_lit_iqr.png`
+
+The GeoPackage joins the annual PyPSA-facing LocalArea metrics to the
+`LOCAL_AREA_GCCA2025.shp` geometry. The PyPSA-Earth ENS-cap input should use
+layer `vj146a2_2023_localarea_reliability`,
+`service_deficit_column: not_up_040_share_demandw`, and `value_unit: share`.
+Rows with missing or invalid metrics are flagged in the audit CSV and in the
+`pypsa_export_status` field.
